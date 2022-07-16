@@ -97,17 +97,15 @@ exclude:
   - vendor/ruby/
 
 
-
-
 head_scripts:
   - https://code.jquery.com/jquery-3.2.1.min.js
   - /assets/js/your-custom-head-script.js
 
-# teaser: /assets/images/500x300.png
-# header:
-#   teaser: /assets/images/my-awesome-post-teaser.jpg
-# logo: "/assets/images/88x88.png"
-# masthead_title: "My Custom Title"
+teaser: # /assets/images/500x300.png
+header:
+  teaser: # /assets/images/my-awesome-post-teaser.jpg
+logo: # "/assets/images/88x88.png"
+masthead_title: # "My Custom Title"
 
 breadcrumbs: true  # disabled by default
 
