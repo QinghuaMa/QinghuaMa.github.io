@@ -56,6 +56,9 @@ author:
     #   icon: "fab fa-fw fa-instagram"
     #   # url: "https://instagram.com/"
 
+include:
+  - _pages
+
 
 # Plugins (previously gems:)
 plugins:
@@ -97,9 +100,9 @@ exclude:
   - vendor/ruby/
 
 
-head_scripts:
-  - https://code.jquery.com/jquery-3.2.1.min.js
-  - /assets/js/your-custom-head-script.js
+# head_scripts:
+  # - https://code.jquery.com/jquery-3.2.1.min.js
+  # - /assets/js/your-custom-head-script.js
 
 teaser: # /assets/images/500x300.png
 header:
@@ -131,13 +134,13 @@ defaults:
       toc_label: "Table of Contents"
       toc_sticky: true
       classes: wide
-    
   # _pages
   - scope:
       path: ""
       type: pages
     values:
       layout: single
+      author_profile: true
   
   # # _foo
   # - scope:
@@ -162,9 +165,9 @@ footer:
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/mmistakes"
 
-
+permalink: /:categories/:title/
+paginate_path: /page:num/
 paginate: 7
-paginate_path: /recent/page:num/
 timezone: Asia/Shanghai
 
 category_archive:
