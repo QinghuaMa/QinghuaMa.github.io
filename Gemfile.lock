@@ -135,7 +135,6 @@ PLATFORMS
 
 DEPENDENCIES
   faraday-retry
-  jekyll (~> 4.2.2)
   jekyll-algolia
   jekyll-commonmark!
   jekyll-feed
