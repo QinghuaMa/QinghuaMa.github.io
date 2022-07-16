@@ -2,8 +2,8 @@
 layout: single
 title: I hadn't spent a day without thinking about you.
 date: 2022-07-15 13:59:11
-categories: [A word]
-tags: []
+categories: [Life]
+tags: ["A word"]
 toc: false
 ---
 

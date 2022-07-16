@@ -2,8 +2,9 @@
 layout: single
 title: "借我变如不曾改变"
 date: 2022-07-12 10:09:37
-categories: [A word]
-tags: []
+categories: 
+  - Life
+tags: ["A word"]
 toc: false
 ---
 

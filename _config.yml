@@ -19,7 +19,7 @@
 # in the templates via {{ site.myvariable }}.
 
 theme                    : minimal-mistakes-jekyll
-minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 locale                   : "zh-CN" # "en-US"
 title                    : "What a starry night~"
 title_separator          : "-"
@@ -39,7 +39,7 @@ author:
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      url: qinghua7717@stu.xjtu.edu.cn"mailto:your.name@email.com"
+      url: qinghua7717@stu.xjtu.edu.cn
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: https://github.com/QinghuaMa
@@ -127,7 +127,7 @@ defaults:
       layout: single
       author_profile: true
       show_date: true
-      date_format: "%Y-%m-%d"
+      date_format: "%Y-%m-%d "
       read_time: true
       words_per_minute: 250
       toc: true
@@ -141,6 +141,7 @@ defaults:
     values:
       layout: single
       author_profile: true
+      classes: wide
   
   # # _foo
   # - scope:
