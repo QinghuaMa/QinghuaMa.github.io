@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem "minima", "~> 2.0"
 gem "jekyll", "~> 3.7"
 gem "minimal-mistakes-jekyll"
 gem 'tzinfo'
