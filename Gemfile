@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-# gem "jekyll", "~> 4.2.2"
+gem "jekyll"
 gem "minimal-mistakes-jekyll", '~> 4.24'
 gem "kramdown-parser-gfm"
 gem "faraday-retry"
