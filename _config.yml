@@ -38,9 +38,9 @@ author:
   bio: "Change, as if had not changed." # Note: Markdown is allowed
   location: "Xi'an, China"
   links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      url: qinghua7717@stu.xjtu.edu.cn
+    # - label: "Email"
+    #   icon: "fas fa-fw fa-envelope-square"
+    #   url: qinghua7717@stu.xjtu.edu.cn
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: https://github.com/QinghuaMa
