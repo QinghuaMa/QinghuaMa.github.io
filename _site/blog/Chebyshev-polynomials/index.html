@@ -1,0 +1,618 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="zh" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>切比雪夫多项式及切比雪夫插值 - What a starry night~</title>
+<meta name="description" content="切比雪夫多项式及切比雪夫插值">
+
+
+  <meta name="author" content="花魑">
+  
+  <meta property="article:author" content="花魑">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="What a starry night~">
+<meta property="og:title" content="切比雪夫多项式及切比雪夫插值">
+<meta property="og:url" content="http://localhost:4000/blog/Chebyshev-polynomials/">
+
+
+  <meta property="og:description" content="切比雪夫多项式及切比雪夫插值">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-02-14T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/Chebyshev-polynomials/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "花魑",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="What a starry night~ Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">转到主导航栏</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">转到内容</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">转到底部</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          What a starry night~
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">切换搜索</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">切换菜单</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">首页</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#blog" itemprop="item"><span itemprop="name">Blog</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">切比雪夫多项式及切比雪夫插值</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/huachi.jpg" alt="花魑" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">花魑</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Change, as if had not changed.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">关注</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Xi'an, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="qinghua7717@stu.xjtu.edu.cn" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/QinghuaMa" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="切比雪夫多项式及切比雪夫插值">
+    <meta itemprop="description" content="切比雪夫多项式">
+    <meta itemprop="datePublished" content="2022-02-14T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">切比雪夫多项式及切比雪夫插值
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-14T00:00:00+00:00">February 14, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          少于 1 分钟阅读
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Table of Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#切比雪夫多项式">切比雪夫多项式</a></li><li><a href="#切比雪夫多项式的性质">切比雪夫多项式的性质</a></li><li><a href="#切比雪夫插值">切比雪夫插值</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="切比雪夫多项式">切比雪夫多项式</h2>
+
+<p>定义$n$阶切比雪夫多项式$T_n(x)=\cos(n\arccos x)$。$n$取不同的值对应着不同的关于$x$的多项式。例如：</p>
+
+<p>当$n=0$时，$T_0(x)=\cos(0)=1$;</p>
+
+<p>当$n=1$时，$T_1(x)=\cos(\arccos x)=x$;</p>
+
+<p>当$n=2$时，$T_2(x)=\cos(2\arccos x)$，令$y=\arccos x$，则有：</p>
+
+\[T_2(x)=\cos(2y)=2\cos^2(y)-1=2x^2-1\]
+
+<p>同理，一般地有：</p>
+
+\[\begin{aligned}
+ T_{n+1}(x)&amp;=\cos[(n+1)\arccos x]=\cos[(n+1)y]=\cos(ny)\cos(y)-\sin(ny)\sin(y)\\
+ T_{n-1}(x)&amp;=\cos[(n-1)\arccos x]=\cos[(n-1)y]=\cos(ny)\cos(y)+\sin(ny)\sin(y)
+ \end{aligned}\]
+
+<p>进一步可以得到：</p>
+
+\[\begin{aligned}
+ T_{n+1}(x)+ T_{n-1}(x)=2\cos(ny)\cos(y)=2xT_n(x)
+\end{aligned}\]
+
+<p>即：</p>
+
+\[T_{n+1}(x)=2xT_n(x)-T_{n-1}(x)\tag{1}\]
+
+<p>式(1)即为切比雪夫的三项递推关系式。在已知 $T_0(x)=1$，$T_1(x)=x$的条件下，通过式(1)可以计算出任意第$n$个切比雪夫多项式。如：</p>
+
+\[\begin{aligned}T_2(x)&amp;=2xT_1(x)-T_0(x)=2x^2-1\\
+T_3(x)&amp;=2xT_2(x)-T_1(x)=4x^3-3x
+\end{aligned}\]
+
+<h2 id="切比雪夫多项式的性质">切比雪夫多项式的性质</h2>
+
+<p>在 $x\in [-1,1]$区间观察切比雪夫多项式，可以得到以下几个性质：</p>
+
+<blockquote>
+  <p>性质1：
+$T_n(x)$是最高此项为$2^{(n-1)}x^n$的$n$次多项式，并且$T_{2n}$只含$x$的偶次幂，$T_{2n+1}$只含$x$的奇次幂</p>
+</blockquote>
+
+<blockquote>
+  <p>性质2：
+$T_n(x)$在区间$[-1, 1]$上有$n$个零点</p>
+
+\[x_i=\cos(\dfrac{2i+1}{2n}\pi),\quad i=0,1,\cdots,n-1\]
+
+  <p>证明：</p>
+
+\[\begin{aligned}
+&amp;T_n(x)=\cos(n\arccos x)=0\\
+\Rightarrow&amp;n\arccos x=\dfrac{\pi}{2}+i\pi,,\quad i=0,1,\cdots,n-1\\
+\Rightarrow&amp;x_i=\cos(\dfrac{2i+1}{2n}\pi),\quad i=0,1,\cdots,n-1
+\end{aligned}\]
+
+</blockquote>
+
+<blockquote>
+  <p>性质3：
+$T_n(1)=1$，$T_n(-1)=(-1)^n$.</p>
+
+  <p>证明：
+二者对于 $n=0,1,2$ 时显然成立。一般地，根据式(1)切比雪夫的三项递推关系式，可以使用数学归纳法来证明两个关系式成立 。</p>
+</blockquote>
+
+<blockquote>
+  <p>性质4：
+在区间$[-1,1]$上，$|T_n(x)|\le1$，在$n+1$个最值点$x_i=cos(\dfrac{i\pi}{n})\ (i=0,1,\cdots,n)$处，$T_n(x)$依次交替地取最大值$1$和最小值$-1$。</p>
+
+  <p>证明：
+根据$T_n(x)=cosy$的形式，$|T_n(x)|\le1$显然成立；
+另一方面</p>
+
+\[\begin{aligned}
+T_n(x)&amp;=\cos(n\arccos x)\\T'_n(x)&amp;=\sin(n\arccos x)\dfrac{n}{\sqrt{1-x^2}}=0\\ &amp;\Rightarrow x_i=\cos(\dfrac{i\pi}{n}),i=1,2\cdots,n-1\\
+T''_n(x)&amp;=\cos(n\arccos x)\dfrac{-n^2}{1-x^2}+\sin(n\arccos x)(nx)(1-x^2)^{-\frac{3}{2}}\\ &amp;\Rightarrow T''_n(x_i)=\cos(i\pi)\dfrac{-n^2}{1-x^2}=(-1)^{i+1}\dfrac{n^2}{1-x^2}\end{aligned}\]
+
+  <p>即$T_n(x)$在$x_i=cos(\dfrac{i\pi}{n})\ (i=1,2,\cdots,n-1)$处的一阶导数等于零，二阶导数不等于零，因此$T_n(x)$在$x_i$处取得极值：</p>
+
+\[T_n(x_i)=\cos(i\pi)=(-1)^i,\ (i=1,2,\cdots,n-1)\]
+
+  <p>又$\vert T_n(x)\vert\le 1$，因此这$n-1$个极值均为函数$T_n(x)$的最值。</p>
+
+  <p>根据性质3，当$x=1$，即$x=cos(\dfrac{0\pi}{n})$时，$T_n(1)=1=(-1)^0$；当$x=-1$，即$x=cos(\dfrac{n\pi}{n})$时，$T_n(-1)=(-1)^n$。</p>
+
+  <p>综上所述，函数$T_n(x)$具有$n+1$个最值点：$x_i=cos(\dfrac{i\pi}{n})\ (i=0,1,\cdots,n)$，并且$T_n(x_i)=(-1)^i$.</p>
+
+  <p>QED</p>
+</blockquote>
+
+<blockquote>
+  <p>性质5（切比雪夫多项式的极性）：</p>
+
+  <p>设$p_n(x)$是最高次项系数为1的$n$次多项式，则：</p>
+
+\[\max \limits_{-1\le x\le1}|p_n(x)|\ge \max \limits_{-1\le x\le1}|2^{1-n}T_n(x)|=2^{1-n}\]
+
+  <p>证明：</p>
+
+  <p>反证法。假设存在最高次项系数为1的$n$次多项式 $\overline{p}_n(x)$，使得：</p>
+
+\[\max \limits_{-1\le x\le1}|\overline{p}_n(x)|&lt; \max \limits_{-1\le x\le1}|2^{1-n}T_n(x)|=2^{1-n}\tag{2}\]
+
+  <p>令 $E(x)=2^{1-n}T_n(x)-\overline{p}_n(x)$。根据性质1，多项式 $2^{1-n}T_n(x)$ 的最高次项的系数为$1$，因此$E(x)$是不超过$n-1$次的多项式。根据式(2)，有：\(-2^{1-n}&lt;\overline{p}_n(x)&lt;2^{1-n}\) 因此，在 $T_n(x)$ 的 $n+1$ 个极值点$x_i(i=0,1,\cdots,n)$处，有：</p>
+
+\[\begin{aligned}
+E(x_0)&amp;=2^{1-n}-\overline{p}_n(x_0)&gt;0\\
+E(x_1)&amp;=-2^{1-n}-\overline{p}_n(x_0)&lt;0\\
+E(x_2)&amp;=2^{1-n}-\overline{p}_n(x_0)&gt;0\\
+\cdots\\
+E(x_n)&amp;=(-1)^n2^{1-n}-\overline{p}_n(x_n)\left\{ \begin{aligned}&gt;0,\ n是偶数\\&lt;0, n是奇数\end{aligned}\right. 
+\end{aligned}\]
+
+  <p>于是，根据连续函数的零点存在定理可知，方程$E(x)=0$在区间$[-1,1]$上有$n$个根；而另一方面，$E(x)$是不超过$n-1$次的多项式，$E(x)=0$最多有$n-1$个根，得到矛盾，假设不成立。</p>
+
+  <p>QED</p>
+</blockquote>
+
+<h2 id="切比雪夫插值">切比雪夫插值</h2>
+
+<p>根据<a href="http://whatastarrynight.com/blog/2022/02/14/Lagrange-Form-Remainder/">$n$次插值多项式的截断误差估计式</a>：</p>
+
+\[\begin{aligned}R_n(x)&amp;=f(x)-p_n(x)\\&amp;=\dfrac{f^{(n+1)}(\xi)}{(n+1)!}\prod \limits_{i=0}^n(x-x_i)\end{aligned}\quad \xi\in(a,b)\tag{3}\]
+
+<p>式中，$x_i$表示插值节点，且满足$a\le x_0&lt;x_1&lt;\cdots&lt;x_n\le b$。</p>
+
+<p>式(3)的$\prod \limits_{i=0}^n(x-x_i)$部分表明，插值节点$x_i$的选择对于插值余项的上界有着很大的影响，那么我们<strong>是否能够找到特定的插值节点，使得插值余项的上界尽可能得小呢</strong>？这是一个关于插值误差的<strong>极大极小问题</strong>，切比雪夫的性质5给出了答案。</p>
+
+<p>切比雪夫多项式的性质5表明，如果我们将区间固定到$[-1,1]$（其他的一般区间，可以通过变量的线性代换得到），选择$n$次切比雪夫多项式$T_n(x)$的$n+1$最值点作为$n$次插值多项式的插值节点，可以使得$n+1$次多项式$\prod \limits_{i=0}^{n}(x-x_i)$的上界最小，这个最小的上界是$\dfrac{1}{2^n}$。</p>
+
+<p>代入式(3)，可以得到$n$次插值多项式插值余项的最小上界（即使用切比雪夫插值节点得到的插值多项式的误差上界）：</p>
+
+\[|R_n(x)|\le \dfrac{f^{(n+1)}(\xi)}{2^n(n+1)!}\quad \xi\in(a,b)\]
+
+<p>插值节点为 $x_i=cos(\dfrac{i\pi}{n})\ (i=0,1,\cdots,n)$。</p>
+
+<blockquote>
+  <p>对于一般区间$[a,b]$，选取$x_i=\dfrac{a+b}{2}+\dfrac{b-a}{2}cos(\dfrac{2i+1}{2n+2}\pi)\ (i=0,…,n)$作为插值节点得到插值多项式$P_n(x)$，余项$R_n(x)=\dfrac{f^{(n+1)}(\xi)}{(n+1)!}\dfrac{(b-a)^{n+1}}{2^{2n+1}}T_{n+1}(t)$有最小上界$\dfrac{f^{(n+1)}(\xi)}{(n+1)!}\dfrac{(b-a)^{n+1}}{2^{2n+1}},\ \xi\in(a,b)$。</p>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 标签: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90" class="page__taxonomy-item" rel="tag">数值分析</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 分类: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间:</strong> <time datetime="2022-02-14T00:00:00+00:00">February 14, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/Zero-state-response-of-LTI-system/" class="pagination--pager" title="线性时不变(LTI)系统的零状态响应等于输入信号与单位脉冲响应的卷积
+">上一页</a>
+    
+    
+      <a href="/blog/Lagrange-Form-Remainder/" class="pagination--pager" title="n次插值多项式的截断误差估计式（拉格朗日插值余项）
+">下一页</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      输入您要搜索的关键词...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="输入您要搜索的关键词..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>关注:</strong></li>
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 花魑. 技术来自于 <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>

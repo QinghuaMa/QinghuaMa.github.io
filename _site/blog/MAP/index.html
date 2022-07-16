@@ -1,0 +1,604 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="zh" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>带正则化项的最小二乘法与最大后验估计 - What a starry night~</title>
+<meta name="description" content="">
+
+
+  <meta name="author" content="花魑">
+  
+  <meta property="article:author" content="花魑">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="What a starry night~">
+<meta property="og:title" content="带正则化项的最小二乘法与最大后验估计">
+<meta property="og:url" content="http://localhost:4000/blog/MAP/">
+
+
+  <meta property="og:description" content="">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-07-07T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/MAP/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "花魑",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="What a starry night~ Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">转到主导航栏</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">转到内容</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">转到底部</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          What a starry night~
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">切换搜索</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">切换菜单</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">首页</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#blog" itemprop="item"><span itemprop="name">Blog</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">带正则化项的最小二乘法与最大后验估计</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/huachi.jpg" alt="花魑" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">花魑</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Change, as if had not changed.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">关注</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Xi'an, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="qinghua7717@stu.xjtu.edu.cn" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/QinghuaMa" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="带正则化项的最小二乘法与最大后验估计">
+    <meta itemprop="description" content="">
+    <meta itemprop="datePublished" content="2022-07-07T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">带正则化项的最小二乘法与最大后验估计
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-07-07T00:00:00+00:00">July 7, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          少于 1 分钟阅读
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Table of Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#带正则化项的最小二乘法">带正则化项的最小二乘法</a></li><li><a href="#最大后验估计与-regularized-lse-的关系">最大后验估计与 Regularized LSE 的关系</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <head>
+<script>
+  MathJax = {
+    tex: {
+      tags: 'all',  // should be 'ams', 'none', or 'all'
+      inlineMath: [['$','$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    }
+  };
+  </script>
+<script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<h1>Content</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#带正则化项的最小二乘法" id="markdown-toc-带正则化项的最小二乘法">带正则化项的最小二乘法</a></li>
+  <li><a href="#最大后验估计与-regularized-lse-的关系" id="markdown-toc-最大后验估计与-regularized-lse-的关系">最大后验估计与 Regularized LSE 的关系</a></li>
+</ul>
+
+<h2 id="带正则化项的最小二乘法">带正则化项的最小二乘法</h2>
+
+<p>在介绍最小二乘法的文章中提到，对于具有 $N$ 个样本点的最小二乘拟合问题，最小二乘损失函数的形式为：</p>
+
+\[L(w)=\sum_{i=1}^N|w^Tx_i-y_i|^2\label{1-1}\]
+
+<p>并具有解析解，</p>
+
+\[\hat{w}=(X^TX)^{-1}X^TY\label{1-2}\]
+
+<p>其中，数据点 $D={(x_1,y_1), (x_2, y_2), \cdots, (x_N, y_N)}$，且 $x_i\in\mathbb{R}^p$，$y_i\in\mathbb{R}$，$i=1,2,\cdots, N$，拟合函数为 $f(w)=w^Tx$。</p>
+
+<p>但在实践中，当（1）样本点的数量 $N$ 没有那么大，或者（2）$N$ 小于 $x$ 的维度 $p$ 时，式 $\eqref{1-2}$ 就可能没有解析解。从数学的角度看，是因为式 $\eqref{1-2}$ 中的矩阵 $X^TX$ 不可逆；从机器学习实践的角度看，这种情况易造成过拟合现象。</p>
+
+<p>为了解决最小二乘法的这个问题，我们通常会引入“正则化”的框架。
+在式 $\eqref{1-1}$ 表示的损失函数中添加惩罚项（Penalty） $\lambda P(w)$，得到<strong>带正则化项的最小二乘法（Regularized LSE）</strong>：</p>
+
+\[\arg\max \limits_w \big[L(w)+ {\lambda P(w)}\big]\]
+
+<p>我们最常使用的是 $L_1$ 惩罚项和 $L_2$ 惩罚项：</p>
+
+\[\begin{align*}
+&amp;L_1:P(w)=||w||_1\\
+&amp;L_2:P(w)=||w||_2^2=w^Tw\\
+\end{align*}\]
+
+<blockquote>
+  <p>$L_1$ 正则化的模型，我们称之为Lasso回归；</p>
+
+  <p>$L_2$ 正则化的模型，则称之为Ridge回归（岭回归，亦称为权值衰减）。</p>
+</blockquote>
+
+<p>在LSE的损失函数中引入 $L_2$ 正则项后：</p>
+
+\[\begin{aligned}
+J(w)&amp;=\sum_{i=1}^N||w^Tx_i-y_i||_2^2+\lambda w^Tw\\
+&amp;=(w^TX^TXw-2w^TX^TY+Y^TY)+\lambda w^Tw\\
+&amp;=w^T(X^TX+\lambda I)w-2w^TX^TY+Y^TY
+\end{aligned}\]
+
+<p>于是优化损失函数</p>
+
+\[\begin{align}
+\hat{w}&amp;=\arg\min\limits_{w} J(w)\notag \\
+&amp;=\arg\min\limits_{w}\Big[\sum_{i=1}^N||w^Tx_i-y_i||^2_2+\lambda w^Tw\Big]\notag \\
+&amp;=\arg\min\limits_{w}\Big[ w^T(X^TX+\lambda I)w-2w^TX^TY+Y^TY\Big] \label{1-3}
+\end{align}\]
+
+<p>可以得到</p>
+
+\[\begin{aligned}
+&amp;\dfrac{\partial J(w)}{\partial w}=2(X^TX+\lambda I)-2X^TY=0\\
+\Rightarrow&amp;\hat{w} = (X^TX+\lambda I)^{-1}X^TY
+\end{aligned}\label{1-4}\]
+
+<p>对于公式$\eqref{1-4}$中的矩阵 $X^TX+\lambda I$：$X^TX$ 是半正定矩阵，$\lambda I$ 是对角阵，因此矩阵 $X^TX+\lambda I$ 一定是正定的，所以 $X^TX+\lambda I$一定可逆。</p>
+
+<p>因此，$L_2$ 正则化手段就解决了式 $\eqref{1-2}$ 中的矩阵 $X^TX$ 不可逆的问题，并且在实践中，可以达到抑制过拟合现象的效果。</p>
+
+<hr />
+
+<h2 id="最大后验估计与-regularized-lse-的关系">最大后验估计与 Regularized LSE 的关系</h2>
+
+<p>最小二乘法的文章中还提到，从参数估计的角度看，<strong>当噪声为服从零均值的正态分布时，极大似然估计法等价于最小二乘法</strong>。</p>
+
+<blockquote>
+  <p>贝叶斯派对于参数估计的观点$^{[1]}$</p>
+
+  <p>对于极大似然估计而言，未知参数（待估计参数） $\theta$ 就是一个简单的未知数，在抽样之前，我们对 $\theta$ 没有任何了解，所有的信息都来自于样本。而贝叶斯派则不然，他们的出发点是：<strong>在进行抽样之前，我们已经对 $\theta$ 有了一定的知识，叫做先验知识</strong>。并且，贝叶斯学派进一步要求：这种先验知识必须用 $\theta$ 的某种概率分布表达出来。</p>
+</blockquote>
+
+<p>仍然假设有拟合曲线 $y=f(w)+\varepsilon=w^Tx+\varepsilon$，并且噪声服从分布 $\varepsilon\sim N(0, \sigma^2)$，在此基础上，根据贝叶斯学派的观点假设我们对于待估参数 $w$ 有一个先验估计：$w\sim N(0,\sigma_0^2)$，则在已知 $y$ 的情况下，可以得到后验估计 $p(w\vert y)$：</p>
+
+\[p(w|y)=\dfrac{p(y|w)p(w)}{p(y)}\]
+
+<p>根据<strong>最大后验估计（Maximum a posteriori estimation, MAP）</strong>的方法，有</p>
+
+\[\begin{align*}
+\hat{w}_{\mathrm{MAP}}&amp;=\arg\max\limits_{w}\log \prod_{i=1}^Np(w|y_i)\\
+&amp;=\arg\max\limits_{w}\log \prod_{i=1}^N p(y_i|w)p(w)\\
+&amp;=\arg\max\limits_{w}\log \prod_{i=1}^N\Big[\dfrac1{\sqrt{2\pi}\sigma}\exp\{-\dfrac{(y_i-w^Tx_i)^2}{2\sigma^2}\}\dfrac1{\sqrt{2\pi}\sigma_0}\exp\{-\dfrac{w^2}{2\sigma_0^2}\}\Big]\\
+&amp;=\arg\min\limits_{w}\sum_{i=1}^N \Bigl[(y_i-w^Tx_i)^2+\dfrac{\sigma^2}{\sigma_0^2}||w||_2^2\Bigr]\\
+(\mathrm{Let}:\lambda=\sigma^2/\sigma_0^2)&amp;=\arg\min\limits_{w}\sum_{i=1}^N\Big[(y_i-w^Tx_i)^2+\lambda||w||_2^2\Big]\\
+\end{align*}\]
+
+<p>即</p>
+
+\[\hat{w}_{\mathrm{MAP}}=\arg\min\limits_{w}\sum_{i=1}^N\Big[(y_i-w^Tx_i)^2+\lambda||w||_2^2\Big]\label{1-5}\]
+
+<p>式 $\eqref{1-5}$ 与带有 $L_2$ 正则项最小二乘法的形式 $\eqref{1-3}$ 是一致的。</p>
+
+<hr />
+
+<p><strong>总结</strong></p>
+
+<ol>
+  <li>当（1）噪声为服从零均值的正态分布时 $\varepsilon\sim N(0, \sigma^2)$，极大似然估计法等价于最小二乘法；</li>
+  <li>当（2）噪声为服从零均值的正态分布时 $\varepsilon\sim N(0, \sigma^2)$，且（2）待估参数 $w$ 的先验估计也服从零均值的正态分布时$w\sim N(0,\sigma_0^2)$，最大后验估计等价于带 $L_2$ 正则化项的最小二乘法；</li>
+</ol>
+
+<hr />
+
+<p><strong>参考</strong></p>
+
+<p>[1] 陈希孺. 概率论与数理统计. 合肥: 中国科学技术大学出版社, 2009.2(2019.8重印).</p>
+
+<p>[2] shuhuai008. <a href="https://www.bilibili.com/video/BV1aE411o7qd?p=12&amp;vd_source=f209f402a13cd84c99ed077bf0b9afb9">【机器学习】【白板推导系列】P12</a></p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 标签: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1" class="page__taxonomy-item" rel="tag">概率论与数理统计</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 分类: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间:</strong> <time datetime="2022-07-07T00:00:00+00:00">July 7, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/GammaAndBetaFunction/" class="pagination--pager" title="Gamma函数和Beta函数的定义及性质
+">上一页</a>
+    
+    
+      <a href="/mathematics/MLE/" class="pagination--pager" title="从曲线拟合、参数估计角度、超定方程求解的几何角度看最小二乘法
+">下一页</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      输入您要搜索的关键词...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="输入您要搜索的关键词..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>关注:</strong></li>
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 花魑. 技术来自于 <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>

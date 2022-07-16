@@ -1,0 +1,623 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="zh" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>线性方程组求解的几何意义 - What a starry night~</title>
+<meta name="description" content="线性方程组(一致方程组)求解的几何意义 线性方程组(Linear system of equations)和矩阵向量乘法(matrix-vector multiplication)非常相似。">
+
+
+  <meta name="author" content="花魑">
+  
+  <meta property="article:author" content="花魑">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="What a starry night~">
+<meta property="og:title" content="线性方程组求解的几何意义">
+<meta property="og:url" content="http://localhost:4000/blog/Linear-system-of-equations/">
+
+
+  <meta property="og:description" content="线性方程组(一致方程组)求解的几何意义 线性方程组(Linear system of equations)和矩阵向量乘法(matrix-vector multiplication)非常相似。">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-06-14T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/Linear-system-of-equations/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "花魑",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="What a starry night~ Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">转到主导航栏</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">转到内容</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">转到底部</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          What a starry night~
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">切换搜索</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">切换菜单</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">首页</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#blog" itemprop="item"><span itemprop="name">Blog</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">线性方程组求解的几何意义</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/huachi.jpg" alt="花魑" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">花魑</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Change, as if had not changed.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">关注</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Xi'an, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="qinghua7717@stu.xjtu.edu.cn" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/QinghuaMa" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="线性方程组求解的几何意义">
+    <meta itemprop="description" content="线性方程组(一致方程组)求解的几何意义线性方程组(Linear system of equations)和矩阵向量乘法(matrix-vector multiplication)非常相似。">
+    <meta itemprop="datePublished" content="2022-06-14T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">线性方程组求解的几何意义
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-06-14T00:00:00+00:00">June 14, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          少于 1 分钟阅读
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Table of Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#线性方程组一致方程组求解的几何意义">线性方程组(一致方程组)求解的几何意义</a><ul><li><a href="#矩阵的行列式不等于零矩阵的逆存在">矩阵的行列式不等于零(矩阵的逆存在)</a></li><li><a href="#矩阵的行列式等于零矩阵的逆不存在">矩阵的行列式等于零(矩阵的逆不存在)</a></li><li><a href="#秩与列空间">秩与列空间</a></li><li><a href="#零空间核">零空间(核)</a></li></ul></li><li><a href="#超定方程组不一致方程组求解的几何意义最小二乘法">超定方程组(不一致方程组)求解的几何意义、最小二乘法</a></li><li><a href="#总结">总结</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="线性方程组一致方程组求解的几何意义">线性方程组(一致方程组)求解的几何意义</h1>
+<p>线性方程组(Linear system of equations)和矩阵向量乘法(matrix-vector multiplication)非常相似。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220707235705577.png" alt="image-20220707235705577" style="zoom:50%;" /></p>
+
+<p>其中，$A$被称为系数矩阵(coefficients)，$\boldsymbol{x}$被称为变量(variables)，$\boldsymbol{v}$称为常数向量(constants)。从几何上看，求解这个方程组意味着我们<strong>去寻找一个向量$\boldsymbol{x}$，使得它在经过线性变换$A$后与向量$\boldsymbol{v}$重合</strong>。设有二维线性方程组</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220707235626269.png" alt="image-20220707235626269" style="zoom:50%;" /></p>
+
+<p>这个方程解的形式依赖于矩阵A所代表的变换是<strong>将空间挤压到一条直线或点等低维空间</strong>，还是<strong>像初始状态一样的完整的二维空间</strong>。根据<a href="https://blog.csdn.net/weixin_44983951/article/details/125253542?spm=1001.2014.3001.5501">行列式所代表的含义</a>，上述两种情况分别对应：$A$ 的行列式为零和 $A$ 的行列式不为零。</p>
+
+<hr />
+<h2 id="矩阵的行列式不等于零矩阵的逆存在">矩阵的行列式不等于零(矩阵的逆存在)</h2>
+<p>当 $\det (A)\neq0$ 时，此时空间并未被挤压为零面积面积的区域，在这种情况下，有且仅有一个向量在变换后与v重合，并且可以通过逆向进行变换找到这个向量。</p>
+
+<p>当进行逆向变换时，它实际上对应了另一个线性变换，通常称为<strong>A的逆(the inverse of A)</strong>，记作$A^{-1}$。</p>
+
+<p>$A^{-1}$是满足以下性质的唯一变换：对某一向量首先应用$A$代表的线性变换，再应用$A^{-1}$代表的线性变换，就会回到原始状态。</p>
+
+<p>两个变换相继作用的效果在代数上体现为矩阵乘法，因此A逆的核心性质在于，$A^{-1}A$表示一个“什么都不做”的矩阵，这个变换被称为恒等变换(identity transformation)。$A^{-1}A$所对应的线性变换“什么都不做”，代表矩阵$A^{-1}A$的$\hat{i}$和$\hat{j}$不变，即$A^{-1}A$ 的两列就是(1, 0)和(0,1)：</p>
+
+\[A^{-1}A=
+\begin{bmatrix}
+1&amp;0\\
+0&amp;1\\
+\end{bmatrix}\]
+
+<p>线性方程组的两端同乘$A^{-1}$，可以得到</p>
+
+\[\begin{align}
+A^{-1}A\boldsymbol{x}&amp;=A^{-1}\boldsymbol{v}\\
+\boldsymbol{x}&amp;=A^{-1}\boldsymbol{v}\\ \tag{1}
+\end{align}\]
+
+<p>求解式(1)就可以得到向量$\boldsymbol{v}$在经过矩阵$A$线性变换前的位置$\boldsymbol{x}$。</p>
+
+<hr />
+<h2 id="矩阵的行列式等于零矩阵的逆不存在">矩阵的行列式等于零(矩阵的逆不存在)</h2>
+<p>当$\det (A) = 0$时，表明与这个方程组相关的线性变换将空间压缩到更低的维度上，此时就无法找到线性变换$A$所对应的逆变换$A^{-1}$使得$A^{-1}A$为恒等变换，因为我们不可能将一个低维的信息<strong>精确地</strong>解压缩为高维信息。</p>
+
+<p>仍以二维空间为例。我们之前提到过，<a href="https://blog.csdn.net/weixin_44983951/article/details/125200978?spm=1001.2014.3001.5501">高维空间投影到数轴上操作实际上是一种线性变换</a>。假设线性变换$A$使得某一向量投影在一维空间的数轴$x_3$，变换后的向量记作$\boldsymbol{v}$。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220707235738340.png" alt="image-20220707235738340" style="zoom:50%;" /></p>
+
+<p>由上图所示，我们想要找到精确的变换前的向量$\boldsymbol{v}$是不可能的，因为在直线$L$上有无数个向量经过不同的线性变换后得到向量$\boldsymbol{x}$。甚至没有一个函数(function)能够做到将$\boldsymbol{x}$精确还原(因为函数只能将输入变换为<strong>一个</strong>输出)，因此就不存在$A^{-1}$使得$A^{-1}A$为恒等变换，也就意味着矩阵$A$不存在逆矩阵。</p>
+
+<p>事实上，矩阵可逆和矩阵的行列式不为零是充要条件</p>
+
+\[A^{-1} exist \Leftrightarrow \det(A)\neq 0\]
+
+<p>注：投影在数轴上表示线性变换所对应矩阵$A$的列向量共线。设某个线性变换将向量变换到$\boldsymbol{v}$的位置，如果线性变换后基的位置是$\boldsymbol{i}_1$和$\boldsymbol{j}_1$，那么向量$\boldsymbol{v}$实际上是空间中的一个二维向量，线性方程组的解存在；如果线性变换后基的位置是$\boldsymbol{i}_2$和$\boldsymbol{j}_2$，那么向量$\boldsymbol{v}$代表数轴$x_3$上的一个数，线性方程组的解不存在(准确地讲，是不存在唯一解)。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220707235850944.png" alt="image-20220707235850944" style="zoom:50%;" /></p>
+
+<hr />
+
+<h2 id="秩与列空间">秩与列空间</h2>
+<p>一些零行列式的情况比其他的更加严格，比如一个$3\times 3$的矩阵，当它将空间压缩为一条<strong>直线</strong>时，与压缩为<strong>平面</strong>相比，解存在的难度更高了，即使它们的行列式均为零。</p>
+
+<p>当变换的结果为一维时，也就是说结果是一维的，我们称这个变换的 <strong>秩(rank)</strong> 为1，如果变换后的向量落在某个二维平面上，我们称这个变换的秩为2，所说的“秩”代表<strong>变换后空间的维数</strong>。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000000727.png" alt="image-20220708000000727" style="zoom:50%;" /></p>
+
+<p>比如，对于$2\times 2$的矩阵，它的秩最大为2，意味着基向量仍能张成整个二维空间，并且行列式不为零；对于$3\times 3$的矩阵，秩为2意味着空间被压缩了，但和秩为1的情况相比，压缩并不是那么严重；如果三维变换的行列式不为零，变换结果仍旧充满整个三维空间，那么它的秩为3。</p>
+
+<p>不管是一条直线、一个平面还是三维空间，所有可能的变换结果的集合，被称为矩阵的“列空间”。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000019419.png" alt="image-20220708000019419" style="zoom:50%;" /></p>
+
+<p>矩阵的列告诉我们基向量变换后的位置，这些变换后的基向量所张成的空间就是所有可能的变换结果。换句话说，<strong>列空间就是矩阵的列所张成的空间</strong>。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000034821.png" alt="image-20220708000034821" style="zoom:50%;" /></p>
+
+<p>所以更精确的<strong>秩的定义是列空间的维数</strong>。当秩达到最大值时，意味着秩与列数相等，我们称之为“满秩(full rank)”。</p>
+
+<hr />
+<h2 id="零空间核">零空间(核)</h2>
+<p>零向量一定会被包含在列空间中，因为线性变换必须保持原点位置不变。对于一个满秩变换来说，唯一能在变换后落在原点的就是零向量本身；但是对一个非满秩的矩阵来说，它将空间压缩到一个更低的维度上，也就是说会有一系列向量在变换后成为零向量。比如，如果一个二维线性变换将空间压缩到一维数轴$x_3$上，那么沿<strong>某个</strong>不同方向上的所有向量就被压缩到原点。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000105771.png" alt="image-20220708000105771" style="zoom:50%;" /></p>
+
+<p>如果一个三维线性变换将空间压缩到一个平面上，同样会有一整条直线上的向量在变换后落在原点；如果一个三维线性变换将空间压缩到一条直线上，那么就有一整个平面上的向量在变换后落在原点。变换后落在原点的向量的集合，被称为矩阵的“零空间(null space)”或“核(kernel)”。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000132963.png" alt="image-20220708000132963" style="zoom:50%;" /></p>
+
+<p>对线性方程组来说，当向量$\boldsymbol{v}$恰好为零向量时，零空间给出的就是这个向量方程所有可能的解。零空间的概念有助于我们理解所有可能的解的集合是什么样的。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000151762.png" alt="image-20220708000151762" style="zoom:50%;" /></p>
+
+<p>假设已知线性变换后的核kernel，一个空间中的向量在经过变换后落在了$\boldsymbol{x}_1$处，则该“向量”线性变换前所有可能的向量都落在直线$L_1$上；同理一个空间中的向量在经过变换后落在了$\boldsymbol{x}_2$处，则该“向量”线性变换前所有可能的向量都落在直线$L_2$上。直线$L_1$和直线$L_2$均与和核平行。</p>
+
+<hr />
+
+<h1 id="超定方程组不一致方程组求解的几何意义最小二乘法">超定方程组(不一致方程组)求解的几何意义、最小二乘法</h1>
+<p>上面介绍的线性方程组都是方程个数等于未知数个数的方程组，对应的系数矩阵是方阵，即<strong>一致方程组</strong>。对于线性方程组$A\boldsymbol{x}=\boldsymbol{b}$，如果方程个数$m$和未知变量个数$n$满足$m&gt;n$，则称该线性方程组为<strong>超定方程组</strong>，也称为<strong>不一致方程组</strong>。由于在实际工程中收集数据时常常存在误差，系数矩阵$A$和向量$\boldsymbol{b}$的值不够精确，导致超定方程组非常常见。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000224838.png" alt="image-20220708000224838" style="zoom:50%;" /></p>
+
+<p>从几何上看，超定方程组试图寻找一个二维向量，使其经过给定线性变换后等于三维空间中给定的一个三维向量。我们知道，<a href="https://blog.csdn.net/weixin_44983951/article/details/125231310?spm=1001.2014.3001.5501">线性变换所对应矩阵的的列向量是经过变换后基向量的坐标，矩阵乘法就表示基向量的线性组合</a>。因此经过矩阵$A$所对应的线性变换后的空间中只具有两个基向量$\hat{i}=[a,b,c]$和$\hat{j}=[d,e,f]$，两个基向量只能张成一个二维空间。因此我们通常无法找到一个精确的二维向量，在经过给定的线性变换后和给定的三维向量重合，也就是说，超定方程组没有精确解。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000242704.png" alt="image-20220708000242704" style="zoom:50%;" /></p>
+
+<p>但是可以<strong>最小二乘法</strong>得到一个近似解。从上图可以看到，我们可以在二维空间(紫色平面)中找到一个向量$\boldsymbol{x}$，使其经过线性变换$A$后最接近空间中给定的向量 $\boldsymbol{b}$。即向量 $A\boldsymbol{x}$ 具有以下特点：余项 $\boldsymbol{b}-A\boldsymbol{x}$ 和平面${A\boldsymbol{\hat{x}} \vert \boldsymbol{\hat{x}}\in \mathbb{R}^{n}}$垂直，即：</p>
+
+\[(\boldsymbol{b}-A\boldsymbol{x})\bot \{A\boldsymbol{x}\vert\boldsymbol{x}\in \mathbb{R}^{n}\}\]
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708000318504.png" alt="image-20220708000318504" style="zoom:50%;" /></p>
+
+<p>写成矩阵乘法有：</p>
+
+\[\begin{aligned}
+&amp;(A\boldsymbol{x})^T(\boldsymbol{b}-A\boldsymbol{x})=0 \\
+\Rightarrow &amp; \boldsymbol{x}^TA^T (\boldsymbol{b}-A\boldsymbol{x})=0
+\end{aligned}\tag{2}\]
+
+<p>式(2)表明$n$维向量 $A^T (\boldsymbol{b}-A\boldsymbol{x})$ 和 $\mathbb{R}^{n}$ 中的其他的$n$维向量都垂直，也包含它自身(因为 $\boldsymbol{x}$ 是未知量，可任意取值)，则只有一种可能的情况：</p>
+
+<p>\(A^T (\boldsymbol{b}-A\boldsymbol{x})=0\)
+即：</p>
+
+\[A^TA\boldsymbol{x}=A^T\boldsymbol{b} \tag{3}\]
+
+<p>式(3)所定义的方程组有解，它的解 $\boldsymbol{x}$ 即是原方程组 $A\boldsymbol{x}=\boldsymbol{b}$ 的<strong>最小二乘解</strong>。式(3)也被被称为原超定方程的<strong>法线方程</strong>。因此只要利用其他求解一致方程组的方法来求解该法线方程就得到解$\boldsymbol{x}$即可。</p>
+
+<p>定义最小二乘解的余项为 $\boldsymbol{r}=\boldsymbol{b}-A\boldsymbol{x}$ ，该余项的大小，可以通过它的二范数来定义：</p>
+
+\[||\boldsymbol{r}||_2=\sqrt{r_1^2+\cdots +r_m^2} \tag{4}\]
+
+<p>式(4)就衡量了近似解 $\boldsymbol{x}$ 和精确解 $\boldsymbol{x}$ 之间的误差大小。</p>
+
+<hr />
+
+<h1 id="总结">总结</h1>
+<ol>
+  <li>每个方程组都有一个线性变换与之联系，当逆变换存在时，就能用这个逆变换求解方程组；如果该线性变换的逆变换不存在，则该线性方程组有无数个解；</li>
+  <li>列空间的概念让我们清楚什么时候存在唯一解，什么时候不存在；</li>
+  <li>零空间的概念有助于理解所有可能的解的集合是什么样的；</li>
+  <li>超定方程组(不一致方程组)没有精确解，但是可以使用最小二乘法求最接近原超定方程的最小二乘解。</li>
+</ol>
+
+<hr />
+
+<p><strong>参考</strong></p>
+
+<p>[1] 3Blue1Brown. <a href="https://www.bilibili.com/video/BV1ys411472E?p=8&amp;vd_source=8aeddead7f39b0189fff9b14fa090a75">3Blue1Brown线性代数系列视频</a></p>
+
+<p>[2] Timothy Sauer. 数值分析(原书第2版). 裴玉茹, 马赓宇, 译. 北京：机械工业出版社，2014.10.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 标签: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0" class="page__taxonomy-item" rel="tag">线性代数</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 分类: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间:</strong> <time datetime="2022-06-14T00:00:00+00:00">June 14, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/Determinant/" class="pagination--pager" title="行列式的定义
+">上一页</a>
+    
+    
+      <a href="/blog/Matlab-UI-figure-and-Axes/" class="pagination--pager" title="MATLAB中UI figure和Axes的位置和大小设定
+">下一页</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      输入您要搜索的关键词...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="输入您要搜索的关键词..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>关注:</strong></li>
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 花魑. 技术来自于 <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>

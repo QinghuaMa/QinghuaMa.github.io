@@ -1,0 +1,568 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="zh" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>使用PyTorch自动求导机制编写多元牛顿迭代法（PyTorch向量对向量求导） - What a starry night~</title>
+<meta name="description" content="对于非线性方程组：">
+
+
+  <meta name="author" content="花魑">
+  
+  <meta property="article:author" content="花魑">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="What a starry night~">
+<meta property="og:title" content="使用PyTorch自动求导机制编写多元牛顿迭代法（PyTorch向量对向量求导）">
+<meta property="og:url" content="http://localhost:4000/blog/PytorchAutoDiff/">
+
+
+  <meta property="og:description" content="对于非线性方程组：">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-02-07T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/PytorchAutoDiff/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "花魑",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="What a starry night~ Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">转到主导航栏</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">转到内容</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">转到底部</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          What a starry night~
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">切换搜索</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">切换菜单</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">首页</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#blog" itemprop="item"><span itemprop="name">Blog</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">使用PyTorch自动求导机制编写多元牛顿迭代法（PyTorch向量对向量求导）</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/huachi.jpg" alt="花魑" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">花魑</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Change, as if had not changed.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">关注</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Xi'an, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="qinghua7717@stu.xjtu.edu.cn" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/QinghuaMa" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="使用PyTorch自动求导机制编写多元牛顿迭代法（PyTorch向量对向量求导）">
+    <meta itemprop="description" content="对于非线性方程组：">
+    <meta itemprop="datePublished" content="2022-02-07T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">使用PyTorch自动求导机制编写多元牛顿迭代法（PyTorch向量对向量求导）
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-02-07T00:00:00+00:00">February 7, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 分钟阅读
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Table of Contents</h4></header>
+              
+
+            </nav>
+          </aside>
+        
+        <p>对于非线性方程组：</p>
+
+\[\left\{  
+\begin{align*} &amp;x_1^2 + x_2^2 + x_3^2-1.0 = 0 \\ &amp;2x_1^2+x_2^2-4x_3=0\\ &amp;3x_1^2-4x_2^2+x_3^2 = 0\\ 
+\end{align*} 
+\right.\]
+
+<p>初始值给定：$x^{(0)}=(1.0, 1.0, 1.0)^T$。
+多元牛顿法的一般迭代形式为：</p>
+
+\[\begin{align*}
+\boldsymbol{x}_0 &amp;= \boldsymbol{k} \\ \boldsymbol{x}_{k+1} &amp;=\boldsymbol{x}_{k} - DF(\boldsymbol{x}_k)^{-1}F(\boldsymbol{x}_k),\ k= 0,1,2,\cdots  
+\end{align*}\]
+
+<p>求解的关键是求出雅各比矩阵$DF(\boldsymbol{x}_k)$。</p>
+
+\[DF(x) = 
+	\begin{bmatrix}
+		\dfrac{\partial f_1}{\partial x_1} &amp; \dfrac{\partial f_1}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_1}{\partial x_n}\\ 
+		\dfrac{\partial f_2}{\partial x_1} &amp; \dfrac{\partial f_2}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_2}{\partial x_n}\\
+		\vdots                             &amp; \vdots                              &amp; \vdots &amp; \vdots                            \\
+		\dfrac{\partial f_m}{\partial x_1} &amp; \dfrac{\partial f_m}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_m}{\partial x_n}
+	\end{bmatrix}\notag\]
+
+<p>使用PyTorch自动求导机制实现如下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># 防止图片中汉字出现乱码
+</span><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">"font.sans-serif"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">"SimHei"</span><span class="p">]</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">'axes.unicode_minus'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+
+
+<span class="c1"># 定义向量函数
+</span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span>
+<span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">h</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="c1"># 列表用于保存中间值
+</span><span class="n">x_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">F_value_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># 设置初值
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]],</span> <span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="c1"># 计算函数F的值
+</span>    <span class="n">F_value</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span><span class="mi">0</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="n">F_value_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">F_value</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+    <span class="c1"># 计算雅可比矩阵
+</span>    <span class="n">J</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">1</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># 更新向量x的值
+</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">torch</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">J</span><span class="p">),</span> <span class="n">F_value</span><span class="p">)</span>
+    <span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+    
+<span class="n">x_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">F_value_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">F_value_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># 绘制迭代过程图
+</span><span class="n">markers</span> <span class="o">=</span> <span class="p">[</span><span class="s">'o'</span><span class="p">,</span> <span class="s">'^'</span><span class="p">,</span> <span class="s">'s'</span><span class="p">]</span>
+<span class="n">labels0</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$x_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$x_2$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$x_3$'</span><span class="p">]</span>
+<span class="n">labels1</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$f_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$f_2$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$f_3$'</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">x_list</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">.</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels0</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="p">)),</span> <span class="n">f</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels1</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'迭代次数'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'向量$x$各分量的值'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">'变量迭代过程'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'迭代次数'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'向量函数$F$各分量的值'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">'函数值迭代过程'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+</code></pre></div></div>
+<p>最后得到结果：</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220708001921161.png" alt="image-20220708001921161" /></p>
+
+<p>Bingo！</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 标签: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#python" class="page__taxonomy-item" rel="tag">python</a><span class="sep">, </span>
+    
+      <a href="/tags/#pytorch" class="page__taxonomy-item" rel="tag">PyTorch</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 分类: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间:</strong> <time datetime="2022-02-07T00:00:00+00:00">February 7, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/Hello-world/" class="pagination--pager" title="Hello, world!
+">上一页</a>
+    
+    
+      <a href="/blog/Fourier-series-of-Rectangular-periodic-signal/" class="pagination--pager" title="周期矩形脉冲（周期门函数）的三角型傅里叶级数和指数型傅里叶级数
+">下一页</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      输入您要搜索的关键词...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="输入您要搜索的关键词..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>关注:</strong></li>
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 花魑. 技术来自于 <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>
