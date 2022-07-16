@@ -6,7 +6,6 @@ gem "kramdown-parser-gfm"
 gem "faraday-retry"
 gem "wdm", '>=0.1.0'
 
-
 gem 'jekyll-paginate'
 gem 'tzinfo-data'
 gem 'tzinfo'
@@ -15,7 +14,6 @@ gem 'jekyll-pandoc'
 gem 'jekyll-commonmark' , github: 'jekyll/jekyll-commonmark', ref: 'refs/pull/44/head'
 
 # gem 'jekyll-archives'
-
 gem "jekyll-feed"
 gem "jekyll-seo-tag"
 gem "jekyll-sitemap"
