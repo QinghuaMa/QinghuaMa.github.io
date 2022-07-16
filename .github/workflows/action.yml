@@ -7,6 +7,8 @@ jobs:
   jekyll:
     runs-on: ubuntu-latest
     steps:
+
+    - uses: helaili/jekyll-action@master
     - uses: actions/checkout@v2
 
     # Use GitHub Actions' cache to shorten build times and decrease load on servers
