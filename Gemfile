@@ -13,8 +13,8 @@ gem 'tzinfo'
 gem "webrick", "~> 1.7"
 gem 'jekyll-pandoc'
 gem 'jekyll-commonmark' , github: 'jekyll/jekyll-commonmark', ref: 'refs/pull/44/head'
-# gem 'jekyll-archives'
 
+# gem 'jekyll-archives'
 
 gem "jekyll-feed"
 gem "jekyll-seo-tag"
