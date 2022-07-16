@@ -13,8 +13,6 @@ GEM
       faraday-net_http (~> 2.0)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (2.0.3)
-    faraday-retry (2.0.0)
-      faraday (~> 2.0)
     ffi (1.15.5-x64-mingw-ucrt)
     forwardable-extended (2.6.0)
     http_parser.rb (0.8.0)
@@ -48,8 +46,6 @@ GEM
       listen (~> 3.0)
     kramdown (2.4.0)
       rexml
-    kramdown-parser-gfm (1.1.0)
-      kramdown (~> 2.0)
     liquid (4.0.3)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -83,25 +79,13 @@ GEM
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
-    tzinfo (2.0.4)
-      concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2022.1)
-      tzinfo (>= 1.0.0)
-    wdm (0.1.1)
-    webrick (1.7.0)
 
 PLATFORMS
   x64-mingw-ucrt
 
 DEPENDENCIES
-  faraday-retry
   jekyll (~> 3.7)
-  kramdown-parser-gfm
   minimal-mistakes-jekyll
-  tzinfo
-  tzinfo-data
-  wdm (>= 0.1.0)
-  webrick (~> 1.7)
 
 BUNDLED WITH
    2.3.17
