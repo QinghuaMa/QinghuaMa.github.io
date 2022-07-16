@@ -20,7 +20,7 @@
 
 
 theme                    : minimal-mistakes-jekyll  # "minimal-mistakes-jekyll" # "minimal-mistakes-jekyll"
-minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "neon" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 locale                   : "zh-CN" # "en-US"
 title                    : "What a starry night~"
 title_separator          : "-"
