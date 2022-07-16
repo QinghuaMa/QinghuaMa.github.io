@@ -33,7 +33,7 @@ repository               : QinghuaMa/QinghuaMa.github.io
 
 author:
   name: "花魑"
-  avatar: "/assets/images/huachi.jpg"
+  avatar: "/images/huachi.jpg"
   bio: "Change, as if had not changed." # Note: Markdown is allowed
   location: "Xi'an, China"
   links:
@@ -86,7 +86,8 @@ whitelist:
 #
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
-#
+
+
 exclude:
   - .sass-cache/
   - .jekyll-cache/
@@ -100,9 +101,9 @@ exclude:
   - vendor/ruby/
 
 
-# head_scripts:
-  # - https://code.jquery.com/jquery-3.2.1.min.js
-  # - /assets/js/your-custom-head-script.js
+head_scripts:
+  - https://code.jquery.com/jquery-3.2.1.min.js
+  - /assets/js/your-custom-head-script.js
 
 teaser: # /assets/images/500x300.png
 header:
@@ -154,17 +155,17 @@ defaults:
 
 
 
-footer:
-  links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/mmistakes"
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/mmistakes"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/mmistakes"
+# footer:
+#   links:
+#     - label: "Twitter"
+#       icon: "fab fa-fw fa-twitter-square"
+#       url: "https://twitter.com/mmistakes"
+#     - label: "GitHub"
+#       icon: "fab fa-fw fa-github"
+#       url: "https://github.com/mmistakes"
+#     - label: "Instagram"
+#       icon: "fab fa-fw fa-instagram"
+#       url: "https://instagram.com/mmistakes"
 
 permalink: /:categories/:title/
 paginate_path: /page:num/
