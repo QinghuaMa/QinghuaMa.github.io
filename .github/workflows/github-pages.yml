@@ -1,19 +1,27 @@
-name: Testing the GitHub Pages publication
+# Match this YAML filename
+name: github-pages
 
 on:
   push
+    branches:
+      # trigger the build using on.push condition for main branch only
+      # this prevents the Action from overwriting the gh-pages branch on any feature branch pushes.
+      - main
+
 
 jobs:
   jekyll:
     runs-on: ubuntu-latest
     steps:
 
+    # Search for Gemfile location
     - uses: helaili/jekyll-action@master
         token: ${{ secrets.GITHUB_TOKEN }}
-
+    
+    # The checkout action takes care of cloning repository
     - uses: actions/checkout@v2
 
-    # Use GitHub Actions' cache to shorten build times and decrease load on servers
+    # The cache action is an optimization to avoid fetching and installing gems on every build.
     - uses: actions/cache@v2
       with:
         path: vendor/bundle
@@ -21,11 +29,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gems-
 
-    # Standard usage
-    - uses:  helaili/jekyll-action@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-
+    # This handles the build and deploy
+    # You can choose any one of the Jekyll Actions that matches your project and flavor from GitHub Marketplace --
+    # https://github.com/marketplace?type=actions&query=jekyll+action
     # Specify the Jekyll source location as a parameter
     - uses: helaili/jekyll-action@v2
       with:
