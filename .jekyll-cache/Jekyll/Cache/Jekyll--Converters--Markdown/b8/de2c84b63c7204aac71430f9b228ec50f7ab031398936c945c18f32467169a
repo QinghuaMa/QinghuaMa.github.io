@@ -1,0 +1,257 @@
+I"�a<h1 id="示例介绍">示例介绍</h1>
+
+<p>本博客中的实例来自 MATLAB 官方案例：<a href="https://ww2.mathworks.cn/help/stats/implement-incremental-learning-using-flexible-workflow-classification.html?searchHighlight=Implement%20Incremental%20Learning%20for%20Classification%20Using%20Flexible%20Workflow&amp;s_tid=srchtitle_Implement%2520Incremental%2520Learning%2520for%2520Classification%2520Using%2520Flexible%2520Workflow_1">Implement Incremental Learning for Classification Using Flexible Workflow</a></p>
+
+<blockquote>
+  <p>This example shows how to use the <strong>flexible workflow</strong> to implement incremental learning for binary classification with prequential evaluation. A traditionally trained model initializes the incremental model.</p>
+</blockquote>
+
+<h2 id="matlab-中-incremental-learning-的工作流">MATLAB 中 Incremental Learning 的工作流</h2>
+
+<p>MATLAB 的 Incremental Learning 主要分为两种工作流：Flexible workflow 和 Succinct workflow.</p>
+
+<h3 id="flexible-workflow">Flexible workflow</h3>
+
+<p>When a data chunk is available:</p>
+
+<ol>
+  <li>Compute cumulative and window model performance metrics by passing the data and current model to the <em>updateMetrics</em> function. <strong>The data is treated as test</strong> (holdout) data because the model has not been trained on it yet. <em>updateMetrics</em> overwrites the model performance stored in the model with the new values.</li>
+  <li><strong>Optionally</strong> detect distribution drift or whether the model has degraded.</li>
+  <li>Train the model by passing the incoming data chunk and current model to the <em>fit</em> function. The <em>fit</em> function uses the specified solver to fit the model to the incoming data chunk, and overwrites the current coefficients and bias with the new estimates.</li>
+</ol>
+
+<p>The flexible workflow enables you to perform custom model and data quality assessments before deciding whether to train the model. All steps are optional, but call updateMetrics before fit when you plan to call both functions.</p>
+
+<h3 id="succinct-workflow">Succinct workflow</h3>
+
+<p>When a data chunk is available, supply the incoming chunk and a configured incremental model to the <em>updateMetricsAndFit</em> function. <em>updateMetricsAndFit</em> calls <em>updateMetrics</em> <strong>immediately followed</strong> by <em>fit</em>. The succinct workflow enables you to implement incremental learning with prequential evaluation easily when you plan to track the model performance and train the model on all incoming data chunks.</p>
+
+<h2 id="cold-start-和-warm-start">Cold start 和 Warm start</h2>
+
+<p><strong>Cold start</strong>
+Little information might be known about the population before incremental learning starts.
+Therefore, the algorithm can be run with a cold start. For example, for classification problems, the class names might not be known until after the model processes observations.</p>
+
+<blockquote>
+  <ul>
+    <li>没有数据预先训练模型</li>
+    <li>数据集没有标签</li>
+  </ul>
+</blockquote>
+
+<p><strong>Warm Start</strong>
+When enough information is known before learning begins (for example, you have good estimates of linear model coefficients), you can specify such information to provide the model with a warm start.</p>
+
+<blockquote>
+  <ul>
+    <li>基于预训练模型转换</li>
+    <li>数据集有标签</li>
+  </ul>
+</blockquote>
+
+<h2 id="数据集介绍">数据集介绍</h2>
+
+<p><strong>Human Activity Data</strong>
+The humanactivity data set contains 24,075 observations of five different physical human activities: Sitting, Standing, Walking, Running, and  Dancing. Each observation has 60 features extracted from acceleration data measured by smartphone accelerometer sensors. The data set contains the following variables:</p>
+
+<ol>
+  <li>actid (24075-by-1 double): Response vector containing the activity IDs in integers: 1, 2, 3, 4, and 5，representing Sitting, Standing, Walking, Running, and Dancing, respectively;</li>
+  <li>actnames (1-by-5 cell): Activity names corresponding to the integer activity IDs;</li>
+  <li>feat (24075-by-60 double): Feature matrix of 60 features for 24,075 observations;</li>
+  <li>featlabels (60-by-1): Labels of the 60 features.</li>
+</ol>
+
+<p>The Sensor HAR (human activity recognition) App [1] was used to create the humanactivity data set. When measuring the raw acceleration data with this app, a person placed a smartphone in a pocket so that the smartphone was upside down and the screen faced toward the person. The software then calibrated the measured raw data accordingly and extracted the 60 features from the calibrated data. For details about the calibration and  feature extraction, see [2] and [3], respectively.</p>
+
+<p>[1] El Helou, A. Sensor HAR recognition App. MathWorks File Exchange. http://www.mathworks.com/matlabcentral/fileexchange/54138-sensor-har-recognition-app “</p>
+
+<p>[2] STMicroelectronics, AN4508 Application note. “Parameters and calibration of a low-g 3-axis accelerometer.” 2014.</p>
+
+<p>[3] El Helou, A. Sensor Data Analytics. MathWorks File Exchange. https://www.mathworks.com/matlabcentral/fileexchange/54139-sensor-data-analytics–french-webinar-code- “</p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="flexible-workflow-1">Flexible Workflow</h1>
+
+<h2 id="load--and-preprocess-data">Load  and Preprocess Data</h2>
+
+<p>加载数据，并进行初步的整理</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">clc</span><span class="p">,</span> <span class="nb">clear</span><span class="p">,</span> <span class="nb">close</span> <span class="nb">all</span>
+<span class="nb">load</span> <span class="n">humanactivity</span>
+<span class="nb">rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">% For reproducibility</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">actid</span><span class="p">);</span> <span class="c1">% 24075</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">randsample</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span> <span class="c1">% shuffle, sampled uniformly, without replacement</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">feat</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="p">:)</span><span class="o">'</span><span class="p">;</span> <span class="c1">% 60-by-24075</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">actid</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span>   <span class="c1">% 24075-by-1 logical</span>
+</code></pre></div></div>
+
+<p>为了简化分析，只考虑二分类问题。将 Responses 分为两大类，分别是静止状态(标签为0)，包括Sitting, Standing；和运动状态（标签为1），包括 Walking, Running, 和 Dancing。</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="pretrain-linear-model-for-binary-classification">Pretrain Linear Model for Binary Classification</h2>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">idxtt</span> <span class="o">=</span> <span class="n">randsample</span><span class="p">([</span><span class="nb">true</span> <span class="nb">false</span><span class="p">],</span> <span class="n">n</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span> <span class="c1">% 1-by-24075 logical, resample with replacement, either 0 or 1</span>
+<span class="n">TTMdl</span> <span class="o">=</span> <span class="n">fitclinear</span><span class="p">(</span><span class="n">X</span><span class="p">(:,</span><span class="n">idxtt</span><span class="p">),</span> <span class="n">Y</span><span class="p">(</span><span class="n">idxtt</span><span class="p">),</span> <span class="s1">'ObservationsIn'</span><span class="p">,</span> <span class="s1">'columns'</span><span class="p">)</span> <span class="c1">% fit model using all data, specify predictor data observation dimension</span>
+</code></pre></div></div>
+
+<p>TTMdl is a ClassificationLinear model object representing a traditionally trained linear model for binary classification.</p>
+
+<blockquote>
+  <p><em>ClassificationLinear</em> 模型对象相关属性</p>
+
+  <ol>
+    <li><strong><em>Beta</em></strong>: Linear coefficient estimates, specified as a numeric vector with length equal to the number of predictors. 该例子中一共有60个predictors，所以<em>TTMdl.Beta</em> 的形状是：60-by-1 double</li>
+  </ol>
+</blockquote>
+
+<h2 id="convert-trained-model">Convert Trained Model</h2>
+
+<p>Convert the traditionally trained classification model to a binary classification linear model for incremental learning.</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">incrementalLearner</span><span class="p">(</span><span class="n">TTMdl</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>变量 IncrementalMdl 是一个 incrementalClassificationLinear 模型对象</p>
+
+<blockquote>
+  <p>incrementalClassificationLinear 模型对象相关属性</p>
+
+  <ol>
+    <li>
+      <p><strong><em>Iswarm</em></strong>: Flag indicating whether model tracks performance metrics. This property is read-only. Flag indicating whether the incremental model tracks performance metrics, specified as logical 0 (false) or 1 (true).
+The incremental model Mdl is warm (<em>IsWarm</em> becomes true) after incremental fitting functions fit (<em>EstimationPeriod</em> + <em>MetricsWarmupPeriod</em>) observations to the incremental model.
+<u>true or 1</u>, The incremental model Mdl is warm. Consequently, <em>updateMetrics</em> and <em>updateMetricsAndFit</em> track performance metrics in the Metrics property of Mdl.
+<u>false or 0</u>, <em>updateMetrics</em> and <em>updateMetricsAndFit</em> do not track performance metrics.</p>
+    </li>
+    <li>
+      <p><strong><em>Beta</em></strong>: Linear model coefficients. This property is read-only. Linear model coefficients β, specified as a NumPredictors-by-1 numeric vector. Incremental fitting functions estimate Beta during training. The default initial Beta value depends on how you create the model: (1) If you convert a traditionally trained model to create Mdl, the initial value is specified by the corresponding property of the traditionally trained model. Otherwise, (2)the initial value is zeros(NumPredictors,1).</p>
+    </li>
+    <li>
+      <p><strong><em>Metrics</em></strong>: Model performance metrics. This property is read-only. Model performance metrics updated during incremental learning by <em>updateMetrics</em> and <em>updateMetricsAndFit</em>, specified as a table with <u>two columns</u>(<em>Cumulative</em> and <em>Window</em>) and <u>m rows</u>, where m is the number of metrics specified by the Metrics name-value argument. The columns of Metrics are labeled <em>Cumulative</em> and <em>Window</em>.</p>
+
+      <ul>
+        <li><em>Cumulative</em>: Element j is the model performance, as measured by metric j, from the time the model became warm (<em>IsWarm</em> is 1).</li>
+        <li><em>Window</em>: Element j is the model performance, as measured by metric j, evaluated over all observations within the window specified by the <em>MetricsWindowSize</em> property. The software updates <em>Window</em> after it processes <em>MetricsWindowSize</em> observations.</li>
+      </ul>
+
+      <p>评价指标 j 由 <em>incrementalClassificationLinear( )</em> 的输入 <em>Metrics</em> 决定：</p>
+
+      <p>Model performance metrics to track during incremental learning, specified as a built-in loss function name, string vector of names, function handle (@metricName), structure array of function handles, or cell vector of names, function handles, or structure arrays. When <em>Mdl</em> is warm, <em>updateMetrics</em> and <em>updateMetricsAndFit</em> track performance metrics in the <em>Metrics</em> property of <em>Mdl</em>. The following table lists the built-in loss function names. You can specify more than one by using a string vector.</p>
+
+      <p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220714224640777.png" alt="image-20220714224640777" /></p>
+    </li>
+  </ol>
+
+</blockquote>
+
+<h2 id="implement-incremental-learning">Implement Incremental Learning</h2>
+
+<p>Use the flexible workflow to (1) <u>update model performance metrics</u> and (2) <u>fit the incremental model</u> to the training data by calling the (1) <em>updateMetrics</em> and (2) <em>fit</em> functions separately.</p>
+
+<blockquote>
+  <p>将更新模型性能指标和拟合模型的步骤分开，使工作流更加灵活。</p>
+</blockquote>
+
+<h3 id="preallocate-data-set">Preallocate data set</h3>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Preallocation</span>
+<span class="n">idxil</span> <span class="o">=</span> <span class="o">~</span><span class="n">idxtt</span><span class="p">;</span> 
+<span class="n">nil</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">idxil</span><span class="p">);</span> <span class="c1">% 12022</span>
+<span class="n">numObsPerChunk</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span> <span class="c1">% the number of observations in single chunk of data</span>
+<span class="n">nchunk</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">nil</span><span class="p">/</span><span class="n">numObsPerChunk</span><span class="p">);</span> <span class="c1">% 240, the number of the chunks </span>
+<span class="n">ce</span> <span class="o">=</span> <span class="nb">array2table</span><span class="p">(</span><span class="nb">zeros</span><span class="p">(</span><span class="n">nchunk</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="s1">'VariableNames'</span><span class="p">,[</span><span class="s2">"Cumulative"</span> <span class="s2">"Window"</span><span class="p">]);</span><span class="c1">% 240-by-2 table, to record metrics</span>
+<span class="n">beta1</span> <span class="o">=</span> <span class="p">[</span><span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="k">end</span><span class="p">);</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">nchunk</span><span class="p">,</span><span class="mi">1</span><span class="p">)];</span> <span class="c1">% record the initial and subsequent values of the last coefficient of 60, which is the number of predictors</span>
+<span class="n">Xil</span> <span class="o">=</span> <span class="n">X</span><span class="p">(:,</span><span class="n">idxil</span><span class="p">);</span>  <span class="c1">% 60-by-12022</span>
+<span class="n">Yil</span> <span class="o">=</span> <span class="n">Y</span><span class="p">(</span><span class="n">idxil</span><span class="p">);</span>    <span class="c1">% 12022-by-1</span>
+</code></pre></div></div>
+
+<h3 id="single-interation-of-incremental-fitting">Single interation of incremental fitting</h3>
+
+<p><strong>（1）Select chunk of data</strong></p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ibegin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nil</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">iend</span>   <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nil</span><span class="p">,</span> <span class="n">numObsPerChunk</span><span class="p">);</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">ibegin</span><span class="p">:</span><span class="n">iend</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><strong>（2）Update performance metrics of the model given a new chunk of data using <em>updateMetrics</em></strong>.</p>
+
+<p>Call updateMetrics to update the cumulative and window classification error of the model given the incoming chunk of observations. Overwrite the previous incremental model to update the losses in the Metrics property. <strong>Note that the <em>updateMetrics</em> does not fit the model to the chunk of data</strong> — the chunk is “new” data for the model.</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">updateMetrics</span><span class="p">(</span><span class="n">IncrementalMdl</span><span class="p">,</span> <span class="n">Xil</span><span class="p">(:,</span><span class="n">idx</span><span class="p">),</span> <span class="n">Yil</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s1">'ObservationsIn'</span><span class="p">,</span> <span class="s1">'columns'</span><span class="p">);</span> <span class="c1">% update metrics</span>
+<span class="n">ce</span><span class="p">{</span><span class="mi">1</span><span class="p">,:}</span> <span class="o">=</span> <span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Metrics</span><span class="p">{</span><span class="s2">"ClassificationError"</span><span class="p">,</span> <span class="p">:};</span> <span class="c1">% record metrics</span>
+</code></pre></div></div>
+
+<p><strong>（3）Fit the model to the data using <em>fit</em></strong></p>
+
+<p>Call <em>fit</em> to fit the model to the incoming chunk of observations. Overwrite the previous incremental model to update the model parameters.</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">IncrementalMdl</span><span class="p">,</span><span class="n">Xil</span><span class="p">(:,</span><span class="n">idx</span><span class="p">),</span><span class="n">Yil</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span><span class="s1">'ObservationsIn'</span><span class="p">,</span><span class="s1">'columns'</span><span class="p">);</span> <span class="c1">% fit model using input data</span>
+<span class="n">beta1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="k">end</span><span class="p">);</span> <span class="c1">% record the updated value of the last coefficient</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>注:</p>
+
+  <p>在 MATLAB 的官方文档中(<a href="https://ww2.mathworks.cn/help/stats/implement-incremental-learning-using-flexible-workflow-classification.html?searchHighlight=Implement%20Incremental%20Learning%20for%20Classification%20Using%20Flexible%20Workflow&amp;s_tid=srchtitle_Implement%2520Incremental%2520Learning%2520for%2520Classification%2520Using%2520Flexible%2520Workflow_1">Implement Incremental Learning for Classification Using Flexible Workflow</a>), 记录的线性系数不统一, 初始系数记录的是第一个线性系数, 在迭代的过程中记录的是最后一个记录的值, 如下图所示.</p>
+
+  <p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220714233058067.png" alt="image-20220714233058067" style="zoom:50%;" /></p>
+
+  <p>这应该是个小小的错误. 我这里采用的是记录最后一个线性系数的方式.</p>
+</blockquote>
+
+<h3 id="make-a-loop">Make a Loop</h3>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Incremental fitting</span>
+<span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">nchunk</span>
+    <span class="c1">% (1) Select chunk of data</span>
+    <span class="n">ibegin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nil</span><span class="p">,</span> <span class="n">numObsPerChunk</span><span class="o">*</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">iend</span>   <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nil</span><span class="p">,</span> <span class="n">numObsPerChunk</span><span class="o">*</span><span class="n">j</span><span class="p">);</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">ibegin</span><span class="p">:</span><span class="n">iend</span><span class="p">;</span>
+    
+    <span class="c1">% (2) Update performance metrics of the model given a new chunk of data using 'updateMetrics'</span>
+    <span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">updateMetrics</span><span class="p">(</span><span class="n">IncrementalMdl</span><span class="p">,</span> <span class="n">Xil</span><span class="p">(:,</span><span class="n">idx</span><span class="p">),</span> <span class="n">Yil</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s1">'ObservationsIn'</span><span class="p">,</span> <span class="s1">'columns'</span><span class="p">);</span>
+    <span class="n">ce</span><span class="p">{</span><span class="n">j</span><span class="p">,:}</span> <span class="o">=</span> <span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Metrics</span><span class="p">{</span><span class="s2">"ClassificationError"</span><span class="p">,</span> <span class="p">:};</span>
+
+    <span class="c1">% (3) Fit the model to the data using 'fit'</span>
+    <span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">IncrementalMdl</span><span class="p">,</span> <span class="n">Xil</span><span class="p">(:,</span><span class="n">idx</span><span class="p">),</span> <span class="n">Yil</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s1">'ObservationsIn'</span><span class="p">,</span> <span class="s1">'columns'</span><span class="p">);</span>
+    <span class="n">beta1</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="k">end</span><span class="p">);</span> 
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="inspect-model-evolution">Inspect Model Evolution</h2>
+
+<p>Plot a trace plot of the performance metrics and estimated coefficient $\beta_{60}$.</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220714233613852.png" alt="image-20220714233613852" style="zoom:67%;" /></p>
+
+<ul>
+  <li>The cumulative loss is stable and decreases gradually, whereas the window loss jumps.</li>
+  <li>$\beta_{60}$ changes abruptly at first, and then gradually levels off as fit processes more chunks of observations.</li>
+</ul>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="总结">总结</h1>
+
+<p>(1)  该示例是一个二分类 Incremental Learning 模型, 但是可以拓展到多分类的情形;</p>
+
+<p>(2)  该示例中增量训练模型的数据和预训练模型其实来自同一个数据集, 具有局限性;</p>
+
+<p>(3)  该示例是一个 Warm start 的例子, 既有预训练模型, 数据也有标签, 这更像是放缓了传统模型训练过程, 并用验证集实时监测模型性能. 在实际工程应用中, Cold start 更具有实践意义.</p>
+
+<p>(4) 增量训练模型还有一个重要意义是: 增量训练的实时性可以解决存储空间有限的问题—-当存储空间有限时, 新数据用于实时训练模型后, 就可以扔掉.</p>
+
+<p>(5) Incremental Learning 更多的是代码实现的问题.</p>
+
+<p><br /></p>
+
+<p><strong>Copyright 2020 The MathWorks, Inc.</strong></p>
+:ET

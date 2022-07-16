@@ -1,0 +1,84 @@
+I"2$<h2 id="ui-figure的位置和大小设定">UI figure的位置和大小设定</h2>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">clc</span><span class="p">,</span> <span class="nb">clear</span><span class="p">,</span> <span class="nb">close</span> <span class="nb">all</span>
+
+<span class="n">left</span> <span class="o">=</span> <span class="mi">29</span><span class="p">;</span>
+<span class="n">bottom</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+<span class="nb">width</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+<span class="nb">height</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="nb">figure</span><span class="p">(</span> <span class="k">...</span>
+    <span class="s1">'unit'</span><span class="p">,</span><span class="s1">'centimeters'</span><span class="p">,</span> <span class="k">...</span><span class="c"> % sepcify units</span>
+    <span class="s1">'position'</span><span class="p">,[</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="nb">width</span><span class="p">,</span> <span class="nb">height</span><span class="p">],</span> <span class="k">...</span><span class="c"> % specify UI figure position</span>
+    <span class="s1">'Color'</span><span class="p">,</span> <span class="s1">'White'</span><span class="p">,</span> <span class="k">...</span><span class="c"> % speycify background color</span>
+    <span class="s1">'Resize'</span><span class="p">,</span> <span class="nb">false</span> <span class="k">...</span><span class="c">    % can not resize the UI figure</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/img/pic_gcf.png" alt="pic_gcf" /></p>
+
+<hr />
+<h2 id="axes的位置和大小设定">Axes的位置和大小设定</h2>
+<h3 id="position属性">Position属性</h3>
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">clc</span><span class="p">,</span> <span class="nb">clear</span><span class="p">,</span> <span class="nb">close</span> <span class="nb">all</span>
+
+<span class="n">left</span> <span class="o">=</span> <span class="mi">29</span><span class="p">;</span>
+<span class="n">bottom</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+<span class="nb">width</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+<span class="nb">height</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="nb">figure</span><span class="p">(</span> <span class="k">...</span>
+    <span class="s1">'unit'</span><span class="p">,</span><span class="s1">'centimeters'</span><span class="p">,</span> <span class="k">...</span><span class="c"> % sepcify units</span>
+    <span class="s1">'position'</span><span class="p">,[</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="nb">width</span><span class="p">,</span> <span class="nb">height</span><span class="p">],</span> <span class="k">...</span><span class="c"> % specify UI figure position</span>
+    <span class="s1">'Color'</span><span class="p">,</span> <span class="s1">'White'</span><span class="p">,</span> <span class="k">...</span><span class="c"> % speycify background color</span>
+    <span class="s1">'Resize'</span><span class="p">,</span> <span class="nb">false</span> <span class="k">...</span><span class="c">    % can not resize the UI figure</span>
+<span class="p">);</span> 
+
+<span class="n">left</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="n">bottom</span> <span class="o">=</span> <span class="mf">3.5</span><span class="p">;</span>
+<span class="nb">width</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="nb">height</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="nb">axes</span><span class="p">(</span><span class="s1">'unit'</span><span class="p">,</span> <span class="s1">'centimeters'</span><span class="p">,</span> <span class="k">...</span><span class="c"> % sepcify units</span>
+    <span class="s1">'Position'</span><span class="p">,[</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="nb">width</span><span class="p">,</span> <span class="nb">height</span><span class="p">],</span> <span class="k">...</span><span class="c">% specify axes position</span>
+    <span class="s1">'Color'</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.9</span><span class="p">]</span> <span class="k">...</span><span class="c"> % sepcify background color</span>
+    <span class="p">);</span>
+</code></pre></div></div>
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/img/pic_gca.png" alt="pic_gca" style="zoom:50%;" /></p>
+
+<hr />
+<h3 id="position属性和axis-limits属性dataaspectratio属性plotboxaspectratio属性的冲突">Position属性和Axis limits属性、DataAspectRatio属性、PlotBoxAspectRatio属性的冲突</h3>
+
+<p>但是，设置好Axes对象的<strong>position</strong>属性中的width和height，<font color="red">在区域内绘制给定数据后</font>，区域大小会发生变化，区域的width和height并不是我们设置的值。这是因为Axes对象的Position属性和Axis limits属性(XLim, YLim, ZLim属性)、DataAspectRatio属性、PlotBoxAspectRatio属性三个属性之间发生了冲突。</p>
+
+<p><strong><font color="blue">Xlim, YLim, ZLim属性</font></strong>：分别指定坐标轴的x,y,z轴的坐标轴范围，例如：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set(gca, 'XLim', [0 10]) % 指定x轴的显示范围的最小值是0，最大值是10
+set(gca, 'YLim', [0 5])  % 指定y轴的显示范围的最小值是0，最大值是5
+</code></pre></div></div>
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/img/image-20220710123446605.png" alt="image-20220710123446605" /></p>
+
+<p><strong><font color="blue">DataAspectRatio属性</font></strong>：沿每个轴的数据单位的相对长度，指定为[dx dy dz]形式的三元素向量，默认值是[1,1,1]。
+ 例如：</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">set</span><span class="p">(</span><span class="nb">gca</span><span class="p">,</span> <span class="s1">'DataAspectRatio'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1">% 指定x轴上1个数据单位的长度与y轴上2个数据单元和z轴上1个数据单元的长度相同</span>
+</code></pre></div></div>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/img/image-20220710123348436.png" alt="image-20220710123348436" /></p>
+
+<p><strong><font color="blue">PlotBoxAspectRatio属性</font></strong>：指定每个轴的相对长度，指定为定义相对x轴、y轴和z轴比例因子的三元素向量[px py pz],默认值是[1,1,1]。
+ 例如：</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">set</span><span class="p">(</span><span class="nb">gca</span><span class="p">,</span> <span class="s1">'PlotBoxAspectRatio'</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">1</span><span class="p">])</span> <span class="c1">% 指定x轴、y轴、z轴的相对长度之比为1:3:1</span>
+</code></pre></div></div>
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/img/image-20220710123316228.png" alt="image-20220710123316228" /></p>
+
+<p>我们在指定<strong>Position</strong>属性和上述三个属性时（或者使用默认值时），如果不经过精确的计算，很多时候会发生冲突，这就导致了绘制数据后区域大小并不一定是<strong>Position</strong>属性中设置的值。但是MATLAB并不会报错，而是会自适应地调整设置。比如，如果用户指定了Axis limits，DataAspectRatio，PlotBoxAspectRatio，MATLAB就会忽略掉PlotBoxAspectRatio的设置，只使用用户所指定的Axis limits和DataAspectRatio。</p>
+
+<hr />
+<p><strong>参考资料</strong></p>
+
+<p>[1] <a href="https://ww2.mathworks.cn/help/matlab/ref/matlab.ui.figureappd-properties.html">MATLAB Documentation-UI Figure Properties</a></p>
+
+<p>[2] <a href="https://ww2.mathworks.cn/help/matlab/ref/matlab.graphics.axis.axes-properties.html">MATLAB Documentation-Axes Properties</a></p>
+:ET

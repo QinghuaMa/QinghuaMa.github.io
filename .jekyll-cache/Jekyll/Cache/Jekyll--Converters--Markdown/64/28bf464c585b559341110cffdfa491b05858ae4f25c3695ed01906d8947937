@@ -1,0 +1,71 @@
+I"t
+<h1>Content</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#线性方程组解的判定" id="markdown-toc-线性方程组解的判定">线性方程组解的判定</a></li>
+  <li><a href="#齐次线性方程组解的判定" id="markdown-toc-齐次线性方程组解的判定">齐次线性方程组解的判定</a></li>
+  <li><a href="#非线性方程组不存在类似解的判定" id="markdown-toc-非线性方程组不存在类似解的判定">非线性方程组不存在类似解的判定</a></li>
+</ul>
+
+<h3 id="线性方程组解的判定">线性方程组解的判定</h3>
+
+<p>假设 $A$ 是一个 $m\times n$ 矩阵，则对于<strong>线性方程组(systems of linear equations)</strong></p>
+
+\[A\boldsymbol{x}=\boldsymbol{b}\label{systemsoflinear equations}\]
+
+<p>设增广矩阵为$B=[A,\boldsymbol{b}]$，则有解的判定</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>条件</th>
+      <th>解的判定</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$\mathrm{rank}(A)=\mathrm{rank}(B)$</td>
+      <td>有解</td>
+    </tr>
+    <tr>
+      <td>$\mathrm{rank}(A)=\mathrm{rank}(B)=n$</td>
+      <td>有唯一解</td>
+    </tr>
+    <tr>
+      <td>$\mathrm{rank}(A)=\mathrm{rank}(B)&lt;n$</td>
+      <td>有无穷多解</td>
+    </tr>
+    <tr>
+      <td>$\mathrm{rank}(A)&lt;\mathrm{rank}(B)$</td>
+      <td>无解</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+<h3 id="齐次线性方程组解的判定">齐次线性方程组解的判定</h3>
+
+<p>特别地，对于<strong>齐次线性方程组(homogeneous linear equations)</strong></p>
+
+\[A\boldsymbol{x}=\boldsymbol{0}\label{homogeneous}\]
+
+<p>方程组一定有解（至少存在零解）。</p>
+
+<p>进一步地，齐次线性方程组存在<strong>非零解</strong>的充要条件是：</p>
+
+\[齐次线性方程组\eqref{homogeneous}有非零解\Leftrightarrow r(A)&lt;n\notag\]
+
+<hr />
+<h3 id="非线性方程组不存在类似解的判定">非线性方程组不存在类似解的判定</h3>
+
+<p>秩(rank)是基于<strong>线性方程组</strong>定义的，因此对于非线性方程组，并不存在类似通用的判定解的条件。实际上，非线性的概念非常宽泛和复杂，只要输入输出不满足线性性质（齐次性和可加性）的函数都被称为非线性函数，比如多项式函数、带有微分项、偏微分项的函数等等。因此，判定由它们所构成构成的方程组的解的情况当然不存在类似的通用方法。</p>
+
+<hr />
+
+<p><strong>参考</strong></p>
+
+<p>[1] <a href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">Matrix Cookbook</a>.</p>
+
+<p>[2] <a href="https://en.wikipedia.org/wiki/Nonlinear_system">Nonlinear system</a>.</p>
+
+:ET
