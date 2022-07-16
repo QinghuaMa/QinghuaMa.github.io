@@ -1,6 +1,6 @@
 ---
 layout: single
-title: 【增量学习】Implement Incremental Learning for Classification Using Flexible Workflow
+title: (Incremental Learning)Implement Incremental Learning for Classification Using Flexible Workflow
 date: 2022-07-15 00:15:57
 categories: ["Machine Learning"]
 tags: ["MATLAB"]
