@@ -10,6 +10,7 @@ jobs:
 
     - uses: helaili/jekyll-action@master
         token: ${{ secrets.GITHUB_TOKEN }}
+
     - uses: actions/checkout@v2
 
     # Use GitHub Actions' cache to shorten build times and decrease load on servers
