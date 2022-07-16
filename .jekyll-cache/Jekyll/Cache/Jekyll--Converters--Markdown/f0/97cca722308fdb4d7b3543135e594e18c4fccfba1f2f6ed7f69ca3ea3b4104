@@ -1,8 +1,0 @@
-I",<blockquote>
-  <p>定理（$n$次插值多项式的截断误差估计式）</p>
-
-  <p>设$f^{(n)}(x)$在区间$[a,b]$上连续，$f^{(n+1)}(x)$在$(a,b)$内存在，插值节点$a\le x_0&lt;x_1&lt;\cdots&lt;x_n\le b$，$p_n(x)$是满足插值条件$p_n(x_i)=y_i(i=0,1,\cdots ,n)$的$n$次插值多项式，则对于任意$x\in[a,b]$，存在$\xi=\xi(x)\in(a,b)$，使得截断误差（或插值余项）$R_n(x)$：</p>
-
-\[\begin{aligned}R_n(x)&amp;=f(x)-p_n(x)\\&amp;=\dfrac{f^{(n+1)}(\xi)}{(n+1)!}\prod \limits_{i=0}^n(x-x_i)\end{aligned}\]
-</blockquote>
-:ET
