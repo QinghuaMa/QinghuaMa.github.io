@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "jekyll", "~> 4.2.2"
-gem 'minimal-mistakes-jekyll', '~> 4.24'
+gem "minimal-mistakes-jekyll", '~> 4.24'
 gem "kramdown-parser-gfm"
 gem "faraday-retry"
 gem "wdm", '>=0.1.0'

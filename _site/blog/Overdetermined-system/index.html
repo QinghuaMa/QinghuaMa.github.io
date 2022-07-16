@@ -1,0 +1,649 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="zh" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>超定方程的定义和求解 - What a starry night~</title>
+<meta name="description" content="超定方程组的定义">
+
+
+  <meta name="author" content="花魑">
+  
+  <meta property="article:author" content="花魑">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="What a starry night~">
+<meta property="og:title" content="超定方程的定义和求解">
+<meta property="og:url" content="http://localhost:4000/blog/Overdetermined-system/">
+
+
+  <meta property="og:description" content="超定方程组的定义">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-07-10T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/Overdetermined-system/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "花魑",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="What a starry night~ Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+  
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  
+    <script src="/assets/js/your-custom-head-script.js"></script>
+  
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          What a starry night~
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      <head>
+  <!-- Support MathJax and automatic equation numbering -->
+  <!-- MathJax demos: https://github.com/mathjax/MathJax-demos-web#customization-->
+  <!-- https://github.com/mathjax/MathJax-demos-web/blob/master/equation-refs.html.md -->
+  <script>
+    MathJax = {
+      tex: {
+        tags: 'all',  // should be 'ams', 'none', or 'all'
+        inlineMath: [['$','$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      //   Macros: {
+      //     boldsymbol: ["\\boldsymbol{#1}",1],
+      // }
+      }
+    };
+  </script>
+    <!-- Important for auto equation numbering-->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    
+    <!-- Support mermaid -->
+    <!-- https://mermaid-js.github.io/mermaid/#/n00b-gettingStarted?id=_3-calling-the-javascript-api -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script> mermaid.initialize({ startOnLoad: true }); </script> -->
+    <!-- <div class="mermaid">mermaid code</div> -->
+</head>
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#blog" itemprop="item"><span itemprop="name">Blog</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">超定方程的定义和求解</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/images/huachi.jpg" alt="花魑" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">花魑</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Change, as if had not changed.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Xi'an, China</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="qinghua7717@stu.xjtu.edu.cn" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/QinghuaMa" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="超定方程的定义和求解">
+    <meta itemprop="description" content="超定方程组的定义">
+    <meta itemprop="datePublished" content="2022-07-10T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">超定方程的定义和求解
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-07-10T00:00:00+00:00">July 10, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Table of Contents</h4></header>
+              <ul class="toc__menu"><li><a href="#超定方程组的定义">超定方程组的定义</a></li><li><a href="#线性超定方程的求解">线性超定方程的求解</a><ul><li><a href="#求解公式">求解公式</a></li><li><a href="#注意超定方程系数矩阵的秩">注意超定方程系数矩阵的秩</a></li><li><a href="#非线性超定方程组的求解">非线性超定方程组的求解</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="超定方程组的定义">超定方程组的定义</h1>
+
+<p>根据维基百科对于超定方程组的定义：</p>
+
+<blockquote>
+  <p><a href="https://en.wikipedia.org/wiki/Overdetermined_system"><strong>Overdetermined system</strong></a></p>
+
+  <p>In mathematics, a <strong>system of equations is considered overdetermined</strong> if there are more equations than unknowns. An overdetermined system is almost always inconsistent (it has no solution) when constructed with random coefficients. However, an overdetermined system will have solutions in some cases, for example if some equation occurs several times in the system, or if some equations are linear combinations of the others.
+The terminology can be described in terms of the concept of <strong>constraint counting</strong>. Each unknown can be seen as an available degree of freedom. Each equation introduced into the system can be viewed as a constraint that restricts one degree of freedom. Therefore, the critical case occurs when the number of equations and the number of free variables are equal. For every variable giving a degree of freedom, there exists a corresponding constraint. The overdetermined case occurs when the system has been overconstrained — that is, when the equations outnumber the unknowns. In contrast, the underdetermined case occurs when the system has been underconstrained — that is, when the number of equations is fewer than the number of unknowns. Such systems usually have an infinite number of solutions.</p>
+</blockquote>
+
+<p>可知：</p>
+
+<p>（1）超定方程组的概念并没有限定是线性方程组，涉及范围更广的非线性方程组同样也有超定方程组的概念；</p>
+
+<p>（2）超定方程组的定义只是定义了：方程个数大于未知数的个数就是超定方程组。因此，超定方程组和方程组有解并没有必然的联系；</p>
+
+<p>（3）超定方程组通常是不存在解的，但是有一些例外的情况。例如，超定方程组的一些方程存在线性关系，或者其中一些方程是另一些方程的线性组合；</p>
+
+<p>（4）超定的概念重点在于强调约束的数量，以及和自由度之间比较，并不强调超过自由度数量的约束是否“有效”。</p>
+
+<h1 id="线性超定方程的求解">线性超定方程的求解</h1>
+
+<h2 id="求解公式">求解公式</h2>
+
+<p>根据超定方程的定义，超定方程可以存在精确解，也可以不存在精确解，只存在近似解。而我们可以使用一种通用的计算方法，使我们面对存在精确解的超定方程可以求出<strong>精确解</strong>，面对不存在精确解的超定方程<strong>求出一个在向量范数意义下的一个”最好的”近似解</strong>。</p>
+
+<blockquote>
+  <p>超定方程的求解 $^{[1]}$</p>
+
+  <p>假设 $A$ 是一个形状为 $n\times m$ 的矩阵，并且 $n&gt;m$ （超定）, $\mathrm{rank}(A)=m$，则对于超定方程组$A\boldsymbol{x}=\boldsymbol{b}$</p>
+
+  <p>（1）如果存在精确解，那么可以用下面的计算式得到精确解：</p>
+
+\[A\boldsymbol{x}=\boldsymbol{b}\quad\Rightarrow\quad \boldsymbol{x}=(A^TA)^{-1}A^T\boldsymbol{b}=A^{+} \boldsymbol{b}\label{equa1}\]
+
+  <p>其中，$A^+=(A^TA)^{-1}A^T$ 称为矩阵 $A$ 的伪逆；</p>
+
+  <p>（2）如果不能存在精确解，则可以得到一个近似解：</p>
+
+\[A\boldsymbol{x}=\boldsymbol{b}\quad\Rightarrow\quad \boldsymbol{x}_{min}=A^{+} \boldsymbol{b}\label{equa2}\]
+
+  <p>$\boldsymbol{x}_{min}$ 由最小化 $\vert\vert A\boldsymbol{x}-\boldsymbol{b}\vert\vert^2$ （向量范数的平方，通常取二范数）得到的近似解。</p>
+</blockquote>
+
+<p>（1）对于第一种情况</p>
+
+<p>设有超定方程组 $A\boldsymbol{x}=\boldsymbol{b}$ ，假设</p>
+
+\[A=\begin{bmatrix}1&amp;1\\1&amp;2\\1&amp;1\end{bmatrix},\quad \boldsymbol{b}=\begin{bmatrix}5\\8\\5\end{bmatrix}\notag\]
+
+<p>则容易得到 $\mathrm{rank}(A)=2=m$，方程组存在精确解 $\boldsymbol{x}=[2,3]^T$。</p>
+
+<p>另一方面，可以计算得到</p>
+
+\[A^T=\begin{bmatrix}1&amp;1&amp;1\\1&amp;2&amp;1\end{bmatrix},\quad A^TA=\begin{bmatrix}3&amp;4\\4&amp;6\end{bmatrix},\quad
+(A^TA)^{-1}=\begin{bmatrix}3&amp;-2\\-2&amp;1.5\end{bmatrix}\notag\]
+
+<p>于是根据公式$\eqref{equa1}$可以得到</p>
+
+\[\boldsymbol{x}=(A^TA)^{-1}A^T\boldsymbol{b}=\begin{bmatrix}3&amp;-2\\-2&amp;1.5\end{bmatrix}\begin{bmatrix}1&amp;1&amp;1\\1&amp;2&amp;1\end{bmatrix}\begin{bmatrix}5\\8\\5\end{bmatrix}=\begin{bmatrix}2\\3\end{bmatrix}\notag\]
+
+<p>与我们的预期一致，依据公式$\eqref{equa1}$得到了方程的精确解。</p>
+
+<p>（2）对于第二种情况</p>
+
+<p>实际上，公式 $\eqref{equa2}$ 可以从超定方程组求解的几何意义上推导出，并且与最小二乘法存在着紧密的联系，可见另一篇博客：<a href="http://www.whatastarrynight.com/blog/MLE/">从曲线拟合、参数估计角度、超定方程求解的几何角度看最小二乘法</a></p>
+
+<h2 id="注意超定方程系数矩阵的秩">注意超定方程系数矩阵的秩</h2>
+
+<p>值得注意的是，上述超定方程的求解方法中的另一个条件 $\mathrm{rank}(A)=m$ ，即系数矩阵的秩和向量的个数相同。这意味着，当超定方程组系数矩阵的秩 $\mathrm{rank}(A)&lt;m$ 时，即当超定方程组所对应的齐次线性方程组 $A\boldsymbol{x}=\boldsymbol{0}$时有无穷多解时，该通用公式不能使用。</p>
+
+<p>例如，假设有超定方程组 $A\boldsymbol{x}=\boldsymbol{b}$ ，且</p>
+
+\[A=\begin{bmatrix}1&amp;1\\1&amp;1\\1&amp;1\end{bmatrix},\quad \boldsymbol{b}=\begin{bmatrix}2\\3\\4\end{bmatrix}\notag\]
+
+<p>$\mathrm{rank}(A)=1&lt;m$，则有</p>
+
+\[A^T=\begin{bmatrix}1&amp;1&amp;1\\1&amp;1&amp;1\end{bmatrix},\quad A^TA=\begin{bmatrix}3&amp;3\\3&amp;3\end{bmatrix}\notag\]
+
+<p>可以看到，矩阵 $A^TA$ 的逆不存在，因此不能使用求解公式。这时候，我们只能使用最小二乘法来得到近似解。</p>
+
+\[\begin{align}
+&amp;\arg\min\limits_{\boldsymbol{x}}\vert\vert A\boldsymbol{x}-\boldsymbol{b}\vert\vert^2_2\notag \\
+=&amp;\arg\min\limits_{\boldsymbol{x}}\vert\vert\begin{bmatrix}x_1+x_2\\x_1+x_2\\x_1+x_2\end{bmatrix}-\begin{bmatrix}2\\3\\4\end{bmatrix}\vert\vert_2^2\notag \\
+=&amp;\arg\min\limits_{\boldsymbol{x}}\Big[(x_1+x_2-2)^2+(x_1+x_2-3)^2+(x_1+x_2-4)^2\Big]\notag \\
+=&amp;\arg\min\limits_{\boldsymbol{x}}\Big[(A\boldsymbol{x}-\boldsymbol{b})^T(A\boldsymbol{x}-\boldsymbol{b})\Big]\notag \\
+=&amp;\arg\min\limits_{\boldsymbol{x}}(\boldsymbol{x}^TA^TA\boldsymbol{x}-2\boldsymbol{x}^TA^T\boldsymbol{b}+\boldsymbol{b}^T\boldsymbol{b})\label{minLoss}
+\end{align}\]
+
+\[\begin{align}
+&amp;\dfrac{\partial L(\boldsymbol{x})}{\partial \boldsymbol{x}}=2A^TA\boldsymbol{x}-2A^T\boldsymbol{b}=0\notag \\
+\Rightarrow&amp;A^TA\boldsymbol{x}=A^T\boldsymbol{b}\label{equa3}
+\end{align}\]
+
+<p>事实上，如果矩阵 $A^TA$ 可逆，就可以推出公式 $\eqref{equa2}$ 。</p>
+
+<p>公式 $\eqref{equa3}$ 对应的线性方程为：</p>
+
+\[\begin{bmatrix}3&amp;3\\3&amp;3\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}9\\9\end{bmatrix}\label{equa4}\]
+
+<p>线性方程组 $\eqref{equa4}$ 实际上有无穷多解，即最小二乘法损失函数 $L(\boldsymbol{x})$ 有无穷多个极小值，并且都落在直线 $x_1+x_2=3$ 上。如下图所示：</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220711183217117.png" alt="image-20220711183217117" style="zoom:50%;" /></p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220711183229158.png" alt="image-20220711183229158" style="zoom:50%;" /></p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">clc</span><span class="p">,</span> <span class="nb">clear</span><span class="p">,</span> <span class="nb">close</span> <span class="nb">all</span>
+<span class="c1">% Plot loss function</span>
+<span class="n">range</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span><span class="p">:</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">;</span>
+<span class="p">[</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">meshgrid</span><span class="p">(</span><span class="n">range</span><span class="p">,</span> <span class="n">range</span><span class="p">);</span>
+<span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_1</span><span class="o">+</span><span class="n">x_2</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_1</span><span class="o">+</span><span class="n">x_2</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_1</span><span class="o">+</span><span class="n">x_2</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
+<span class="nb">mesh</span><span class="p">(</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s2">"x_1"</span><span class="p">),</span> <span class="nb">ylabel</span><span class="p">(</span><span class="s2">"x_2"</span><span class="p">),</span> <span class="nb">zlabel</span><span class="p">(</span><span class="s2">"L"</span><span class="p">)</span>
+<span class="nb">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span> <span class="nb">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span> <span class="nb">zlim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">])</span> <span class="c1">% necessary, if use view function after</span>
+
+<span class="c1">% Plot solutions</span>
+<span class="n">x_1</span> <span class="o">=</span> <span class="n">range</span><span class="p">;</span>
+<span class="n">x_2</span> <span class="o">=</span> <span class="mi">3</span><span class="o">-</span><span class="n">x_1</span><span class="p">;</span>
+<span class="nb">hold</span> <span class="n">on</span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">,</span> <span class="n">LineWidth</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">Color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">)</span>
+<span class="nb">view</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mf">30.34</span><span class="p">)</span>
+<span class="nb">saveas</span><span class="p">(</span><span class="nb">gca</span><span class="p">,</span> <span class="s1">'pic1.svg'</span><span class="p">)</span>
+<span class="nb">view</span><span class="p">(</span><span class="mi">47</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">saveas</span><span class="p">(</span><span class="nb">gca</span><span class="p">,</span> <span class="s1">'pic2.svg'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>综上，对于线性超定方程组，如果矩阵 $A^TA$ 可逆，则我们可以通过求解公式来求得方程组的精确解或者近似解；如果矩阵 $A^TA$ 不可逆，那么我们可以直接求解式 $\eqref{equa3}$ 所对应的线性方程组。</p>
+
+<h2 id="非线性超定方程组的求解">非线性超定方程组的求解</h2>
+
+<p>最后，仍需要强调的是，以上的解析求解过程只对<strong>线性</strong>方程组成立。当超定方程组为非线性方程时，不存在类似的解法。但是最小二乘法是仍然可以使用，即转换为优化问题</p>
+
+\[\arg\min\limits_{\boldsymbol{x}}\vert\vert\boldsymbol{b}-f(\boldsymbol{x})\vert\vert^2\label{NLP}\]
+
+<p>来求解 $\boldsymbol{x}$ 仍然是成立的，但是很难通过令偏导等于零或者简单求解类似于式 $\eqref{equa3}$ 的方程组（同样很难求解）来直接求得方程组的解，更多是使用梯度下降法等数值算法，或者使用遗传算法等启发式算法求解优化问题 $\eqref{NLP}$，当然，全局最优解是很难求得的。</p>
+
+<hr />
+
+<p><strong>参考</strong></p>
+
+<p>[1] <a href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">Matrix Cookbook</a>.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#%E5%AE%9A%E4%B9%89" class="page__taxonomy-item" rel="tag">定义</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-07-10T00:00:00+00:00">July 10, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/mathematics/MLE/" class="pagination--pager" title="从曲线拟合、参数估计角度、超定方程求解的几何角度看最小二乘法
+">Previous</a>
+    
+    
+      <a href="/blog/The-solutions-of-linear-equations/" class="pagination--pager" title="线性方程组解的判定
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 花魑. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>
