@@ -1,0 +1,1547 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-07-16T14:14:07+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">What a starry night~</title><subtitle>An amazing website.</subtitle><author><name>花魑</name></author><entry><title type="html">I hadn’t spent a day without thinking about you.</title><link href="http://localhost:4000/life/Ihadn'tspent-adaywithoutthingkingaboutyou/" rel="alternate" type="text/html" title="I hadn’t spent a day without thinking about you." /><published>2022-07-15T13:59:11+00:00</published><updated>2022-07-15T13:59:11+00:00</updated><id>http://localhost:4000/life/Ihadn&apos;tspent%20adaywithoutthingkingaboutyou</id><content type="html" xml:base="http://localhost:4000/life/Ihadn&apos;tspent-adaywithoutthingkingaboutyou/"><![CDATA[<p><br /></p>
+
+<p>我甚至现在就能清楚地看见，一旦有一天我不得不长久地离开它，我会怎样想念它，我会怎样想念它并且梦见它，我会怎样因为不敢想念它而梦也梦不见它。</p>
+
+<p>——史铁生《我与地坛》</p>]]></content><author><name>花魑</name></author><category term="Life" /><category term="A word" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">The Man Who Knew Infinity</title><link href="http://localhost:4000/life/The-Man-Who-Knew-Infinity/" rel="alternate" type="text/html" title="The Man Who Knew Infinity" /><published>2022-07-15T00:30:19+00:00</published><updated>2022-07-15T00:30:19+00:00</updated><id>http://localhost:4000/life/The%20Man%20Who%20Knew%20Infinity</id><content type="html" xml:base="http://localhost:4000/life/The-Man-Who-Knew-Infinity/"><![CDATA[<p><br /></p>
+
+<p>So, now we see the work on partitions and the enormous breakthrough that has been achieved. All this, mind you, by a man whose limitations of knowledge when I met him were as startling as was its profundity. Opinions may differ as to the importance of Ramanujan’s work and the influence it may or may not have on the mathematics of the future, but one gift it does show is its profound and invincible originality. Mr. Littlewood once told me that, “every positive integer is one of Ramanujan’s personal friends”. I believe this to be true. He told me that an equation for him had no meaning unless it expressed a thought of God. Well, despite everything in my being set to the contrary, perhaps he is right. For is this not exactly our justification for pure mathematics? <strong>We are merely explores of infinity in the pursuit of absolute perfection.</strong> We do not invent these fomulae, they already exist, and lie in wait for only the every brightest of minds, like Ramanujan, ever to divine and prove. So, in the end, I have been forced to consider, who are we to question Ramanujan, let alone God?</p>
+
+<p>—— <em>The Man Who Knew Infinity</em></p>]]></content><author><name>花魑</name></author><category term="Life" /><category term="A word" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">【增量学习】Implement Incremental Learning for Classification Using Flexible Workflow</title><link href="http://localhost:4000/machine%20learning/Incremental-Learning/" rel="alternate" type="text/html" title="【增量学习】Implement Incremental Learning for Classification Using Flexible Workflow" /><published>2022-07-15T00:15:57+00:00</published><updated>2022-07-15T00:15:57+00:00</updated><id>http://localhost:4000/machine%20learning/Incremental%20Learning</id><content type="html" xml:base="http://localhost:4000/machine%20learning/Incremental-Learning/"><![CDATA[<h1 id="示例介绍">示例介绍</h1>
+
+<p>本博客中的实例来自 MATLAB 官方案例：<a href="https://ww2.mathworks.cn/help/stats/implement-incremental-learning-using-flexible-workflow-classification.html?searchHighlight=Implement%20Incremental%20Learning%20for%20Classification%20Using%20Flexible%20Workflow&amp;s_tid=srchtitle_Implement%2520Incremental%2520Learning%2520for%2520Classification%2520Using%2520Flexible%2520Workflow_1">Implement Incremental Learning for Classification Using Flexible Workflow</a></p>
+
+<blockquote>
+  <p>This example shows how to use the <strong>flexible workflow</strong> to implement incremental learning for binary classification with prequential evaluation. A traditionally trained model initializes the incremental model.</p>
+</blockquote>
+
+<h2 id="matlab-中-incremental-learning-的工作流">MATLAB 中 Incremental Learning 的工作流</h2>
+
+<p>MATLAB 的 Incremental Learning 主要分为两种工作流：Flexible workflow 和 Succinct workflow.</p>
+
+<h3 id="flexible-workflow">Flexible workflow</h3>
+
+<p>When a data chunk is available:</p>
+
+<ol>
+  <li>Compute cumulative and window model performance metrics by passing the data and current model to the <em>updateMetrics</em> function. <strong>The data is treated as test</strong> (holdout) data because the model has not been trained on it yet. <em>updateMetrics</em> overwrites the model performance stored in the model with the new values.</li>
+  <li><strong>Optionally</strong> detect distribution drift or whether the model has degraded.</li>
+  <li>Train the model by passing the incoming data chunk and current model to the <em>fit</em> function. The <em>fit</em> function uses the specified solver to fit the model to the incoming data chunk, and overwrites the current coefficients and bias with the new estimates.</li>
+</ol>
+
+<p>The flexible workflow enables you to perform custom model and data quality assessments before deciding whether to train the model. All steps are optional, but call updateMetrics before fit when you plan to call both functions.</p>
+
+<h3 id="succinct-workflow">Succinct workflow</h3>
+
+<p>When a data chunk is available, supply the incoming chunk and a configured incremental model to the <em>updateMetricsAndFit</em> function. <em>updateMetricsAndFit</em> calls <em>updateMetrics</em> <strong>immediately followed</strong> by <em>fit</em>. The succinct workflow enables you to implement incremental learning with prequential evaluation easily when you plan to track the model performance and train the model on all incoming data chunks.</p>
+
+<h2 id="cold-start-和-warm-start">Cold start 和 Warm start</h2>
+
+<p><strong>Cold start</strong>
+Little information might be known about the population before incremental learning starts.
+Therefore, the algorithm can be run with a cold start. For example, for classification problems, the class names might not be known until after the model processes observations.</p>
+
+<blockquote>
+  <ul>
+    <li>没有数据预先训练模型</li>
+    <li>数据集没有标签</li>
+  </ul>
+</blockquote>
+
+<p><strong>Warm Start</strong>
+When enough information is known before learning begins (for example, you have good estimates of linear model coefficients), you can specify such information to provide the model with a warm start.</p>
+
+<blockquote>
+  <ul>
+    <li>基于预训练模型转换</li>
+    <li>数据集有标签</li>
+  </ul>
+</blockquote>
+
+<h2 id="数据集介绍">数据集介绍</h2>
+
+<p><strong>Human Activity Data</strong>
+The humanactivity data set contains 24,075 observations of five different physical human activities: Sitting, Standing, Walking, Running, and  Dancing. Each observation has 60 features extracted from acceleration data measured by smartphone accelerometer sensors. The data set contains the following variables:</p>
+
+<ol>
+  <li>actid (24075-by-1 double): Response vector containing the activity IDs in integers: 1, 2, 3, 4, and 5，representing Sitting, Standing, Walking, Running, and Dancing, respectively;</li>
+  <li>actnames (1-by-5 cell): Activity names corresponding to the integer activity IDs;</li>
+  <li>feat (24075-by-60 double): Feature matrix of 60 features for 24,075 observations;</li>
+  <li>featlabels (60-by-1): Labels of the 60 features.</li>
+</ol>
+
+<p>The Sensor HAR (human activity recognition) App [1] was used to create the humanactivity data set. When measuring the raw acceleration data with this app, a person placed a smartphone in a pocket so that the smartphone was upside down and the screen faced toward the person. The software then calibrated the measured raw data accordingly and extracted the 60 features from the calibrated data. For details about the calibration and  feature extraction, see [2] and [3], respectively.</p>
+
+<p>[1] El Helou, A. Sensor HAR recognition App. MathWorks File Exchange. http://www.mathworks.com/matlabcentral/fileexchange/54138-sensor-har-recognition-app “</p>
+
+<p>[2] STMicroelectronics, AN4508 Application note. “Parameters and calibration of a low-g 3-axis accelerometer.” 2014.</p>
+
+<p>[3] El Helou, A. Sensor Data Analytics. MathWorks File Exchange. https://www.mathworks.com/matlabcentral/fileexchange/54139-sensor-data-analytics–french-webinar-code- “</p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="flexible-workflow-1">Flexible Workflow</h1>
+
+<h2 id="load--and-preprocess-data">Load  and Preprocess Data</h2>
+
+<p>加载数据，并进行初步的整理</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">clc</span><span class="p">,</span> <span class="nb">clear</span><span class="p">,</span> <span class="nb">close</span> <span class="nb">all</span>
+<span class="nb">load</span> <span class="n">humanactivity</span>
+<span class="nb">rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">% For reproducibility</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">numel</span><span class="p">(</span><span class="n">actid</span><span class="p">);</span> <span class="c1">% 24075</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">randsample</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span> <span class="c1">% shuffle, sampled uniformly, without replacement</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">feat</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="p">:)</span><span class="o">'</span><span class="p">;</span> <span class="c1">% 60-by-24075</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">actid</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span>   <span class="c1">% 24075-by-1 logical</span>
+</code></pre></div></div>
+
+<p>为了简化分析，只考虑二分类问题。将 Responses 分为两大类，分别是静止状态(标签为0)，包括Sitting, Standing；和运动状态（标签为1），包括 Walking, Running, 和 Dancing。</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="pretrain-linear-model-for-binary-classification">Pretrain Linear Model for Binary Classification</h2>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">idxtt</span> <span class="o">=</span> <span class="n">randsample</span><span class="p">([</span><span class="nb">true</span> <span class="nb">false</span><span class="p">],</span> <span class="n">n</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span> <span class="c1">% 1-by-24075 logical, resample with replacement, either 0 or 1</span>
+<span class="n">TTMdl</span> <span class="o">=</span> <span class="n">fitclinear</span><span class="p">(</span><span class="n">X</span><span class="p">(:,</span><span class="n">idxtt</span><span class="p">),</span> <span class="n">Y</span><span class="p">(</span><span class="n">idxtt</span><span class="p">),</span> <span class="s1">'ObservationsIn'</span><span class="p">,</span> <span class="s1">'columns'</span><span class="p">)</span> <span class="c1">% fit model using all data, specify predictor data observation dimension</span>
+</code></pre></div></div>
+
+<p>TTMdl is a ClassificationLinear model object representing a traditionally trained linear model for binary classification.</p>
+
+<blockquote>
+  <p><em>ClassificationLinear</em> 模型对象相关属性</p>
+
+  <ol>
+    <li><strong><em>Beta</em></strong>: Linear coefficient estimates, specified as a numeric vector with length equal to the number of predictors. 该例子中一共有60个predictors，所以<em>TTMdl.Beta</em> 的形状是：60-by-1 double</li>
+  </ol>
+</blockquote>
+
+<h2 id="convert-trained-model">Convert Trained Model</h2>
+
+<p>Convert the traditionally trained classification model to a binary classification linear model for incremental learning.</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">incrementalLearner</span><span class="p">(</span><span class="n">TTMdl</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>变量 IncrementalMdl 是一个 incrementalClassificationLinear 模型对象</p>
+
+<blockquote>
+  <p>incrementalClassificationLinear 模型对象相关属性</p>
+
+  <ol>
+    <li>
+      <p><strong><em>Iswarm</em></strong>: Flag indicating whether model tracks performance metrics. This property is read-only. Flag indicating whether the incremental model tracks performance metrics, specified as logical 0 (false) or 1 (true).
+The incremental model Mdl is warm (<em>IsWarm</em> becomes true) after incremental fitting functions fit (<em>EstimationPeriod</em> + <em>MetricsWarmupPeriod</em>) observations to the incremental model.
+<u>true or 1</u>, The incremental model Mdl is warm. Consequently, <em>updateMetrics</em> and <em>updateMetricsAndFit</em> track performance metrics in the Metrics property of Mdl.
+<u>false or 0</u>, <em>updateMetrics</em> and <em>updateMetricsAndFit</em> do not track performance metrics.</p>
+    </li>
+    <li>
+      <p><strong><em>Beta</em></strong>: Linear model coefficients. This property is read-only. Linear model coefficients β, specified as a NumPredictors-by-1 numeric vector. Incremental fitting functions estimate Beta during training. The default initial Beta value depends on how you create the model: (1) If you convert a traditionally trained model to create Mdl, the initial value is specified by the corresponding property of the traditionally trained model. Otherwise, (2)the initial value is zeros(NumPredictors,1).</p>
+    </li>
+    <li>
+      <p><strong><em>Metrics</em></strong>: Model performance metrics. This property is read-only. Model performance metrics updated during incremental learning by <em>updateMetrics</em> and <em>updateMetricsAndFit</em>, specified as a table with <u>two columns</u>(<em>Cumulative</em> and <em>Window</em>) and <u>m rows</u>, where m is the number of metrics specified by the Metrics name-value argument. The columns of Metrics are labeled <em>Cumulative</em> and <em>Window</em>.</p>
+
+      <ul>
+        <li><em>Cumulative</em>: Element j is the model performance, as measured by metric j, from the time the model became warm (<em>IsWarm</em> is 1).</li>
+        <li><em>Window</em>: Element j is the model performance, as measured by metric j, evaluated over all observations within the window specified by the <em>MetricsWindowSize</em> property. The software updates <em>Window</em> after it processes <em>MetricsWindowSize</em> observations.</li>
+      </ul>
+
+      <p>评价指标 j 由 <em>incrementalClassificationLinear( )</em> 的输入 <em>Metrics</em> 决定：</p>
+
+      <p>Model performance metrics to track during incremental learning, specified as a built-in loss function name, string vector of names, function handle (@metricName), structure array of function handles, or cell vector of names, function handles, or structure arrays. When <em>Mdl</em> is warm, <em>updateMetrics</em> and <em>updateMetricsAndFit</em> track performance metrics in the <em>Metrics</em> property of <em>Mdl</em>. The following table lists the built-in loss function names. You can specify more than one by using a string vector.</p>
+
+      <p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220714224640777.png" alt="image-20220714224640777" /></p>
+    </li>
+  </ol>
+
+</blockquote>
+
+<h2 id="implement-incremental-learning">Implement Incremental Learning</h2>
+
+<p>Use the flexible workflow to (1) <u>update model performance metrics</u> and (2) <u>fit the incremental model</u> to the training data by calling the (1) <em>updateMetrics</em> and (2) <em>fit</em> functions separately.</p>
+
+<blockquote>
+  <p>将更新模型性能指标和拟合模型的步骤分开，使工作流更加灵活。</p>
+</blockquote>
+
+<h3 id="preallocate-data-set">Preallocate data set</h3>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Preallocation</span>
+<span class="n">idxil</span> <span class="o">=</span> <span class="o">~</span><span class="n">idxtt</span><span class="p">;</span> 
+<span class="n">nil</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">idxil</span><span class="p">);</span> <span class="c1">% 12022</span>
+<span class="n">numObsPerChunk</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span> <span class="c1">% the number of observations in single chunk of data</span>
+<span class="n">nchunk</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">nil</span><span class="p">/</span><span class="n">numObsPerChunk</span><span class="p">);</span> <span class="c1">% 240, the number of the chunks </span>
+<span class="n">ce</span> <span class="o">=</span> <span class="nb">array2table</span><span class="p">(</span><span class="nb">zeros</span><span class="p">(</span><span class="n">nchunk</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="s1">'VariableNames'</span><span class="p">,[</span><span class="s2">"Cumulative"</span> <span class="s2">"Window"</span><span class="p">]);</span><span class="c1">% 240-by-2 table, to record metrics</span>
+<span class="n">beta1</span> <span class="o">=</span> <span class="p">[</span><span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="k">end</span><span class="p">);</span> <span class="nb">zeros</span><span class="p">(</span><span class="n">nchunk</span><span class="p">,</span><span class="mi">1</span><span class="p">)];</span> <span class="c1">% record the initial and subsequent values of the last coefficient of 60, which is the number of predictors</span>
+<span class="n">Xil</span> <span class="o">=</span> <span class="n">X</span><span class="p">(:,</span><span class="n">idxil</span><span class="p">);</span>  <span class="c1">% 60-by-12022</span>
+<span class="n">Yil</span> <span class="o">=</span> <span class="n">Y</span><span class="p">(</span><span class="n">idxil</span><span class="p">);</span>    <span class="c1">% 12022-by-1</span>
+</code></pre></div></div>
+
+<h3 id="single-interation-of-incremental-fitting">Single interation of incremental fitting</h3>
+
+<p><strong>（1）Select chunk of data</strong></p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ibegin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nil</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">iend</span>   <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nil</span><span class="p">,</span> <span class="n">numObsPerChunk</span><span class="p">);</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">ibegin</span><span class="p">:</span><span class="n">iend</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><strong>（2）Update performance metrics of the model given a new chunk of data using <em>updateMetrics</em></strong>.</p>
+
+<p>Call updateMetrics to update the cumulative and window classification error of the model given the incoming chunk of observations. Overwrite the previous incremental model to update the losses in the Metrics property. <strong>Note that the <em>updateMetrics</em> does not fit the model to the chunk of data</strong> — the chunk is “new” data for the model.</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">updateMetrics</span><span class="p">(</span><span class="n">IncrementalMdl</span><span class="p">,</span> <span class="n">Xil</span><span class="p">(:,</span><span class="n">idx</span><span class="p">),</span> <span class="n">Yil</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s1">'ObservationsIn'</span><span class="p">,</span> <span class="s1">'columns'</span><span class="p">);</span> <span class="c1">% update metrics</span>
+<span class="n">ce</span><span class="p">{</span><span class="mi">1</span><span class="p">,:}</span> <span class="o">=</span> <span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Metrics</span><span class="p">{</span><span class="s2">"ClassificationError"</span><span class="p">,</span> <span class="p">:};</span> <span class="c1">% record metrics</span>
+</code></pre></div></div>
+
+<p><strong>（3）Fit the model to the data using <em>fit</em></strong></p>
+
+<p>Call <em>fit</em> to fit the model to the incoming chunk of observations. Overwrite the previous incremental model to update the model parameters.</p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">IncrementalMdl</span><span class="p">,</span><span class="n">Xil</span><span class="p">(:,</span><span class="n">idx</span><span class="p">),</span><span class="n">Yil</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span><span class="s1">'ObservationsIn'</span><span class="p">,</span><span class="s1">'columns'</span><span class="p">);</span> <span class="c1">% fit model using input data</span>
+<span class="n">beta1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="k">end</span><span class="p">);</span> <span class="c1">% record the updated value of the last coefficient</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>注:</p>
+
+  <p>在 MATLAB 的官方文档中(<a href="https://ww2.mathworks.cn/help/stats/implement-incremental-learning-using-flexible-workflow-classification.html?searchHighlight=Implement%20Incremental%20Learning%20for%20Classification%20Using%20Flexible%20Workflow&amp;s_tid=srchtitle_Implement%2520Incremental%2520Learning%2520for%2520Classification%2520Using%2520Flexible%2520Workflow_1">Implement Incremental Learning for Classification Using Flexible Workflow</a>), 记录的线性系数不统一, 初始系数记录的是第一个线性系数, 在迭代的过程中记录的是最后一个记录的值, 如下图所示.</p>
+
+  <p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220714233058067.png" alt="image-20220714233058067" style="zoom:50%;" /></p>
+
+  <p>这应该是个小小的错误. 我这里采用的是记录最后一个线性系数的方式.</p>
+</blockquote>
+
+<h3 id="make-a-loop">Make a Loop</h3>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">% Incremental fitting</span>
+<span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">nchunk</span>
+    <span class="c1">% (1) Select chunk of data</span>
+    <span class="n">ibegin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nil</span><span class="p">,</span> <span class="n">numObsPerChunk</span><span class="o">*</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">iend</span>   <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nil</span><span class="p">,</span> <span class="n">numObsPerChunk</span><span class="o">*</span><span class="n">j</span><span class="p">);</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">ibegin</span><span class="p">:</span><span class="n">iend</span><span class="p">;</span>
+    
+    <span class="c1">% (2) Update performance metrics of the model given a new chunk of data using 'updateMetrics'</span>
+    <span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">updateMetrics</span><span class="p">(</span><span class="n">IncrementalMdl</span><span class="p">,</span> <span class="n">Xil</span><span class="p">(:,</span><span class="n">idx</span><span class="p">),</span> <span class="n">Yil</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s1">'ObservationsIn'</span><span class="p">,</span> <span class="s1">'columns'</span><span class="p">);</span>
+    <span class="n">ce</span><span class="p">{</span><span class="n">j</span><span class="p">,:}</span> <span class="o">=</span> <span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Metrics</span><span class="p">{</span><span class="s2">"ClassificationError"</span><span class="p">,</span> <span class="p">:};</span>
+
+    <span class="c1">% (3) Fit the model to the data using 'fit'</span>
+    <span class="n">IncrementalMdl</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">IncrementalMdl</span><span class="p">,</span> <span class="n">Xil</span><span class="p">(:,</span><span class="n">idx</span><span class="p">),</span> <span class="n">Yil</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="s1">'ObservationsIn'</span><span class="p">,</span> <span class="s1">'columns'</span><span class="p">);</span>
+    <span class="n">beta1</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">IncrementalMdl</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="k">end</span><span class="p">);</span> 
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="inspect-model-evolution">Inspect Model Evolution</h2>
+
+<p>Plot a trace plot of the performance metrics and estimated coefficient $\beta_{60}$.</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220714233613852.png" alt="image-20220714233613852" style="zoom:67%;" /></p>
+
+<ul>
+  <li>The cumulative loss is stable and decreases gradually, whereas the window loss jumps.</li>
+  <li>$\beta_{60}$ changes abruptly at first, and then gradually levels off as fit processes more chunks of observations.</li>
+</ul>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="总结">总结</h1>
+
+<p>(1)  该示例是一个二分类 Incremental Learning 模型, 但是可以拓展到多分类的情形;</p>
+
+<p>(2)  该示例中增量训练模型的数据和预训练模型其实来自同一个数据集, 具有局限性;</p>
+
+<p>(3)  该示例是一个 Warm start 的例子, 既有预训练模型, 数据也有标签, 这更像是放缓了传统模型训练过程, 并用验证集实时监测模型性能. 在实际工程应用中, Cold start 更具有实践意义.</p>
+
+<p>(4) 增量训练模型还有一个重要意义是: 增量训练的实时性可以解决存储空间有限的问题—-当存储空间有限时, 新数据用于实时训练模型后, 就可以扔掉.</p>
+
+<p>(5) Incremental Learning 更多的是代码实现的问题.</p>
+
+<p><br /></p>
+
+<p><strong>Copyright 2020 The MathWorks, Inc.</strong></p>]]></content><author><name>花魑</name></author><category term="Machine Learning" /><category term="MATLAB" /><summary type="html"><![CDATA[示例介绍]]></summary></entry><entry><title type="html">Connect the dots</title><link href="http://localhost:4000/%E6%97%A5%E5%B8%B8/Connect-the-dots/" rel="alternate" type="text/html" title="Connect the dots" /><published>2022-07-14T12:41:59+00:00</published><updated>2022-07-14T12:41:59+00:00</updated><id>http://localhost:4000/%E6%97%A5%E5%B8%B8/Connect%20the%20dots</id><content type="html" xml:base="http://localhost:4000/%E6%97%A5%E5%B8%B8/Connect-the-dots/"><![CDATA[<p><br /></p>
+
+<p>You can’t connect the dots looking forward; you can only connect them looking backwards. So you have to trust that the dots will somehow connect in your future. You have to trust in something — your gut, destiny, life, karma, whatever.</p>
+
+<p>—- Steve Jobs</p>]]></content><author><name>花魑</name></author><category term="日常" /><category term="A word" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">向量求导公式</title><link href="http://localhost:4000/mathematics/Vector-derivative/" rel="alternate" type="text/html" title="向量求导公式" /><published>2022-07-13T17:45:25+00:00</published><updated>2022-07-13T17:45:25+00:00</updated><id>http://localhost:4000/mathematics/Vector%20derivative</id><content type="html" xml:base="http://localhost:4000/mathematics/Vector-derivative/"><![CDATA[<h1 id="标量对向量求导">标量对向量求导</h1>
+
+<h2 id="标量对向量求导-1">标量对向量求导</h2>
+
+<p>设 $f(x_1, \cdots, x_n)$ 是包含 $n$ 个变量 $(x_1,\cdots,x_n)$ 的<strong>标量函数</strong>，则函数 $f$ 的梯度是<strong>向量函数</strong>：</p>
+
+\[\nabla f(x_1,\cdots, x_n)=\begin{bmatrix}f_{x_1},\cdots,f_{x_n}\end{bmatrix}\]
+
+<p>其中，$f_{x_i}$ 表示标量函数 $f$ 对变量 $x_i$ 的偏导数。</p>
+
+<h2 id="向量点积法则">向量点积法则</h2>
+
+<p>设有 $u(x_1,\cdots, x_n)$，$v(x_1,\cdots,x_n)$ 均为包含 $n$ 个变量 $(x_1,\cdots,x_n)$ 的<strong>标量函数</strong>，并且都具有 $m$ 个分量，分别为$u_1,\cdots,u_n$ 和 $v_1,\cdots,v_n$ 。则有向量点积法则</p>
+
+\[\nabla(u^Tv)=v^TDu+u^TDv\label{eq1}\]
+
+<p>其中，$ D(\cdot)$ 表示向量函数 $(\cdot)$ 的雅可比矩阵，见公式 $\eqref{jacobianmatrix}$。</p>
+
+<p><strong>证明</strong></p>
+
+<p>假设向量函数 $u$ 和 $v$ 都是具有3个分量的向量函数，均包含2个自变量</p>
+
+\[\begin{align*}
+\nabla(u^Tv)&amp;=\nabla(u_1v_1+u_2v_2+u_3v_3)\\
+&amp;=\begin{bmatrix}\dfrac{\partial(u_1v_1+u_2v_2+u_3v_3)}{\partial x_1}&amp;\dfrac{\partial(u_1v_1+u_2v_2+u_3v_3)}{\partial x_2}\end{bmatrix}\\
+&amp;=\begin{bmatrix}
+(\dfrac{\partial u_1}{\partial x_1}v_1+\dfrac{\partial v_1}{\partial x_1}u_1)+
+(\dfrac{\partial u_2}{\partial x_1}v_2+\dfrac{\partial v_2}{\partial x_1}u_2)+
+(\dfrac{\partial u_3}{\partial x_1}v_3+\dfrac{\partial v_1}{\partial x_1}u_3)&amp;
+(\dfrac{\partial u_1}{\partial x_2}v_1+\dfrac{\partial v_1}{\partial x_2}u_1)+
+(\dfrac{\partial u_2}{\partial x_2}v_2+\dfrac{\partial v_2}{\partial x_2}u_2)+
+(\dfrac{\partial u_3}{\partial x_2}v_3+\dfrac{\partial v_1}{\partial x_2}u_3)
+\end{bmatrix}\\
+&amp;=\begin{bmatrix}
+\begin{bmatrix}
+v_1&amp;v_2&amp;v_3
+\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial u_1}{\partial x_1}\\
+\dfrac{\partial u_2}{\partial x_1}\\
+\dfrac{\partial u_3}{\partial x_1}
+\end{bmatrix}+\begin{bmatrix}
+u_1&amp;u_2&amp;u_3
+\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial v_1}{\partial x_1}\\
+\dfrac{\partial v_2}{\partial x_1}\\
+\dfrac{\partial v_3}{\partial x_1}
+\end{bmatrix}&amp;
+\begin{bmatrix}
+v_1&amp;v_2&amp;v_3
+\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial u_1}{\partial x_2}\\
+\dfrac{\partial u_2}{\partial x_2}\\
+\dfrac{\partial u_3}{\partial x_2}
+\end{bmatrix}+\begin{bmatrix}
+u_1&amp;u_2&amp;u_3
+\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial v_1}{\partial x_2}\\
+\dfrac{\partial v_2}{\partial x_2}\\
+\dfrac{\partial v_3}{\partial x_2}
+\end{bmatrix}
+\end{bmatrix}\\
+&amp;=\begin{bmatrix}
+\begin{bmatrix}
+v_1&amp;v_2&amp;v_3
+\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial u_1}{\partial x_1}\\
+\dfrac{\partial u_2}{\partial x_1}\\
+\dfrac{\partial u_3}{\partial x_1}
+\end{bmatrix}&amp;
+\begin{bmatrix}
+v_1&amp;v_2&amp;v_3
+\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial u_1}{\partial x_2}\\
+\dfrac{\partial u_2}{\partial x_2}\\
+\dfrac{\partial u_3}{\partial x_2}
+\end{bmatrix}
+\end{bmatrix}+
+\begin{bmatrix}
+\begin{bmatrix}
+u_1&amp;u_2&amp;u_3
+\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial v_1}{\partial x_1}\\
+\dfrac{\partial v_2}{\partial x_1}\\
+\dfrac{\partial v_3}{\partial x_1}
+\end{bmatrix}&amp;
+\begin{bmatrix}
+u_1&amp;u_2&amp;u_3
+\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial v_1}{\partial x_2}\\
+\dfrac{\partial v_2}{\partial x_2}\\
+\dfrac{\partial v_3}{\partial x_2}
+\end{bmatrix}
+\end{bmatrix}\\
+&amp;=
+\begin{bmatrix}v_1&amp;v_2&amp;v_3\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial u_1}{\partial x_1}&amp;\dfrac{\partial u_1}{\partial x_2}\\
+\dfrac{\partial u_2}{\partial x_1}&amp;\dfrac{\partial u_2}{\partial x_2}\\
+\dfrac{\partial u_3}{\partial x_1}&amp;\dfrac{\partial u_3}{\partial x_2}\\
+\end{bmatrix}+
+\begin{bmatrix}u_1&amp;u_2&amp;u_3\end{bmatrix}
+\begin{bmatrix}
+\dfrac{\partial v_1}{\partial x_1}&amp;\dfrac{\partial v_1}{\partial x_2}\\
+\dfrac{\partial v_2}{\partial x_1}&amp;\dfrac{\partial v_2}{\partial x_2}\\
+\dfrac{\partial v_3}{\partial x_1}&amp;\dfrac{\partial v_3}{\partial x_2}\\
+\end{bmatrix}\\
+&amp;=v^T(Du)+u^T(Dv)
+\end{align*}\]
+
+<p>与公式 $\eqref{eq1}$ 一致。将该结果推广至具有 $m$ 个分量，$n$ 个自变量的情形，就可以推导出公式 $\eqref{eq1}$ 。</p>
+
+<blockquote>
+  <p>可以看到，<strong>标量对自变量向量求导，求导结果的维度与自变量向量的维度一致</strong>。</p>
+</blockquote>
+
+<h1 id="向量对向量求导">向量对向量求导</h1>
+
+<h2 id="向量对向量求导-1">向量对向量求导</h2>
+
+<p>设</p>
+
+\[F(x_1,\cdots,x_n)=\begin{bmatrix}f_1(x_1,\cdots,x_n)\\\vdots\\f_n(x_1,\cdots,x_n)\end{bmatrix}\notag\]
+
+<p>为包含 $n$ 个变量 $(x_1,\cdots,x_n)$ 的向量函数，则 $F(x_1,\cdots,x_m)$ 对自变量求导的结果可以由雅可比矩阵表示：</p>
+
+\[\begin{equation}
+DF(\boldsymbol{x}) = 
+	\begin{bmatrix}
+		\dfrac{\partial f_1}{\partial x_1} &amp; \dfrac{\partial f_1}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_1}{\partial x_n}\\ 
+		\dfrac{\partial f_2}{\partial x_1} &amp; \dfrac{\partial f_2}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_2}{\partial x_n}\\
+		\vdots                             &amp; \vdots                              &amp; \vdots &amp; \vdots                            \\
+		\dfrac{\partial f_m}{\partial x_1} &amp; \dfrac{\partial f_m}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_m}{\partial x_n}
+	\end{bmatrix}
+	=\begin{bmatrix}
+	\nabla f_1\\
+	\vdots\\
+	\nabla f_m
+	\end{bmatrix}\label{jacobianmatrix}
+\end{equation}\]
+
+<h2 id="矩阵向量乘积法则">矩阵向量乘积法则</h2>
+
+<p>设 $A(x_1,\cdots,x_n)$ 为一个 $l\times m$ 的矩阵函数， $v(x_1,\cdots,x_n)$ 是一个 $m\times 1$ 的向量函数，则</p>
+
+\[D(Av)=A\cdot Dv + \sum_{i=1}^n v_i D(a_{\cdot i})\label{eq2}\]
+
+<p><strong>证明</strong></p>
+
+<p>设 $A(x_1,x_2)$ 为一个 $4\times 3$ 的矩阵函数， $v(x_1,x_2)$ 是一个 $3\times 1$ 的向量函数，自变量有2个 $(x_1, x_2)$</p>
+
+\[A=\begin{bmatrix}
+a_{11}&amp;a_{12}&amp;a_{13}\\
+a_{21}&amp;a_{22}&amp;a_{23}\\
+a_{31}&amp;a_{32}&amp;a_{33}\\
+a_{41}&amp;a_{42}&amp;a_{43}\\
+\end{bmatrix}_{4\times 3},\
+v=\begin{bmatrix}
+v_1\\
+v_2\\
+v_3
+\end{bmatrix}_{3\times 1}\notag\]
+
+<p>则</p>
+
+\[\begin{equation*}
+Av=\begin{bmatrix}
+\sum^3(a_{1i}v_i)\\
+\sum^3(a_{2i}v_i)\\
+\sum^3(a_{3i}v_i)\\
+\sum^3(a_{4i}v_i)\\
+\end{bmatrix}_{4\times 1},\ 
+Dv=\begin{bmatrix}
+\dfrac{\partial v_1}{\partial x_1}&amp;\dfrac{\partial v_1}{\partial x_2}\\
+\dfrac{\partial v_2}{\partial x_1}&amp;\dfrac{\partial v_2}{\partial x_2}\\
+\dfrac{\partial v_3}{\partial x_1}&amp;\dfrac{\partial v_3}{\partial x_2}\\
+\end{bmatrix}_{3\times2},\
+D(a_{\cdot i})=
+\begin{bmatrix}
+\dfrac{\partial a_{1i}}{\partial x_1}&amp;\dfrac{\partial a_{1i}}{\partial x_2}\\
+\dfrac{\partial a_{2i}}{\partial x_1}&amp;\dfrac{\partial a_{2i}}{\partial x_2}\\
+\dfrac{\partial a_{3i}}{\partial x_1}&amp;\dfrac{\partial a_{3i}}{\partial x_2}\\
+\dfrac{\partial a_{4i}}{\partial x_1}&amp;\dfrac{\partial a_{4i}}{\partial x_2}\\
+\end{bmatrix}
+\end{equation*}\]
+
+<p>进一步可以得到：</p>
+
+\[\begin{align*}
+D(Av)&amp;=
+\begin{bmatrix}
+\dfrac{\partial \sum^3(a_{1i}v_i)}{\partial x_1} &amp; \dfrac{\partial \sum^3(a_{1i}v_i)}{\partial x_2}\\
+\dfrac{\partial \sum^3(a_{2i}v_i)}{\partial x_1} &amp; \dfrac{\partial \sum^3(a_{2i}v_i)}{\partial x_2}\\
+\dfrac{\partial \sum^3(a_{3i}v_i)}{\partial x_1} &amp; \dfrac{\partial \sum^3(a_{3i}v_i)}{\partial x_2}\\
+\dfrac{\partial \sum^3(a_{4i}v_i)}{\partial x_1} &amp; \dfrac{\partial \sum^3(a_{4i}v_i)}{\partial x_2}\\
+\end{bmatrix}_{4\times2}\\ 
+&amp;=\begin{bmatrix}
+\sum^3\Big(\dfrac{\partial a_{1i}}{\partial x_1}v_i+\dfrac{\partial v_i}{\partial x_1}a_{1i}\Big)&amp;\sum^3\Big(\dfrac{\partial a_{1i}}{\partial x_2}v_i+\dfrac{\partial v_i}{\partial x_2}a_{1i}\Big)\\
+\sum^3\Big(\dfrac{\partial a_{2i}}{\partial x_1}v_i+\dfrac{\partial v_i}{\partial x_1}a_{2i}\Big)&amp;\sum^3\Big(\dfrac{\partial a_{2i}}{\partial x_2}v_i+\dfrac{\partial v_i}{\partial x_2}a_{2i}\Big)\\
+\sum^3\Big(\dfrac{\partial a_{3i}}{\partial x_1}v_i+\dfrac{\partial v_i}{\partial x_1}a_{3i}\Big)&amp;\sum^3\Big(\dfrac{\partial a_{3i}}{\partial x_2}v_i+\dfrac{\partial v_i}{\partial x_2}a_{3i}\Big)\\
+\sum^3\Big(\dfrac{\partial a_{4i}}{\partial x_1}v_i+\dfrac{\partial v_i}{\partial x_1}a_{4i}\Big)&amp;\sum^3\Big(\dfrac{\partial a_{4i}}{\partial x_2}v_i+\dfrac{\partial v_i}{\partial x_2}a_{4i}\Big)\\
+\end{bmatrix}_{4\times2}\\ 
+&amp;=
+\begin{bmatrix}
+\sum^3\Big(\dfrac{\partial v_i}{\partial x_1}a_{1i}\Big)&amp;\sum^3\Big(\dfrac{\partial v_i}{\partial x_2}a_{1i}\Big)\\
+\sum^3\Big(\dfrac{\partial v_i}{\partial x_1}a_{2i}\Big)&amp;\sum^3\Big(\dfrac{\partial v_i}{\partial x_2}a_{2i}\Big)\\
+\sum^3\Big(\dfrac{\partial v_i}{\partial x_1}a_{3i}\Big)&amp;\sum^3\Big(\dfrac{\partial v_i}{\partial x_2}a_{3i}\Big)\\
+\sum^3\Big(\dfrac{\partial v_i}{\partial x_1}a_{4i}\Big)&amp;\sum^3\Big(\dfrac{\partial v_i}{\partial x_2}a_{4i}\Big)\\
+\end{bmatrix}_{4\times2}+
+\begin{bmatrix}
+\sum^3\Big(\dfrac{\partial a_{1i}}{\partial x_1}v_i)&amp;\sum^3\Big(\dfrac{\partial a_{1i}}{\partial x_2}v_i\Big)\\
+\sum^3\Big(\dfrac{\partial a_{2i}}{\partial x_1}v_i\Big)&amp;\sum^3\Big(\dfrac{\partial a_{2i}}{\partial x_2}v_i\Big)\\
+\sum^3\Big(\dfrac{\partial a_{3i}}{\partial x_1}v_i\Big)&amp;\sum^3\Big(\dfrac{\partial a_{3i}}{\partial x_2}v_i\Big)\\
+\sum^3\Big(\dfrac{\partial a_{4i}}{\partial x_1}v_i\Big)&amp;\sum^3\Big(\dfrac{\partial a_{4i}}{\partial x_2}v_i\Big)\\
+\end{bmatrix}_{4\times2}\\
+&amp;=A\cdot Dv + \sum^3 v_i D(a_{\cdot i})
+\end{align*}\]
+
+<p>将该结果推广，就可以推导出公式 $\eqref{eq2}$ 。</p>]]></content><author><name>花魑</name></author><category term="Mathematics" /><category term="Matrix" /><summary type="html"><![CDATA[标量对向量求导]]></summary></entry><entry><title type="html">这世界那么多人</title><link href="http://localhost:4000/life/Crowded-World/" rel="alternate" type="text/html" title="这世界那么多人" /><published>2022-07-13T11:11:11+00:00</published><updated>2022-07-13T11:11:11+00:00</updated><id>http://localhost:4000/life/Crowded%20World</id><content type="html" xml:base="http://localhost:4000/life/Crowded-World/"><![CDATA[<p><br /></p>
+
+<p>这世界有那么个人</p>
+
+<p>活在我 飞扬的青春</p>
+
+<p>在泪水里浸湿过的长吻</p>
+
+<p>常让我 想啊 想出神</p>]]></content><author><name>花魑</name></author><category term="Life" /><category term="A word" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">迭代法求解非线性方程(组)</title><link href="http://localhost:4000/mathematics/Solve-nonliear-system-using-iterative-method/" rel="alternate" type="text/html" title="迭代法求解非线性方程(组)" /><published>2022-07-12T13:45:17+00:00</published><updated>2022-07-12T13:45:17+00:00</updated><id>http://localhost:4000/mathematics/Solve%20nonliear%20system%20using%20iterative%20method</id><content type="html" xml:base="http://localhost:4000/mathematics/Solve-nonliear-system-using-iterative-method/"><![CDATA[<h1 id="迭代法原理">迭代法原理</h1>
+<h2 id="迭代法求解非线性方程">迭代法求解非线性方程</h2>
+
+<h3 id="二分法">二分法</h3>
+
+<p>求解方程的第一步是确定根是否存在。</p>
+
+<blockquote>
+  <p><strong>介值定理(Intermediate value theorem)</strong>
+令$f$是区间$[a,b]$上的连续函数，若满足$f(a)f(b)&lt;0$，则 $a$ 和 $b$ 之间存在一个根 $r$, 即存在 $a&lt;r&lt;b$ 满足 $f(r) = 0$。</p>
+</blockquote>
+
+<p>根据介值定理，可以得到求解方程数值根最简单的方法——<strong>二分法(Bisection method)</strong>：通过不断把函数$f(x)$的零点所在的区间一分为二，使区间的两个端点逐步逼近零点，每进行一次二分法都把区间中点作为根的估计值。</p>
+
+<p>假设 $[a,b]$ 为初始区间，在 $n$ 次二分后，得到的最终区间 $[a_n,b_n]$ 的长度为$(b-a)/2^n$，选择中点 $x_r = (a_n + b_n)/2$ 作为解的最有估计，与真实值之间的误差不会超过区间长度的一半，即：</p>
+
+\[\vert x_r-r\vert &lt;\dfrac{b-a}{2^{n+1}}\label{errorthreshold}\]
+
+<p>式 $\eqref{errorthreshold}$ 表明二分法迭代次数和精度之间的关系，并且表明二分法可以保证线性收敛。但是由于收敛速度较慢，运算量较大。因此，二分法常用于求根的大体范围，即进行根的隔离。</p>
+
+<h3 id="不动点迭代">不动点迭代</h3>
+
+<p>方程 $f(r)=0$ 根的求解问题，都可以转换为求解不动点方程的问题</p>
+
+\[g(r)=f(r)+r=r\]
+
+<blockquote>
+  <p><strong>不动点(fixed point)</strong></p>
+
+  <p>当$f(r)=r$时，称实数$r$为函数$f$的不动点。</p>
+</blockquote>
+
+<p>$g(r)=r$ 就是不动点方程。对于这样的方程，我们可以从一个初始值 $x_0$ 开始进行迭代，这就是不动点迭代法(Fixed point iteration):</p>
+
+\[\begin{align*}
+x_0 &amp;= k\\
+x_{i+1} &amp;= g(x_i),\ i=0,1,2,\dots
+\end{align*}\]
+
+<p><strong>所有</strong>的方程 $f(x)=0$ 都可以转换为形如 $g(x)=x$，并且可以以不同的形式转化，且不同的转化方式对应着不同的收敛效果。因此，不动点迭代不能保证算法收敛（若收敛，则一定是线性收敛），也无法确定收敛速度，这取决于不动点处的函数导数值。</p>
+
+<h3 id="牛顿法">牛顿法</h3>
+<p><strong>牛顿法</strong>，也称为<strong>牛顿-拉夫逊法(Newton’s method, AKA Newton-Raphson method)</strong>，它的收敛速度通常比二分法和不动点迭代收敛快很多。牛顿法所对应的几何图如下图所示。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/img/image-20220712125213291.png" alt="image-20220712125213291" style="zoom: 67%;" /></p>
+
+<p>首先给定初始估计 $x_0$，画出函数 $f(x)$ 在 $x_0$ 处的切线，用切线来近似函数 $f$，求出该切线与 $x$ 轴的交点作为 $x_1$。可以看到，$x_1$ 比 $x_0$ 更接近函数的精确解 $r$，因此重复上述步骤，就可以得到一个非常接近真实解的近似解。</p>
+
+<p>对于初值 $x_0$，对应于函数曲线的点 $(x_0,f(x_0))$，该点处的切线方程为：</p>
+
+\[f'(x_0)(x-x_0)=y-f(x_0)\label{newton}\]
+
+<p>该切线与$x$轴的交点可令式 $\eqref{newton}$ 中 $y = 0$ 求得：</p>
+
+\[\begin{align*}
+&amp;f'(x_0)(x-x_0)=0-f(x_0)\\
+\Rightarrow&amp;x-x_0=-\dfrac{f(x_0)}{f'(x_0)}\\
+\Rightarrow&amp;x = x_0 - \dfrac{f(x_0)}{f'(x_0)}\\
+\Rightarrow&amp;x_1 = x_0 - \dfrac{f(x_0)}{f'(x_0)}\\
+\end{align*}\]
+
+<p>由此，可以得到牛顿法迭代的一般形式：</p>
+
+\[\begin{align}
+x_0 &amp;= k \notag \\
+x_{i+1} &amp;= x_i - \dfrac{f(x_i)}{f'(x_i)},\ i=0,1,2,\dots \label{singlevariable}
+\end{align}\]
+
+<p>其中 $f’(x_i)\neq 0$。</p>
+
+<p><strong>牛顿法收敛的条件是在真实解 $r$ 处满足$f’(r)\neq 0$</strong>（这是一个后验）。牛顿法若收敛，则在单根位置上二次收敛；在重根位置上线性收敛。因此，除了重根位置，牛顿方法比二分法和不动点迭代的收敛速度都更快，它达到了这种更快的速度的原因是因为使用了更多的信息，尤其是通过函数导数得到的函数切线方向的信息。</p>
+
+<h3 id="割线法">割线法</h3>
+
+<p>但在某些情况下，可能很难计算函数的导数。在这种情况下，割线法就是牛顿方法一个很好的替代，它使用割线来近似替代函数切线，它能够以超线性的速度收敛到一个单根，即收敛速度在线性和二次收敛方法之间。割线法的一般迭代形式为：</p>
+
+\[\begin{align}
+x_0,x_1&amp;= k_1,k_2 \notag \\
+x_{i+1} &amp;= x_i - \dfrac{f(x_i)(x_i-x_{i-1})}{f(x_i)-f(x_{i-1})},\ i=1,2,3,\dots \label{SM}
+\end{align}\]
+
+<h2 id="非线性方程组的求解">非线性方程组的求解</h2>
+<h3 id="多元牛顿法">多元牛顿法</h3>
+
+<p>式 $\eqref{singlevariable}$ 是单变量的牛顿迭代法，对于具有$n$个变量$n$个方程的非线性方程组$F(\boldsymbol{x})$：</p>
+
+\[\begin{equation*} 
+\left\{ 
+\begin{aligned}
+f_1(\boldsymbol{x}) &amp;= 0\\
+f_2(\boldsymbol{x}) &amp;= 0\\
+&amp;\vdots \\
+f_n(\boldsymbol{x}) &amp;= 0
+\end{aligned}
+\right.
+\end{equation*}\]
+
+<p>可以采用多元牛顿法进行迭代求解。单变量情况下的函数导数 $f’$ 对应多元函数的雅各比矩阵，定义为：</p>
+
+\[\begin{equation*}
+DF(\boldsymbol{x}) = 
+	\begin{bmatrix}
+		\dfrac{\partial f_1}{\partial x_1} &amp; \dfrac{\partial f_1}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_1}{\partial x_n}\\ 
+		\dfrac{\partial f_2}{\partial x_1} &amp; \dfrac{\partial f_2}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_2}{\partial x_n}\\
+		\vdots                             &amp; \vdots                              &amp; \vdots &amp; \vdots                            \\
+		\dfrac{\partial f_n}{\partial x_1} &amp; \dfrac{\partial f_n}{\partial x_2}  &amp; \cdots &amp; \dfrac{\partial f_n}{\partial x_n}
+	\end{bmatrix}
+\end{equation*}\]
+
+<p>在点 $\boldsymbol{x}_0$ 附近的向量值函数的泰勒展开式为：</p>
+
+\[\begin{equation}\label{multivariables}
+F(\boldsymbol{x})=F(\boldsymbol{x}_0)+DF(\boldsymbol{x}_0)\cdot (\boldsymbol{x} - \boldsymbol{x}_0) + O(\boldsymbol{x} - \boldsymbol{x}_0)^2
+\end{equation}\]
+
+<p>牛顿方法基于线性近似，因此忽略 $O(\boldsymbol{x} - \boldsymbol{x}_0)^2$，将式 $\eqref{multivariables}$ 在$\boldsymbol{r}$处展开得到：</p>
+
+\[\begin{equation}
+0 = F(\boldsymbol{r})\approx F(\boldsymbol{x}_0)+DF(\boldsymbol{x}_0)\cdot (\boldsymbol{r} - \boldsymbol{x}_0)
+\end{equation}\]
+
+<p>即：</p>
+
+\[\begin{equation}\label{3.6}
+-DF(\boldsymbol{x}_0)^{-1}F(\boldsymbol{x}_0)\approx \boldsymbol{r} - \boldsymbol{x}_0
+\end{equation}\]
+
+<p>于是可以得到多变量牛顿法的一般迭代形式：</p>
+
+\[\begin{align}
+\boldsymbol{x}_0 &amp;= \boldsymbol{k} \notag \\
+\boldsymbol{x}_{k+1} &amp;=\boldsymbol{x}_{k} - DF(\boldsymbol{x}_k)^{-1}F(\boldsymbol{x}_k),\ k= 0,1,2,\cdots \label{multinewton}\\
+\end{align}\]
+
+<h3 id="布罗伊登法">布罗伊登法</h3>
+
+<p>牛顿法求解单变量的方程需要知道导数，如果导数难以计算，则可以使用割线法进行替代。同样地，在使用多元牛顿法求解多元非线性方程组时也面临着无法求出雅可比矩阵 $DF$ 的情况。但在多元的情况下，无法将牛顿方法推广至割线方法，而布罗伊登法就是一个良好的近似。</p>
+
+<p>根据式 $\eqref{multivariables}$ 可以得到：</p>
+
+\[\begin{equation}\label{3.8}
+F(\boldsymbol{x}_{i+1})-F(\boldsymbol{x}_i)=DF(\boldsymbol{x}_i)\cdot (\boldsymbol{x}_{i+1} - \boldsymbol{x}_i)
+\end{equation}\]
+
+<p>布罗伊登法假设 $\boldsymbol{A}_i$ 是第 $i$ 步的 雅可比矩阵的最优近似，于是式 $\eqref{multinewton}$ 可以改写为：</p>
+
+\[F(\boldsymbol{x}_{i+1})-F(\boldsymbol{x}_i)=\boldsymbol{A}_i\cdot (\boldsymbol{x}_{i+1} - \boldsymbol{x}_i)\label{equa2}\]
+
+<p>令 
+\(\boldsymbol{\delta}_i = \boldsymbol{x}_{i+1} - \boldsymbol{x}_i\notag\)，
+\(\boldsymbol{\Delta}_i = F(\boldsymbol{x}_{i+1})-F(\boldsymbol{x}_i) \notag\)，
+可以得到：</p>
+
+\[\boldsymbol{A}_i\cdot \boldsymbol{\delta}_i=\boldsymbol{\Delta}_i \label{equa1}\]
+
+<p>另一方面，假设近似矩阵 $\boldsymbol{A}$ 具有以下的递推关系：</p>
+
+\[\begin{align}\
+\boldsymbol{A}_{i} &amp;= \boldsymbol{A}_{i-1} + \Delta\boldsymbol{A}_{i-1} \notag\\
+&amp;= \boldsymbol{A}_{i-1} + \boldsymbol{\omega}(\boldsymbol{\delta}_{i})^T\label{eq3}
+\end{align}\]
+
+<p>式 $\eqref{equa1}$ 中</p>
+
+\[\Delta\boldsymbol{A}_{i-1}=\boldsymbol{\omega}(\boldsymbol{\delta}_{i})^T\]
+
+<p>称为修正矩阵。其中，
+\(\boldsymbol{\omega}\in \mathbb{R}^n\)，
+\(\boldsymbol{\delta}_i\in \mathbb{R}^n\)。</p>
+
+<p>于是根据式 $\eqref{equa2}$ 可以得到：</p>
+
+\[\begin{align}
+\boldsymbol{\Delta}_i&amp;=\boldsymbol{A}_i\cdot \boldsymbol{\delta}_i \notag \\
+&amp;=(\boldsymbol{A}_{i-1}+\Delta\boldsymbol{A}_{i-1})\cdot \boldsymbol{\delta}_i \notag \\
+&amp;=(\boldsymbol{A}_{i-1}+\boldsymbol{\omega}(\boldsymbol{\delta}_{i})^T)\cdot \boldsymbol{\delta}_i\notag \\
+&amp;=\boldsymbol{A}_{i-1}\boldsymbol{\delta}_i + \boldsymbol{\omega}(\boldsymbol{\delta}_{i})^T \boldsymbol{\delta}_i
+\end{align}\]
+
+<p>于是得到向量 $\boldsymbol{\omega}$ 的值：</p>
+
+\[\boldsymbol{\omega}=\dfrac{\boldsymbol{\Delta}_i - \boldsymbol{A}_{i-1}\boldsymbol{\delta}_i}{(\boldsymbol{\delta}_{i})^T \boldsymbol{\delta}_i}\]
+
+<p>再根据 $\eqref{eq3}$ 得到近似矩阵$\boldsymbol{A}$的递推公式：</p>
+
+\[\boldsymbol{A}_{i}-\boldsymbol{A}_{i-1}=\dfrac{(\boldsymbol{\Delta}_i - \boldsymbol{A}_{i-1}\boldsymbol{\delta}_i)(\boldsymbol{\delta}_{i})^T}{(\boldsymbol{\delta}_{i})^T \boldsymbol{\delta}_i}\label{eq4}\]
+
+<p>最终，根据式 $\eqref{equa2}$ 更新当前的近似估计，使用 $\eqref{eq4}$ 更新雅可比矩阵的最优近似，就可以得到布罗伊登方法的一般迭代形式：</p>
+
+\[\begin{align}
+\boldsymbol{x}_{i+1} &amp;= \boldsymbol{x}_i - \boldsymbol{A}_i^{-1}F(\boldsymbol{x}_{i})\notag \\
+\boldsymbol{A}_{i}&amp;=\boldsymbol{A}_{i-1}+\dfrac{(\boldsymbol{\Delta}_i - \boldsymbol{A}_{i-1}\boldsymbol{\delta}_i)(\boldsymbol{\delta}_{i})^T}{(\boldsymbol{\delta}_{i})^T \boldsymbol{\delta}_i},\ i = 1,2,\cdots
+\end{align}\]
+
+<p>其中，
+\(\boldsymbol{\delta}_i = \boldsymbol{x}_{i+1} - \boldsymbol{x}_i\)，
+\(\boldsymbol{\Delta}_i = F(\boldsymbol{x}_{i+1})-F(\boldsymbol{x}_i)\)。</p>
+
+<h1 id="算例">算例</h1>
+
+<h2 id="非线性方程的求解">非线性方程的求解</h2>
+
+<p>求解方程：</p>
+
+\[f(x) = x^6-5x^5+ 3x^4 + x^3 -7x^2 + 7x - 20 =0\]
+
+<p>在 $[-1, 5]$ 内的全部实根（先用二分法做根的隔离）。</p>
+
+<p>首先根据函数画出函数图像，如下图所示：</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712182156945.png" alt="image-20220712182156945" style="zoom:67%;" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="c1"># Specify the font properties in the figures
+</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s">'font.size'</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s">'font.family'</span><span class="p">:</span> <span class="s">'serif'</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">font</span><span class="p">)</span> 
+
+<span class="c1"># The lower and upper limit
+</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span>
+
+<span class="c1"># Define the nonlinear function
+</span><span class="n">fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">5</span><span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span><span class="mi">7</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mi">20</span> 
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># The profile of the nonlinear funciton
+</span><span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$x$'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$y$'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'The profile of the nonlinear function'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s">"k"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig1.eps'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>从图中可以看出，在给定的 $[-1, 5]$ 区间内仅有一个根。</p>
+
+<h3 id="二分法-1">二分法</h3>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712210528013.png" alt="image-20220712210528013" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Specify parameters
+</span><span class="n">theta</span> <span class="o">=</span> <span class="mf">0.00005</span>         <span class="c1"># the minimum interval length
+</span><span class="n">maxIteration</span> <span class="o">=</span> <span class="mi">200</span>      <span class="c1"># the maximum iterative number
+</span>
+<span class="c1"># Record the convergence process of x0
+</span><span class="n">list_x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Record the interval length of each iteration
+</span><span class="n">range_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Define Bisection method function
+</span><span class="k">def</span> <span class="nf">BisectionMethod</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">a</span> <span class="p">,</span><span class="n">b</span> <span class="p">,</span><span class="n">theta</span><span class="p">,</span> <span class="n">maxIteration</span><span class="p">):</span>
+    <span class="c1"># func: nonlinear funciton
+</span>    <span class="c1"># a, b: upper and lower limits, respectively
+</span>    <span class="c1"># theta: the minimum interval length
+</span>    <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># If upper and lower bounds of interval are wrong
+</span>        <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="ow">or</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">func</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">theta</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">ValueError</span>
+ 
+        <span class="c1"># If the solution exists at the endpoint of interval
+</span>        <span class="k">if</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">func</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">num</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">b</span><span class="p">,</span> <span class="n">num</span>
+
+        <span class="c1"># If the solution exits in the middle of interval
+</span>        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        
+            <span class="n">list_x</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">range_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">))</span>
+            
+            <span class="k">if</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">c</span><span class="p">,</span> <span class="n">num</span>
+            
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="k">if</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">func</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="n">c</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">a</span> <span class="o">=</span> <span class="n">c</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">theta</span><span class="p">:</span>
+                    
+                    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">num</span>
+
+            <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;=</span> <span class="n">maxIteration</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">"There maybe exists solution, but the algorithm does not converge."</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">except</span> <span class="nb">ValueError</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Upper and lower bounds of interval may be error"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c1"># Solve fucntion
+</span><span class="n">x0</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="n">BisectionMethod</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">maxIteration</span><span class="o">=</span><span class="n">maxIteration</span><span class="p">)</span>
+
+
+<span class="c1"># Plot iteration process diagram
+</span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">list_x</span><span class="p">)),</span> <span class="n">list_x</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">list_x</span><span class="p">)),</span><span class="n">list_x</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">'tab:brown'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$x_i$'</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">list_x</span><span class="p">)),[</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">list_x</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">list_x</span><span class="p">)),[</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">list_x</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">'tab:brown'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Interation'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$f(x_i)$'</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">list_x</span><span class="p">)),</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">range_list</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">list_x</span><span class="p">)),</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">range_list</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'tab:brown'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Upper bound of error'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig2.eps'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>从图中可以看出，二分法求解该方程可以收敛，近似解收敛至$4.3337$，误差上限为$4.58\times 10^{-5}$，近似解的函数值为$-1.01\times 10^{-2}$。</p>
+
+<h3 id="不动点迭代-1">不动点迭代</h3>
+
+<p>使用不动点迭代法求解非线性方程的关键是找到一个合适的对应的不动点方程 $g(x)=x$，并且初值选取合适才能够保证算法收敛。比如算例1所对应的不动点方程：
+\(g_1(x) = x^6-5x^5+ 3x^4 + x^3 -7x^2 + 8x - 20\)
+就不收敛，因为在不动点处函数的导数值$g’(r)&gt;1$。于是选取式 $\eqref{fixed2}$ 为不动点方程。
+\(g_2(x) = \dfrac{\dfrac{20}{x^4} - \dfrac{7}{x^3} + \dfrac{7}{x^2} - \dfrac{1}{x}-3 + 1005x}{x+1000}\label{fixed2}\)</p>
+
+<p>初值$x_0$设置为4，经过2000次的迭代得到的近似解为$4.3336$，误差为$-0.2580$。得到的迭代图像如下图所示。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712211951092.png" alt="image-20220712211951092" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="c1"># Specify the font properties in the figures
+</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s">'font.size'</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s">'font.family'</span><span class="p">:</span> <span class="s">'serif'</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+<span class="c1"># The nonlinear function
+</span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">6</span> <span class="o">-</span> <span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">5</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">7</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mi">20</span>
+<span class="c1"># The Fixed-point iterative function
+</span><span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="p">(</span><span class="mi">20</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span> <span class="o">-</span> <span class="mi">7</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="mi">7</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1005</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1000</span><span class="p">)</span>
+
+
+<span class="n">x_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">maxIteration</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="c1"># Define Fixed-point iterative process
+</span><span class="k">def</span> <span class="nf">FixedPointIteration</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">maxIteration</span><span class="p">):</span>
+    <span class="n">x_i</span> <span class="o">=</span> <span class="n">x0</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxIteration</span><span class="p">):</span>
+        <span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span>
+        <span class="n">x_i</span>  <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span>
+
+        <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">num</span>
+
+<span class="n">x_i</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="n">FixedPointIteration</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">maxIteration</span><span class="o">=</span><span class="n">maxIteration</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span> <span class="n">x_list</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$x_i$'</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">)</span> <span class="o">-</span> <span class="n">g</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">)))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$x_i$-$g(x_i)$'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig.eps'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>可以看到，为了保证得到的函数在不动点处的导数为0而构造出的不动点函数 $g_2(x)$，虽然可以收敛至不动点，但是由于在不动点附近的函数的导数也比较小，因此收敛较慢，需要迭代很多次。并且由于不动点迭代的收敛为局部收敛，因此必须要找到一个距离不动点比较近的初值。</p>
+
+<h3 id="牛顿法-1">牛顿法</h3>
+
+<p>根据式 $\eqref{singlevariable}$ 编写牛顿法求解程序。初值设置为$10$，算法最终得到近似值收敛到$4.3338$，误差小于$1\times 10^{-3}$，迭代图像如下图所示。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712212617316.png" alt="image-20220712212617316" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="c1"># Specify the font properties in the figures
+</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s">'font.size'</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s">'font.family'</span><span class="p">:</span> <span class="s">'serif'</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+<span class="c1"># Define nonlinear function
+</span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">5</span><span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span><span class="mi">7</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mi">20</span> 
+
+<span class="k">def</span> <span class="nf">f_Derivation</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="n">x_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Specify initial value
+</span><span class="n">x_i</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">10.</span><span class="p">],</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_i</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">f_val</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">f_Derivation</span><span class="p">(</span><span class="n">x_i</span><span class="p">,</span> <span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>    
+    <span class="n">x_i</span> <span class="o">=</span> <span class="n">x_i</span> <span class="o">-</span> <span class="n">f_val</span><span class="o">/</span><span class="n">fp</span>
+    <span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_i</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+    
+    <span class="k">if</span> <span class="n">f</span><span class="p">(</span><span class="n">x_i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">:</span>
+        <span class="k">break</span>
+    
+<span class="k">print</span><span class="p">(</span><span class="s">'Approximate solution：'</span><span class="p">,</span><span class="n">x_i</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Function value of approximate solution'</span><span class="p">,</span><span class="n">f</span><span class="p">(</span><span class="n">x_i</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span> <span class="n">x_list</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$x_i$'</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span><span class="n">f</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">)))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$f(x_i)$'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig.eps'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>可以看到，使用牛顿法仅通过10次迭代，误差就能够小于$1\times 10^{-4}$，收敛效果很好。</p>
+
+<h3 id="割线法-1">割线法</h3>
+
+<p>根据式 $\eqref{SM}$ 编写割线法求解程序。初值$x_0$、$x_0$分别设置为3和4。经过11次迭代，得到近似值收敛到$4.3338$，误为于$6.90\times 10^{-8}$，迭代图像如下图所示，收敛效果与牛顿法近似。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712213018948.png" alt="image-20220712213018948" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># Specify the font properties in the figures
+</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s">'font.size'</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s">'font.family'</span><span class="p">:</span> <span class="s">'serif'</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+<span class="c1"># Define nonlinear function
+</span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">6</span><span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">5</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">7</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mi">20</span>
+
+
+<span class="n">x_list</span><span class="p">,</span> <span class="n">error_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="c1"># Specify tolerance
+</span><span class="n">tolerance</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+<span class="c1"># Specify initial values, x_0, x_1
+</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span>
+<span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span>
+<span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">SecantMethod</span><span class="p">(</span><span class="n">tolerance</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">):</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">tolerance</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">cur_root</span> <span class="o">=</span> <span class="n">x_1</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">error</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">:</span>
+        <span class="n">sect</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_1</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">x_0</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">x_1</span> <span class="o">-</span> <span class="n">x_0</span><span class="p">)</span>
+        <span class="n">cur_root</span> <span class="o">=</span> <span class="n">cur_root</span> <span class="o">-</span> <span class="n">f</span><span class="p">(</span><span class="n">x_1</span><span class="p">)</span> <span class="o">/</span> <span class="n">sect</span>
+        <span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_root</span><span class="p">)</span>
+
+        <span class="n">error</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">cur_root</span><span class="p">))</span>
+        <span class="n">error_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+        <span class="n">x_0</span> <span class="o">=</span> <span class="n">x_1</span>
+        <span class="n">x_1</span> <span class="o">=</span> <span class="n">cur_root</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">x_1</span><span class="p">,</span> <span class="n">count</span>
+
+<span class="n">x_1</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">SecantMethod</span><span class="p">(</span><span class="n">tolerance</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">)</span>
+<span class="n">x_1</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">x_1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span> <span class="n">x_list</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span><span class="n">x_list</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'tab:brown'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$x_i$'</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span><span class="n">f</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">)))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span><span class="n">f</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s">'tab:brown'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'$f(x_i)$'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig.eps'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="线性方程组的求解">线性方程组的求解</h2>
+
+<p>算例</p>
+
+<p>用牛顿法、弦割法、布罗伊登法求以下方程组的解：</p>
+
+<p>(1)
+\(\begin{equation}
+\left\{ 
+\begin{aligned}
+&amp;x_1^2 + x_2^2 + x_3^2-1.0 = 0 \\
+&amp;2x_1^2+x_2^2-4x_3=0\\
+&amp;3x_1^2-4x_2^2+x_3^2 = 0\\
+\end{aligned}
+\right.\label{nonlinearsystem1}
+\end{equation}\)</p>
+
+<p>给定初始向量 $x^{(0)}=(1.0, 1.0, 1.0)^T$ ;</p>
+
+<p>(2) 
+\(\begin{equation}
+\left\{ 
+\begin{aligned}
+&amp;\cos(x_1^2+0.4x_2)+x_1^2+x_2^2-1.6=0\\
+&amp;1.5x_1^2-\dfrac{1}{0.36}x_2^2-1.0 = 0\\
+\end{aligned}
+\right.\label{nonlinearsystem2}
+\end{equation}\)</p>
+
+<p>给定初始向量 $x^{(0)}=(1.04, 0.47)^T$;</p>
+
+<h3 id="多元牛顿法-1">多元牛顿法</h3>
+
+<p>使用多元牛顿法分别对算例2的方程组 $\eqref{nonlinearsystem1}$ 、$\eqref{nonlinearsystem2}$ 分别进行求解，得到的收敛图像如下图所示。代码中使用PyTorch框架完成了对雅可比矩阵的构建。可以看到，多元牛顿法应用于这两个方程组都有非常好的收敛效果。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712214257321.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="c1"># Specify the font properties in the figures
+</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s">'font.size'</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s">'font.family'</span><span class="p">:</span> <span class="s">'serif'</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+<span class="c1"># Define vector function
+</span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span>
+<span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">h</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="c1"># Record intermediate results
+</span><span class="n">x_list</span><span class="p">,</span> <span class="n">F_value_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+
+<span class="c1"># Specify initial values
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]],</span> <span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="c1"># Calculate fucntion value
+</span>    <span class="n">F_value</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span><span class="mi">0</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">F_value_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">F_value</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+
+    <span class="c1"># Calculate Jacobian matrix
+</span>    <span class="n">J</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">1</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Update vector x
+</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">torch</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">J</span><span class="p">),</span> <span class="n">F_value</span><span class="p">)</span>
+    <span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+    
+<span class="n">x_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">F_value_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">F_value_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Approximate value of vector x: '</span><span class="p">,</span><span class="n">x_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s">'Approximate vector function value F: '</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+<span class="c1"># Profile of iterative process
+</span><span class="n">markers</span> <span class="o">=</span> <span class="p">[</span><span class="s">'o'</span><span class="p">,</span> <span class="s">'^'</span><span class="p">,</span> <span class="s">'s'</span><span class="p">]</span>
+<span class="n">labels0</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$x_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$x_2$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$x_3$'</span><span class="p">]</span>
+<span class="n">labels1</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$f_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$f_2$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$f_3$'</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">x_list</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">.</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels0</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="p">)),</span> <span class="n">f</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels1</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Interation'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'Value of each component of vector x'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Value of each component of vector function value F'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig1.eps'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712214720615.png" alt="image-20220712214720615" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="c1"># Specify the font properties in the figures
+</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s">'font.size'</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s">'font.family'</span><span class="p">:</span> <span class="s">'serif'</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.6</span>
+<span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">0.36</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span>
+
+<span class="c1"># Record intermediate results
+</span><span class="n">x_list</span><span class="p">,</span> <span class="n">F_value_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+
+<span class="c1"># Specify initial values
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">10.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">10.0</span><span class="p">]],</span> <span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="c1"># Calculate fucntion value
+</span>    <span class="n">F_value</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span><span class="mi">0</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">F_value_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">F_value</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+
+    <span class="c1"># Calculate Jacobian matrix
+</span>    <span class="n">J</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="n">grad</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">create_graph</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">1</span><span class="p">).</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Update vector x
+</span>    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">torch</span><span class="p">.</span><span class="n">mm</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">J</span><span class="p">),</span> <span class="n">F_value</span><span class="p">)</span>
+    <span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">())</span>
+                        
+<span class="n">x_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">F_value_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">F_value_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Approximate value of vector x: '</span><span class="p">,</span><span class="n">x_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s">'Approximate vector function value F: '</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+<span class="n">markers</span> <span class="o">=</span> <span class="p">[</span><span class="s">'o'</span><span class="p">,</span> <span class="s">'^'</span><span class="p">]</span>
+<span class="n">labels0</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$x_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$x_2$'</span><span class="p">]</span>
+<span class="n">labels1</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$f_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$f_2$'</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">x_list</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">.</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels0</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="p">)),</span> <span class="n">f</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels1</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Interation'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'Value of each component of vector x'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Value of each component of vector function value F'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig2.eps'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="布罗伊登法-1">布罗伊登法</h3>
+
+<p>使用多元牛顿法分别对算例2的（1）、（2）方程组进行求解，得到的收敛图像如下图所示。</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712215712154.png" alt="image-20220712215712154" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="c1"># Specify the font properties in the figures
+</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s">'font.size'</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s">'font.family'</span><span class="p">:</span> <span class="s">'serif'</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+<span class="c1"># Define vector function
+</span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span>
+<span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">h</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="c1"># Record intermediate values
+</span><span class="n">x_list</span><span class="p">,</span> <span class="n">A_list</span><span class="p">,</span> <span class="n">F_value_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="c1"># Specify
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]).</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">A_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">F_value</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
+    <span class="n">F_value_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">F_value</span><span class="p">)</span>
+    
+    <span class="n">x_current</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">).</span><span class="n">dot</span><span class="p">(</span><span class="n">F_value</span><span class="p">)</span>
+    <span class="n">F_current_value</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">x_current</span><span class="p">),</span> <span class="n">g</span><span class="p">(</span><span class="n">x_current</span><span class="p">),</span> <span class="n">h</span><span class="p">(</span><span class="n">x_current</span><span class="p">)])</span>
+    
+    <span class="n">Delta</span> <span class="o">=</span> <span class="n">F_current_value</span> <span class="o">-</span> <span class="n">F_value</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">x_current</span> <span class="o">-</span> <span class="n">x</span>
+    
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="p">((</span><span class="n">Delta</span> <span class="o">-</span> <span class="n">A</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">)).</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">.</span><span class="n">T</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+    <span class="n">A_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x_current</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">F_value_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Iterative numbers:'</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">break</span>
+    
+<span class="k">print</span><span class="p">(</span><span class="s">'Approximate value of vector x: '</span><span class="p">,</span><span class="n">x_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="s">'Approximate vector function value F:'</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+<span class="n">x_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)).</span><span class="n">T</span>
+<span class="n">F_value_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">F_value_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)).</span><span class="n">T</span>
+
+
+<span class="c1"># Plot iterative process
+</span><span class="n">markers</span> <span class="o">=</span> <span class="p">[</span><span class="s">'o'</span><span class="p">,</span> <span class="s">'^'</span><span class="p">,</span> <span class="s">'s'</span><span class="p">]</span>
+<span class="n">labels0</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$x_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$x_2$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$x_3$'</span><span class="p">]</span>
+<span class="n">labels1</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$f_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$f_2$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$f_3$'</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">x_list</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels0</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="p">)),</span> <span class="n">f</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels1</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Interation'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'Value of each component of vector x'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Value of each component of vector function value F'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig1.eps'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220712215841050.png" alt="image-20220712215841050" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="c1"># Specify the font properties in the figures
+</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s">'font.size'</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s">'font.family'</span><span class="p">:</span> <span class="s">'serif'</span><span class="p">}</span>
+<span class="n">matplotlib</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+<span class="c1"># Define vector function
+</span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.6</span>
+<span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">0.36</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">1.0</span>
+
+<span class="c1"># Record intermediate values
+</span><span class="n">x_list</span><span class="p">,</span> <span class="n">A_list</span><span class="p">,</span> <span class="n">F_value_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="c1"># Specify initial value
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.04</span><span class="p">,</span> <span class="mf">0.47</span><span class="p">]).</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">A_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">x_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">F_value</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span>
+    <span class="n">F_value_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">F_value</span><span class="p">)</span>
+    
+    <span class="n">x_current</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">).</span><span class="n">dot</span><span class="p">(</span><span class="n">F_value</span><span class="p">)</span>
+    <span class="n">F_current_value</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">x_current</span><span class="p">),</span> <span class="n">g</span><span class="p">(</span><span class="n">x_current</span><span class="p">)])</span>
+    
+    <span class="n">Delta</span> <span class="o">=</span> <span class="n">F_current_value</span> <span class="o">-</span> <span class="n">F_value</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">x_current</span> <span class="o">-</span> <span class="n">x</span>
+    
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="p">((</span><span class="n">Delta</span> <span class="o">-</span> <span class="n">A</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">)).</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">.</span><span class="n">T</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">delta</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+    <span class="n">A_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x_current</span>
+    <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">F_value_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Iterative numbers: '</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">break</span>
+    
+<span class="k">print</span><span class="p">(</span><span class="s">'Approximate value of vector x: '</span><span class="p">,</span><span class="n">x_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="s">'Approximate vector function value F:'</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+<span class="n">x_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)).</span><span class="n">T</span>
+<span class="n">F_value_list</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">F_value_list</span><span class="p">).</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)).</span><span class="n">T</span>
+
+
+<span class="c1"># Plot iterative process
+</span><span class="n">markers</span> <span class="o">=</span> <span class="p">[</span><span class="s">'o'</span><span class="p">,</span> <span class="s">'^'</span><span class="p">]</span>
+<span class="n">labels0</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$x_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$x_2$'</span><span class="p">]</span>
+<span class="n">labels1</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s">'$f_1$'</span><span class="p">,</span><span class="sa">r</span><span class="s">'$f_2$'</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">x_list</span><span class="p">,</span> <span class="n">F_value_list</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels0</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="p">)),</span> <span class="n">f</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">markers</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">labels1</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Interation'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">'Value of each component of vector x'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'Iteration'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'Value of each component of vector function value F'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">'fig2.eps'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>从图中可以看出，对方程组 $\eqref{nonlinearsystem1}$ 使用布罗伊算法进行求解，可以在85次迭代后误差的二范数收敛在$1\times 10^{-4}$以内；对方程组 $\eqref{nonlinearsystem2}$ 使用布罗伊算法进行求解，可以在5次迭代后误差的二范数收敛在$1\times 10^{-4}$以内，均有比较好的收敛效果。</p>]]></content><author><name>花魑</name></author><category term="Mathematics" /><category term="Numerical Analysis" /><summary type="html"><![CDATA[迭代法原理 迭代法求解非线性方程]]></summary></entry><entry><title type="html">借我变如不曾改变</title><link href="http://localhost:4000/life/Never-Change/" rel="alternate" type="text/html" title="借我变如不曾改变" /><published>2022-07-12T10:09:37+00:00</published><updated>2022-07-12T10:09:37+00:00</updated><id>http://localhost:4000/life/Never%20Change</id><content type="html" xml:base="http://localhost:4000/life/Never-Change/"><![CDATA[<blockquote>
+  <p>“借我变如不曾改变”</p>
+</blockquote>
+
+<p><br /></p>
+
+<p><strong>借我</strong></p>
+
+<p>借我一个暮年，</p>
+
+<p>借我碎片，</p>
+
+<p>借我瞻前与顾后，</p>
+
+<p>借我执拗如少年，</p>
+
+<p>借我后天长成的先天，</p>
+
+<p>借我变如不曾改变，</p>
+
+<p>借我素淡的世故与明白的愚，</p>
+
+<p>借我可预知的脸，</p>
+
+<p>借我悲怆的磊落，</p>
+
+<p>借我温软的鲁莽和玩笑的庄严，</p>
+
+<p>借我最初与最终的不敢，借我不言而喻的不见，</p>
+
+<p>借我一场秋啊，可你说这已是冬天。</p>
+
+<p>——樊小纯</p>]]></content><author><name>花魑</name></author><category term="Life" /><category term="A word" /><summary type="html"><![CDATA[“借我变如不曾改变”]]></summary></entry><entry><title type="html">超定方程的定义和求解</title><link href="http://localhost:4000/blog/Overdetermined-system/" rel="alternate" type="text/html" title="超定方程的定义和求解" /><published>2022-07-10T00:00:00+00:00</published><updated>2022-07-10T00:00:00+00:00</updated><id>http://localhost:4000/blog/Overdetermined%20system</id><content type="html" xml:base="http://localhost:4000/blog/Overdetermined-system/"><![CDATA[<h1 id="超定方程组的定义">超定方程组的定义</h1>
+
+<p>根据维基百科对于超定方程组的定义：</p>
+
+<blockquote>
+  <p><a href="https://en.wikipedia.org/wiki/Overdetermined_system"><strong>Overdetermined system</strong></a></p>
+
+  <p>In mathematics, a <strong>system of equations is considered overdetermined</strong> if there are more equations than unknowns. An overdetermined system is almost always inconsistent (it has no solution) when constructed with random coefficients. However, an overdetermined system will have solutions in some cases, for example if some equation occurs several times in the system, or if some equations are linear combinations of the others.
+The terminology can be described in terms of the concept of <strong>constraint counting</strong>. Each unknown can be seen as an available degree of freedom. Each equation introduced into the system can be viewed as a constraint that restricts one degree of freedom. Therefore, the critical case occurs when the number of equations and the number of free variables are equal. For every variable giving a degree of freedom, there exists a corresponding constraint. The overdetermined case occurs when the system has been overconstrained — that is, when the equations outnumber the unknowns. In contrast, the underdetermined case occurs when the system has been underconstrained — that is, when the number of equations is fewer than the number of unknowns. Such systems usually have an infinite number of solutions.</p>
+</blockquote>
+
+<p>可知：</p>
+
+<p>（1）超定方程组的概念并没有限定是线性方程组，涉及范围更广的非线性方程组同样也有超定方程组的概念；</p>
+
+<p>（2）超定方程组的定义只是定义了：方程个数大于未知数的个数就是超定方程组。因此，超定方程组和方程组有解并没有必然的联系；</p>
+
+<p>（3）超定方程组通常是不存在解的，但是有一些例外的情况。例如，超定方程组的一些方程存在线性关系，或者其中一些方程是另一些方程的线性组合；</p>
+
+<p>（4）超定的概念重点在于强调约束的数量，以及和自由度之间比较，并不强调超过自由度数量的约束是否“有效”。</p>
+
+<h1 id="线性超定方程的求解">线性超定方程的求解</h1>
+
+<h2 id="求解公式">求解公式</h2>
+
+<p>根据超定方程的定义，超定方程可以存在精确解，也可以不存在精确解，只存在近似解。而我们可以使用一种通用的计算方法，使我们面对存在精确解的超定方程可以求出<strong>精确解</strong>，面对不存在精确解的超定方程<strong>求出一个在向量范数意义下的一个”最好的”近似解</strong>。</p>
+
+<blockquote>
+  <p>超定方程的求解 $^{[1]}$</p>
+
+  <p>假设 $A$ 是一个形状为 $n\times m$ 的矩阵，并且 $n&gt;m$ （超定）, $\mathrm{rank}(A)=m$，则对于超定方程组$A\boldsymbol{x}=\boldsymbol{b}$</p>
+
+  <p>（1）如果存在精确解，那么可以用下面的计算式得到精确解：</p>
+
+\[A\boldsymbol{x}=\boldsymbol{b}\quad\Rightarrow\quad \boldsymbol{x}=(A^TA)^{-1}A^T\boldsymbol{b}=A^{+} \boldsymbol{b}\label{equa1}\]
+
+  <p>其中，$A^+=(A^TA)^{-1}A^T$ 称为矩阵 $A$ 的伪逆；</p>
+
+  <p>（2）如果不能存在精确解，则可以得到一个近似解：</p>
+
+\[A\boldsymbol{x}=\boldsymbol{b}\quad\Rightarrow\quad \boldsymbol{x}_{min}=A^{+} \boldsymbol{b}\label{equa2}\]
+
+  <p>$\boldsymbol{x}_{min}$ 由最小化 $\vert\vert A\boldsymbol{x}-\boldsymbol{b}\vert\vert^2$ （向量范数的平方，通常取二范数）得到的近似解。</p>
+</blockquote>
+
+<p>（1）对于第一种情况</p>
+
+<p>设有超定方程组 $A\boldsymbol{x}=\boldsymbol{b}$ ，假设</p>
+
+\[A=\begin{bmatrix}1&amp;1\\1&amp;2\\1&amp;1\end{bmatrix},\quad \boldsymbol{b}=\begin{bmatrix}5\\8\\5\end{bmatrix}\notag\]
+
+<p>则容易得到 $\mathrm{rank}(A)=2=m$，方程组存在精确解 $\boldsymbol{x}=[2,3]^T$。</p>
+
+<p>另一方面，可以计算得到</p>
+
+\[A^T=\begin{bmatrix}1&amp;1&amp;1\\1&amp;2&amp;1\end{bmatrix},\quad A^TA=\begin{bmatrix}3&amp;4\\4&amp;6\end{bmatrix},\quad
+(A^TA)^{-1}=\begin{bmatrix}3&amp;-2\\-2&amp;1.5\end{bmatrix}\notag\]
+
+<p>于是根据公式$\eqref{equa1}$可以得到</p>
+
+\[\boldsymbol{x}=(A^TA)^{-1}A^T\boldsymbol{b}=\begin{bmatrix}3&amp;-2\\-2&amp;1.5\end{bmatrix}\begin{bmatrix}1&amp;1&amp;1\\1&amp;2&amp;1\end{bmatrix}\begin{bmatrix}5\\8\\5\end{bmatrix}=\begin{bmatrix}2\\3\end{bmatrix}\notag\]
+
+<p>与我们的预期一致，依据公式$\eqref{equa1}$得到了方程的精确解。</p>
+
+<p>（2）对于第二种情况</p>
+
+<p>实际上，公式 $\eqref{equa2}$ 可以从超定方程组求解的几何意义上推导出，并且与最小二乘法存在着紧密的联系，可见另一篇博客：<a href="http://www.whatastarrynight.com/blog/MLE/">从曲线拟合、参数估计角度、超定方程求解的几何角度看最小二乘法</a></p>
+
+<h2 id="注意超定方程系数矩阵的秩">注意超定方程系数矩阵的秩</h2>
+
+<p>值得注意的是，上述超定方程的求解方法中的另一个条件 $\mathrm{rank}(A)=m$ ，即系数矩阵的秩和向量的个数相同。这意味着，当超定方程组系数矩阵的秩 $\mathrm{rank}(A)&lt;m$ 时，即当超定方程组所对应的齐次线性方程组 $A\boldsymbol{x}=\boldsymbol{0}$时有无穷多解时，该通用公式不能使用。</p>
+
+<p>例如，假设有超定方程组 $A\boldsymbol{x}=\boldsymbol{b}$ ，且</p>
+
+\[A=\begin{bmatrix}1&amp;1\\1&amp;1\\1&amp;1\end{bmatrix},\quad \boldsymbol{b}=\begin{bmatrix}2\\3\\4\end{bmatrix}\notag\]
+
+<p>$\mathrm{rank}(A)=1&lt;m$，则有</p>
+
+\[A^T=\begin{bmatrix}1&amp;1&amp;1\\1&amp;1&amp;1\end{bmatrix},\quad A^TA=\begin{bmatrix}3&amp;3\\3&amp;3\end{bmatrix}\notag\]
+
+<p>可以看到，矩阵 $A^TA$ 的逆不存在，因此不能使用求解公式。这时候，我们只能使用最小二乘法来得到近似解。</p>
+
+\[\begin{align}
+&amp;\arg\min\limits_{\boldsymbol{x}}\vert\vert A\boldsymbol{x}-\boldsymbol{b}\vert\vert^2_2\notag \\
+=&amp;\arg\min\limits_{\boldsymbol{x}}\vert\vert\begin{bmatrix}x_1+x_2\\x_1+x_2\\x_1+x_2\end{bmatrix}-\begin{bmatrix}2\\3\\4\end{bmatrix}\vert\vert_2^2\notag \\
+=&amp;\arg\min\limits_{\boldsymbol{x}}\Big[(x_1+x_2-2)^2+(x_1+x_2-3)^2+(x_1+x_2-4)^2\Big]\notag \\
+=&amp;\arg\min\limits_{\boldsymbol{x}}\Big[(A\boldsymbol{x}-\boldsymbol{b})^T(A\boldsymbol{x}-\boldsymbol{b})\Big]\notag \\
+=&amp;\arg\min\limits_{\boldsymbol{x}}(\boldsymbol{x}^TA^TA\boldsymbol{x}-2\boldsymbol{x}^TA^T\boldsymbol{b}+\boldsymbol{b}^T\boldsymbol{b})\label{minLoss}
+\end{align}\]
+
+\[\begin{align}
+&amp;\dfrac{\partial L(\boldsymbol{x})}{\partial \boldsymbol{x}}=2A^TA\boldsymbol{x}-2A^T\boldsymbol{b}=0\notag \\
+\Rightarrow&amp;A^TA\boldsymbol{x}=A^T\boldsymbol{b}\label{equa3}
+\end{align}\]
+
+<p>事实上，如果矩阵 $A^TA$ 可逆，就可以推出公式 $\eqref{equa2}$ 。</p>
+
+<p>公式 $\eqref{equa3}$ 对应的线性方程为：</p>
+
+\[\begin{bmatrix}3&amp;3\\3&amp;3\end{bmatrix}\begin{bmatrix}x_1\\x_2\end{bmatrix}=\begin{bmatrix}9\\9\end{bmatrix}\label{equa4}\]
+
+<p>线性方程组 $\eqref{equa4}$ 实际上有无穷多解，即最小二乘法损失函数 $L(\boldsymbol{x})$ 有无穷多个极小值，并且都落在直线 $x_1+x_2=3$ 上。如下图所示：</p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220711183217117.png" alt="image-20220711183217117" style="zoom:50%;" /></p>
+
+<p><img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220711183229158.png" alt="image-20220711183229158" style="zoom:50%;" /></p>
+
+<div class="language-matlab highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">clc</span><span class="p">,</span> <span class="nb">clear</span><span class="p">,</span> <span class="nb">close</span> <span class="nb">all</span>
+<span class="c1">% Plot loss function</span>
+<span class="n">range</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span><span class="p">:</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">;</span>
+<span class="p">[</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">]</span> <span class="o">=</span> <span class="nb">meshgrid</span><span class="p">(</span><span class="n">range</span><span class="p">,</span> <span class="n">range</span><span class="p">);</span>
+<span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_1</span><span class="o">+</span><span class="n">x_2</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_1</span><span class="o">+</span><span class="n">x_2</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">x_1</span><span class="o">+</span><span class="n">x_2</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span>
+<span class="nb">mesh</span><span class="p">(</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+<span class="nb">xlabel</span><span class="p">(</span><span class="s2">"x_1"</span><span class="p">),</span> <span class="nb">ylabel</span><span class="p">(</span><span class="s2">"x_2"</span><span class="p">),</span> <span class="nb">zlabel</span><span class="p">(</span><span class="s2">"L"</span><span class="p">)</span>
+<span class="nb">xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span> <span class="nb">ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span> <span class="nb">zlim</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">])</span> <span class="c1">% necessary, if use view function after</span>
+
+<span class="c1">% Plot solutions</span>
+<span class="n">x_1</span> <span class="o">=</span> <span class="n">range</span><span class="p">;</span>
+<span class="n">x_2</span> <span class="o">=</span> <span class="mi">3</span><span class="o">-</span><span class="n">x_1</span><span class="p">;</span>
+<span class="nb">hold</span> <span class="n">on</span>
+<span class="nb">plot</span><span class="p">(</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">,</span> <span class="n">LineWidth</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">Color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">)</span>
+<span class="nb">view</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mf">30.34</span><span class="p">)</span>
+<span class="nb">saveas</span><span class="p">(</span><span class="nb">gca</span><span class="p">,</span> <span class="s1">'pic1.svg'</span><span class="p">)</span>
+<span class="nb">view</span><span class="p">(</span><span class="mi">47</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">saveas</span><span class="p">(</span><span class="nb">gca</span><span class="p">,</span> <span class="s1">'pic2.svg'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>综上，对于线性超定方程组，如果矩阵 $A^TA$ 可逆，则我们可以通过求解公式来求得方程组的精确解或者近似解；如果矩阵 $A^TA$ 不可逆，那么我们可以直接求解式 $\eqref{equa3}$ 所对应的线性方程组。</p>
+
+<h2 id="非线性超定方程组的求解">非线性超定方程组的求解</h2>
+
+<p>最后，仍需要强调的是，以上的解析求解过程只对<strong>线性</strong>方程组成立。当超定方程组为非线性方程时，不存在类似的解法。但是最小二乘法是仍然可以使用，即转换为优化问题</p>
+
+\[\arg\min\limits_{\boldsymbol{x}}\vert\vert\boldsymbol{b}-f(\boldsymbol{x})\vert\vert^2\label{NLP}\]
+
+<p>来求解 $\boldsymbol{x}$ 仍然是成立的，但是很难通过令偏导等于零或者简单求解类似于式 $\eqref{equa3}$ 的方程组（同样很难求解）来直接求得方程组的解，更多是使用梯度下降法等数值算法，或者使用遗传算法等启发式算法求解优化问题 $\eqref{NLP}$，当然，全局最优解是很难求得的。</p>
+
+<hr />
+
+<p><strong>参考</strong></p>
+
+<p>[1] <a href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">Matrix Cookbook</a>.</p>]]></content><author><name>花魑</name></author><category term="blog" /><category term="定义" /><summary type="html"><![CDATA[超定方程组的定义]]></summary></entry><entry><title type="html">线性方程组解的判定</title><link href="http://localhost:4000/blog/The-solutions-of-linear-equations/" rel="alternate" type="text/html" title="线性方程组解的判定" /><published>2022-07-10T00:00:00+00:00</published><updated>2022-07-10T00:00:00+00:00</updated><id>http://localhost:4000/blog/The%20solutions%20of%20linear%20equations</id><content type="html" xml:base="http://localhost:4000/blog/The-solutions-of-linear-equations/"><![CDATA[<h1>Content</h1>
+
+<ul id="markdown-toc">
+  <li><a href="#线性方程组解的判定" id="markdown-toc-线性方程组解的判定">线性方程组解的判定</a></li>
+  <li><a href="#齐次线性方程组解的判定" id="markdown-toc-齐次线性方程组解的判定">齐次线性方程组解的判定</a></li>
+  <li><a href="#非线性方程组不存在类似解的判定" id="markdown-toc-非线性方程组不存在类似解的判定">非线性方程组不存在类似解的判定</a></li>
+</ul>
+
+<h3 id="线性方程组解的判定">线性方程组解的判定</h3>
+
+<p>假设 $A$ 是一个 $m\times n$ 矩阵，则对于<strong>线性方程组(systems of linear equations)</strong></p>
+
+\[A\boldsymbol{x}=\boldsymbol{b}\label{systemsoflinear equations}\]
+
+<p>设增广矩阵为$B=[A,\boldsymbol{b}]$，则有解的判定</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>条件</th>
+      <th>解的判定</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$\mathrm{rank}(A)=\mathrm{rank}(B)$</td>
+      <td>有解</td>
+    </tr>
+    <tr>
+      <td>$\mathrm{rank}(A)=\mathrm{rank}(B)=n$</td>
+      <td>有唯一解</td>
+    </tr>
+    <tr>
+      <td>$\mathrm{rank}(A)=\mathrm{rank}(B)&lt;n$</td>
+      <td>有无穷多解</td>
+    </tr>
+    <tr>
+      <td>$\mathrm{rank}(A)&lt;\mathrm{rank}(B)$</td>
+      <td>无解</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+<h3 id="齐次线性方程组解的判定">齐次线性方程组解的判定</h3>
+
+<p>特别地，对于<strong>齐次线性方程组(homogeneous linear equations)</strong></p>
+
+\[A\boldsymbol{x}=\boldsymbol{0}\label{homogeneous}\]
+
+<p>方程组一定有解（至少存在零解）。</p>
+
+<p>进一步地，齐次线性方程组存在<strong>非零解</strong>的充要条件是：</p>
+
+\[齐次线性方程组\eqref{homogeneous}有非零解\Leftrightarrow r(A)&lt;n\notag\]
+
+<hr />
+<h3 id="非线性方程组不存在类似解的判定">非线性方程组不存在类似解的判定</h3>
+
+<p>秩(rank)是基于<strong>线性方程组</strong>定义的，因此对于非线性方程组，并不存在类似通用的判定解的条件。实际上，非线性的概念非常宽泛和复杂，只要输入输出不满足线性性质（齐次性和可加性）的函数都被称为非线性函数，比如多项式函数、带有微分项、偏微分项的函数等等。因此，判定由它们所构成构成的方程组的解的情况当然不存在类似的通用方法。</p>
+
+<hr />
+
+<p><strong>参考</strong></p>
+
+<p>[1] <a href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">Matrix Cookbook</a>.</p>
+
+<p>[2] <a href="https://en.wikipedia.org/wiki/Nonlinear_system">Nonlinear system</a>.</p>]]></content><author><name>花魑</name></author><category term="blog" /><category term="线性代数" /><summary type="html"><![CDATA[Content]]></summary></entry></feed>
