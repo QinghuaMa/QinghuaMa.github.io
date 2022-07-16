@@ -101,9 +101,9 @@
   <body class="layout--single wide">
     <nav class="skip-links">
   <ul>
-    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
-    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
-    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+    <li><a href="#site-nav" class="screen-reader-shortcut">转到主导航栏</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">转到内容</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">转到底部</a></li>
   </ul>
 </nav>
 
@@ -123,22 +123,16 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/posts/">Posts</a>
-            </li><li class="masthead__menu-item">
-              <a href="/categories/">Categories</a>
-            </li><li class="masthead__menu-item">
-              <a href="/tags/">Tags</a>
-            </li><li class="masthead__menu-item">
-              <a href="/about/">About</a>
+              <a href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/">Quick-Start Guide</a>
             </li></ul>
         
         <button class="search__toggle" type="button">
-          <span class="visually-hidden">Toggle search</span>
+          <span class="visually-hidden">切换搜索</span>
           <i class="fas fa-search"></i>
         </button>
         
         <button class="greedy-nav__toggle hidden" type="button">
-          <span class="visually-hidden">Toggle menu</span>
+          <span class="visually-hidden">切换菜单</span>
           <div class="navicon"></div>
         </button>
         <ul class="hidden-links hidden"></ul>
@@ -149,34 +143,7 @@
 
 
     <div class="initial-content">
-      <head>
-  <!-- Support MathJax and automatic equation numbering -->
-  <!-- MathJax demos: https://github.com/mathjax/MathJax-demos-web#customization-->
-  <!-- https://github.com/mathjax/MathJax-demos-web/blob/master/equation-refs.html.md -->
-  <script>
-    MathJax = {
-      tex: {
-        tags: 'all',  // should be 'ams', 'none', or 'all'
-        inlineMath: [['$','$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-      //   Macros: {
-      //     boldsymbol: ["\\boldsymbol{#1}",1],
-      // }
-      }
-    };
-  </script>
-    <!-- Important for auto equation numbering-->
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-    
-    <!-- Support mermaid -->
-    <!-- https://mermaid-js.github.io/mermaid/#/n00b-gettingStarted?id=_3-calling-the-javascript-api -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <script> mermaid.initialize({ startOnLoad: true }); </script> -->
-    <!-- <div class="mermaid">mermaid code</div> -->
-</head>
-
-
+      
 
 
   
@@ -191,7 +158,7 @@
     
       
         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">首页</span></a>
           <meta itemprop="position" content="1" />
         </li>
         <span class="sep">/</span>
@@ -245,7 +212,7 @@
   </div>
 
   <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">Follow</button>
+    <button class="btn btn--inverse">关注</button>
     <ul class="author__urls social-icons">
       
         <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
@@ -361,7 +328,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          少于 1 分钟阅读
         
       </span>
     
@@ -391,7 +358,7 @@
   
 
   <p class="page__taxonomy">
-    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 标签: </strong>
     <span itemprop="keywords">
     
       <a href="/tags/#a-word" class="page__taxonomy-item" rel="tag">A word</a>
@@ -408,7 +375,7 @@
   
 
   <p class="page__taxonomy">
-    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 分类: </strong>
     <span itemprop="keywords">
     
       <a href="/categories/#life" class="page__taxonomy-item" rel="tag">Life</a>
@@ -419,7 +386,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-07-14T12:41:59+00:00">July 14, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 更新时间:</strong> <time datetime="2022-07-14T12:41:59+00:00">July 14, 2022</time></p>
 
 
       </footer>
@@ -430,11 +397,11 @@
   <nav class="pagination">
     
       <a href="/mathematics/Vector-derivative/" class="pagination--pager" title="向量求导公式
-">Previous</a>
+">上一页</a>
     
     
       <a href="/machine%20learning/Incremental-Learning/" class="pagination--pager" title="【增量学习】Implement Incremental Learning for Classification Using Flexible Workflow
-">Next</a>
+">下一页</a>
     
   </nav>
 
@@ -453,9 +420,9 @@
       <div class="search-content">
         <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
     <label class="sr-only" for="search">
-      Enter your search term...
+      输入您要搜索的关键词...
     </label>
-    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="输入您要搜索的关键词..." />
   </form>
   <div id="results" class="results"></div></div>
 
@@ -470,6 +437,8 @@
         <div class="page__footer-follow">
   <ul class="social-icons">
     
+      <li><strong>关注:</strong></li>
+    
 
     
 
@@ -479,7 +448,7 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2022 花魑. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2022 花魑. 技术来自于 <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

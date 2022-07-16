@@ -80,6 +80,8 @@ GEM
     json (2.6.2)
     kramdown (2.4.0)
       rexml
+    kramdown-parser-gfm (1.1.0)
+      kramdown (~> 2.0)
     liquid (4.0.3)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -144,6 +146,7 @@ DEPENDENCIES
   jekyll-pandoc
   jekyll-seo-tag
   jekyll-sitemap
+  kramdown-parser-gfm
   minima (~> 2.0)
   minimal-mistakes-jekyll
   tzinfo
