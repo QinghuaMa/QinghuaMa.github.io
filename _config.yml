@@ -19,7 +19,9 @@
 # in the templates via {{ site.myvariable }}.
 
 
-# theme                    : minimal-mistakes-jekyll  # "minimal-mistakes-jekyll" # "minimal-mistakes-jekyll"
+
+
+theme                    : minimal-mistakes-jekyll  # "minimal-mistakes-jekyll" # "minimal-mistakes-jekyll"
 minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 locale                   : "en-US" # "zh-CN"
 title                    : "What a starry night~"
@@ -130,8 +132,8 @@ defaults:
       author_profile: true
       show_date: true
       date_format: "%Y-%m-%d "
-      read_time: true
-      words_per_minute: 250
+      # read_time: true
+      # words_per_minute: 250
       toc: true
       toc_label: "Table of Contents"
       toc_sticky: true
