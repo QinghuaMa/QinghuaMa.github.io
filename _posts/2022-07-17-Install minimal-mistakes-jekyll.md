@@ -131,7 +131,13 @@ github-pages 227 | Error:  The minimal-mistakes-jekyll theme could not be found.
 
 ![image-20220717115246068](https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220717115246068.png)
 
-之后，将文件夹中的这些文件夹都复制到网站项目仓库中，再按照官方文档中的 [Configuration](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) 配置 _config.yml 文件，并且在配置好 Gemfile 文件，最后上传到GitHub上。
+之后，将文件夹中的这些文件夹都复制到网站项目仓库中。
+
+然后，将 [Minimal mistakes remote theme starter](https://github.com/mmistakes/mm-github-pages-starter/generate) 中的 _page文件夹复制到网站项目文件夹中，并将其中的 _data 文件夹中的 navigation.yml 文件替换掉网站项目文件中的相应文件。
+
+![image-20220717123632223](https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220717123632223.png)
+
+最后，按照官方文档中的 [Configuration](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) 配置 _config.yml 文件，并且配置好 Gemfile 文件，上传到GitHub上。
 
 但是在构建网站时又遇见了新的报错信息：
 
