@@ -131,7 +131,7 @@ github-pages 227 | Error:  The minimal-mistakes-jekyll theme could not be found.
 
 ![image-20220717115246068](https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220717115246068.png)
 
-之后，将文件夹中的这些文件夹都复制到网站项目仓库中。
+将上图中的文件夹都复制到网站项目仓库中。
 
 然后，将 [Minimal mistakes remote theme starter](https://github.com/mmistakes/mm-github-pages-starter/generate) 中的 _page文件夹复制到网站项目文件夹中，并将其中的 _data 文件夹中的 navigation.yml 文件替换掉网站项目文件中的相应文件。
 
