@@ -45,3 +45,6 @@ output1 = x;
 end
 ```
 
+
+
+![Mapping](https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/Mapping.gif)
