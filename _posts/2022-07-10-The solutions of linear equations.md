@@ -7,10 +7,6 @@ tags:
  - Matrix
 ---
 
-<h1>Content</h1>
-
-* TOC
-{:toc}
 
 
 ### 线性方程组解的判定
