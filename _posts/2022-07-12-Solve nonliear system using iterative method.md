@@ -3,7 +3,8 @@ layout: single
 title: 迭代法求解非线性方程(组)
 date: 2022-07-12 13:45:17
 categories: ["Mathematics"]
-tags: ["Numerical Analysis"]
+tags: 
+  - Numerical analysis
 ---
 
 

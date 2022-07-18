@@ -34,7 +34,7 @@ for i=1:numel(cs)
     fig = MappingPlot1(cs(i), numPoints, fig, textFlag, LineWidth, Interpreter);
 end
 
-% Plot complex variable, subject to x^2 - y^2 = c, and its mapping
+% Plot complex variable, subject to 2xy=k, and its mapping
 for i=1:numel(ks)
     if i ~= numel(ks)
         textFlag = false;
@@ -45,11 +45,8 @@ for i=1:numel(ks)
 end
 
 
-
-
 % Plot complex variable, subject to x^2 - y^2 = c, and its mapping function----------------------------
 function fig = MappingPlot1(c, numPoints, fig, textFlag, LineWidth, Interpreter)
-
 % Prepare data
 % Complex variable
 y = linspace(-5, 5, numPoints);

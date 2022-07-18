@@ -2,8 +2,9 @@
 layout: single
 title: 线性变换的概念及其与矩阵之间的关系
 date: 2022-06-11
-categories: blog
-tags: [线性代数]
+categories: Mathematics
+tags: 
+  - Matrix
 ---
 
 

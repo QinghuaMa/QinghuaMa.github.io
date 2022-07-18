@@ -2,7 +2,7 @@
 layout: single
 title: MATLAB中UI figure和Axes的位置和大小设定
 date: 2022-06-23
-categories: blog
+categories: Program
 tags: [MATLAB]
 ---
 

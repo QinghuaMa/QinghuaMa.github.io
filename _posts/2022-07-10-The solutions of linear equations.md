@@ -2,8 +2,9 @@
 layout: single
 title: 线性方程组解的判定
 date: 2022-07-10
-categories: blog
-tags: [线性代数]
+categories: Mathematics
+tags: 
+ - Matrix
 ---
 
 <h1>Content</h1>

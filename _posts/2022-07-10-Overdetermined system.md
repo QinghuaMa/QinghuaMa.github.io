@@ -2,8 +2,9 @@
 layout: single
 title: 超定方程的定义和求解
 date: 2022-07-10
-categories: blog
-tags: [定义]
+categories: Mathematics
+tags: 
+  - Matrix 
 ---
 
 

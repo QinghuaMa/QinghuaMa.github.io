@@ -2,9 +2,9 @@
 layout: single
 title: 切比雪夫多项式及切比雪夫插值
 date: 2022-02-14
-categories: blog
-tags: [数值分析]
-description: 切比雪夫多项式及切比雪夫插值
+categories: Mathematics
+tags: 
+  - Numerical analysis
 ---
 
 

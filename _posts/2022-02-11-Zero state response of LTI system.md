@@ -2,9 +2,10 @@
 layout: single
 title: 线性时不变(LTI)系统的零状态响应等于输入信号与单位脉冲响应的卷积
 date: 2022-02-11
-categories: blog
-tags: [信号与系统]
-description: 线性时不变(LTI)系统的零状态响应等于输入信号与单位脉冲响应的卷积
+categories: 
+ - Signals and Systems
+tags: 
+ - Signals and Systems
 ---
 
 

@@ -2,8 +2,9 @@
 layout: single
 title: Gamma函数和Beta函数的定义及性质
 date: 2022-07-07
-categories: blog
-tags: [概率论与数理统计]
+categories: Mathematics
+tags: 
+  - Probability theory and mathematical statistics
 ---
 
 

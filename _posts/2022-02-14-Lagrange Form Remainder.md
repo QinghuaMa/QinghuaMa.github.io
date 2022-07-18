@@ -2,10 +2,9 @@
 layout: single
 title: n次插值多项式的截断误差估计式（拉格朗日插值余项）
 date: 2022-02-14
-categories: blog
-tags: [数值分析]
-description: n次插值多项式的截断误差估计式（拉格朗日插值余项）
-
+categories: Mathematics
+tags: 
+  - Numerical analysis
 ---
 
 

@@ -2,9 +2,9 @@
 layout: single
 title: 向量点积的代数定义和几何定义
 date: 2022-06-09
-categories: blog
-tags: [线性代数]
-description: 向量点积的代数定义和几何定义及两者之间的关系
+categories: Mathematics
+tags: 
+ - Matrix
 ---
 
 

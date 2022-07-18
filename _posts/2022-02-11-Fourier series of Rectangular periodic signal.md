@@ -2,9 +2,10 @@
 layout: single
 title: 周期矩形脉冲（周期门函数）的三角型傅里叶级数和指数型傅里叶级数
 date: 2022-02-11
-categories: blog
-tags: [信号与系统]
-description: 周期矩形脉冲（周期门函数）的三角型傅里叶级数和指数型傅里叶级数
+categories: 
+  - Signals and Systems
+tags: 
+  - Signals and Systems
 ---
 
 

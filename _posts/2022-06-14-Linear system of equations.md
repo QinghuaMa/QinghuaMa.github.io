@@ -2,8 +2,9 @@
 layout: single
 title: 线性方程组求解的几何意义
 date: 2022-06-14
-categories: blog
-tags: [线性代数]
+categories: Mathematics
+tags: 
+  - Matrix
 ---
 
 

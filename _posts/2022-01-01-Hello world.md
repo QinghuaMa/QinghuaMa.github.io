@@ -2,10 +2,10 @@
 layout: single
 title: Hello, world!
 date: 2022-01-01 10:17:07
-categories: 日常
-tags: ["Hello world"]
-description: Hello, world!
 categories: 
+ - Life
+tags:
+ - A word
 ---
 
 # Welcome

@@ -2,7 +2,7 @@
 layout: single
 title: MATLAB error, Deep Learning Toolbox, Invalid input data. Invalid number of spatial dimensions. Layer expects 0 but received 1.
 date: 2022-06-08
-categories: blog
+categories: Program
 tags: [MATLAB]
 ---
 

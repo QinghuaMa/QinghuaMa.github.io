@@ -1,6 +1,5 @@
 clc, clear, close all
 
-
 LineWidth = 1.5;
 Interpreter = 'latex';
 numPoints = 30;
@@ -25,24 +24,21 @@ title('Mapping')
 y = linspace(-2, 2, numPoints);
 x = y.^2 - 1;
 fig = MappingPlot(numPoints, x, y, fig, '$x=y^2-1$', false, LineWidth, Interpreter);
-
+% Trajectory at x-y plain, x=0
 y = linspace(-4, 4, numPoints);
 x = zeros(1, numel(y));
 fig = MappingPlot(numPoints, x, y, fig, '$x=0$', false, LineWidth, Interpreter);
-
+% Trajectory at x-y plain, x=1-y^2
 y = linspace(-2, 2, numPoints);
 x = -(y.^2 - 1);
 fig = MappingPlot(numPoints, x, y, fig, '$x=1-y^2$', false , LineWidth, Interpreter, 'b');
-
+% Trajectory at x-y plain, x^2+y^2=1
 y = linspace(-1, 1, numPoints);
 x = sqrt(1 - y.^2) ;
 fig = MappingPlot(numPoints, x, y, fig, '$x^2+y^2=1$', false , LineWidth, Interpreter);
-
 y = -linspace(-1, 1, numPoints);
 x = -sqrt(1 - y.^2) ;
 fig = MappingPlot(numPoints, x, y, fig, '$x^2+y^2=1$', true , LineWidth, Interpreter, 'g');
-
-
 
 function fig = MappingPlot(numPoints, x, y, fig, TEXT, textFlag, LineWidth, Interpreter, c)
 if(~exist('c','var'))

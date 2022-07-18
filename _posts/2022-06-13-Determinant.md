@@ -2,8 +2,8 @@
 layout: single
 title: 行列式的定义
 date: 2022-06-13
-categories: blog
-tags: [线性代数]
+categories: Mathematics
+tags: [Matrix]
 ---
 
 
