@@ -1,11 +1,12 @@
 clc, clear, close all
 
-% Plot settings
+
 LineWidth = 1.5;
 Interpreter = 'latex';
 numPoints = 30;
 
-fig = figure('unit', 'centimeters', 'position', [15, 7, 21, 10]);
+fig = figure('unit', 'centimeters', 'position', [15, 7, 29, 15]);
+sgtitle('Complex Mapping: $w=z^2+1$', Interpreter=Interpreter)
 ax1 = subplot(1, 2, 1); ax1.Parent = fig;
 scatter([0, 0], [-1, 1], 'filled')
 axis([-4, 4, -5, 5])
@@ -20,7 +21,7 @@ xlabel('u', Interpreter=Interpreter);
 ylabel('v', Interpreter=Interpreter);
 title('Mapping')
 
-
+% Trajectory at x-y plain, x=y^2-1
 y = linspace(-2, 2, numPoints);
 x = y.^2 - 1;
 fig = MappingPlot(numPoints, x, y, fig, '$x=y^2-1$', false, LineWidth, Interpreter);
@@ -43,12 +44,10 @@ fig = MappingPlot(numPoints, x, y, fig, '$x^2+y^2=1$', true , LineWidth, Interpr
 
 
 
-
 function fig = MappingPlot(numPoints, x, y, fig, TEXT, textFlag, LineWidth, Interpreter, c)
 if(~exist('c','var'))
     c = 'r';  
 end
-% Mapping of complex variable
 u = x.^2 - y.^2 + 1;
 v = 2*x.*y;
 
@@ -60,7 +59,7 @@ for k = 1:numPoints
     addpoints(h1, x(k), y(k))
     addpoints(h2, u(k), v(k))
     drawnow
-    exportgraphics(gcf,'Mapping.gif','Append',true);
+    exportgraphics(gcf,'Mapping2.gif','Append',true);
 end
 text1.Visible = textFlag;
 end
