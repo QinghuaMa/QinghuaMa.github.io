@@ -6,7 +6,7 @@ categories:
  - Program
 tags: 
  - manim
- - python
+ - Python
 toc: false
 ---
 

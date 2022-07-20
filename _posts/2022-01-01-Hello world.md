@@ -4,8 +4,6 @@ title: Hello, world!
 date: 2022-01-01 10:17:07
 categories: 
  - Life
-tags:
- - A word
 toc: false
 ---
 
