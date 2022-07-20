@@ -447,9 +447,65 @@ end
 end
 ```
 
+# 复变函数的增量 $\mathrm{d}w$ 在几何上如何体现？
+
+在实变函数领域，如果实变函数 $y=f(x)$ 可微，则有：$\mathrm{d}y=f'(x)\mathrm{d}x$，对于指定的一点$x_0$，有$\mathrm{d}y\vert_{x=x_0}=f'(x_0)\mathrm{d}x$，从几何角度看，这表示在 $x_0$ 处增加一个极小量 $\mathrm{d}x$ ，函数值增加 $\mathrm{d}y$。例如，对于实变函数 $y=x^2$，有：
+
+<img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/image-20220720143426716.png" alt="image-20220720143426716" style="zoom:50%;" />
+
+```matlab
+clc, clear, close all
+
+Interpreter = 'latex';
+LineWidth = 1.5;
+FontSize = 13;
+numPoints = 100;
+
+fig = figure();
+ax = axes;
+f = @(x) x.^2;
+tangent = @(x) 2*(x-1) + 1;
+x = linspace(-2, 2, numPoints);
+deltax = linspace(0, 2, numPoints);
+deltay = tangent(deltax);
+dx = linspace(1, 1.05, numPoints);
+dy = linspace(f(1), tangent(1.05), numPoints);
+
+scatter(1, f(1), 'filled'), hold on
+plot(x, f(x), LineWidth=LineWidth, Color='b'), hold on
+plot(deltax, deltay, LineWidth=LineWidth, Color='r'), hold on
+plot(dx, ones(1, numel(dx)), LineWidth=LineWidth, LineStyle = '--', Color='k'), hold on
+plot(1.05*ones(1, numel(dx)), dy, LineWidth=LineWidth, LineStyle='--', Color='k')
+text(0.97, 1.05, '$f^{\prime}(1)=2$', Interpreter=Interpreter, FontSize=FontSize)
+text(1.02, 0.99, '$\mathrm{d}x$', Interpreter=Interpreter, FontSize=FontSize)
+text(1.053, 1.047, '$\mathrm{d}y$', Interpreter=Interpreter, FontSize=FontSize)
+legend('', '$y=x^2$','tangent at (1, y(1))', Interpreter=Interpreter, Location='northwest')
 
 
+axis([0.92, 1.18, 0.94, 1.20])
+title('$y=x^2$', Interpreter=Interpreter)
+xlabel('x', Interpreter=Interpreter)
+ylabel('y', Interpreter=Interpreter)
+```
 
+实变函数的增量过程在几何上比较容易理解。但是复变函数的增量 $\mathrm{d}w$ 怎么理解呢？在复变函数领域，如果复变函数 $w=f(z)$ 是解析的，同样有 $\mathrm{d}w=f'(z)\mathrm{d}z$，**这个表达式在几何上如何体现？**
+
+假设函数 $w=f(z)$ 是一个解析的复变函数，则 $f'(z)$ 同样是一个复变函数，则 $f'(z)$ 在 $z=z_0$ 处的值 $f'(z_0)$ （当固定了 $z_0$ 后 $f'(z_0)$ 就是一个复数），总可以写作如下形式：
+$$
+f'(z_0)=a+\mathrm{i}b=B+Ae^{\mathrm{i}\theta}\notag
+$$
+其中 $B$ 和 $A$ 都是实数。因此有
+$$
+\mathrm{d}w\vert_{z=z_0}=(B+Ae^{\mathrm{i}\theta})\mathrm{d}z=B\mathrm{d}z+Ae^{\mathrm{i}\theta}\mathrm{d}z\notag
+$$
+其中：
+
+- $B\mathrm{d}z$ 表示将复数 $\mathrm{d}z$ 缩放 $B$ 倍；
+- $Ae^{\mathrm{i}\theta}\mathrm{d}z$ 表示先将复数 $\mathrm{d}z$ 旋转 $\theta$ 角度，再将复数缩放 $A$ 倍；
+
+最终，复数增量 $\mathrm{d}w$ 表现为上述两个复数的相加。
+
+又因为复变函数 $w=f(z)$ 是解析的，因此在 $z_0$ 的复平面领域内，无论 $z$ 以什么样的方式接近 $z_0$，即无论 $\mathrm{d}z$ 如何取值，$\mathrm{d}w\vert_{z=z_0}=f'(z_0)\mathrm{d}z$ 均成立。所以，**复数增量 $\mathrm{d}w\vert_{z=z_0}$ 的几何含义就是将 $z_0$ 附近的一部分小区域旋转并缩放**。
 
 
 ---
