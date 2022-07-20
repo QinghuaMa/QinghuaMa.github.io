@@ -6,6 +6,7 @@ categories:
  - Life
 tags:
  - A word
+toc: false
 ---
 
 # Welcome
