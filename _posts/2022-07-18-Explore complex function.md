@@ -333,6 +333,125 @@ $$
 
 如果一个复变函数 $w=f(z)$ 在复平面上的某一点 $z$ 处可微，我们就称 $f(z)$ 在 $z$ 点是**解析**的。很明显，对于实数域的可微而言，解析是一个更为严格的条件。但是一旦一个复变函数被证明是解析的，那么它就符合类似于实数域规则的求导规则。例如，两个函数的和以及积的微分公式、链式法则，还有诸如 $\mathrm{d}(x^n)/\mathrm{d}x=nx^{n-1}$ 的公式，所有这些对实变量函数都成立的法则对复变量函数依然成立。我们称函数 $y=f(x)$ 的性质**移植到了复数域中**。
 
+# 验证复变函数 $w=z^2+1$ 的解析性质
+
+柯西-黎曼方程的证明比较困难，但是当我们根据柯西黎曼方程证明一个复变函数 $w=f(z)$ 是解析的，就可以从几何上考察一下：当 $z$ 以不同的方式趋近一个点时，复数映射会发生什么，并且验证实变函数 $y=f(x)$ 的性质是否移植到了复数域中。
+
+假设对于复变函数 $w=z^2+1$ ，并且在 $z$ 平面上存在一点 $z_0=(0.5,0)$。现在我们在以 $P$ 为圆心，半径为0.5的圆形邻域边界上等间隔地选取12个点，使它们以直线的方式逼近点 $z_0$ 。下图就展示了在逼近的过程中，$z$ 平面中的直线轨迹以及所对应的 $w$ 平面中的轨迹。
+
+<img src="https://blogimages-1309804558.cos.ap-nanjing.myqcloud.com/imgpersonal/Mapping3.gif" alt="Mapping3" style="zoom:50%;" />
+
+从程序上讲，如果对于 $z$ 平面中每一条逼近的直线我们都取5000个点，那么倒数第二个点和最后一个点之间的复数差值我们就可以认为是一个很小的 $\Delta z$，与之对应的是 $w$ 平面中的 $\Delta w$。对于每一条直线轨迹都计算一下 $\Delta w/\Delta z$，可以得到：
+
+```matlab
+>> derivates
+derivates =
+   0.9999 - 0.0000i
+   0.9999 - 0.0001i
+   0.9999 - 0.0001i
+   1.0000 - 0.0001i
+   1.0001 - 0.0001i
+   1.0001 - 0.0001i
+   1.0001 + 0.0000i
+   1.0001 + 0.0001i
+   1.0001 + 0.0001i
+   1.0000 + 0.0001i
+   0.9999 + 0.0001i
+   0.9999 + 0.0001i
+```
+
+可以看到，这些值都是非常接近的，并且接近$2\times z_0=1$ ，这就验证了 $\dfrac{\mathrm{d}w}{\mathrm{d}z}=2z$ 的解析性质。
+
+（上述绘图及分析过程代码）
+
+```matlab
+clc, clear, close all
+
+Interpreter = 'latex';
+gifFile = 'Mapping3.gif';
+if exist(gifFile, 'file')
+    delete(gifFile)
+end
+LineWidth = 1.5;
+numPoints = 5000;
+rng(42)
+
+fig = figure('unit', 'centimeters', 'position', [15, 7, 29, 15]);
+sgtitle('Complex Mapping: $w=z^2+1$', Interpreter=Interpreter)
+
+ax1 = subplot(1, 2, 1); ax1.Parent = fig;
+theta = linspace(-pi, pi, numPoints);
+a = 0.5;
+b = 0;
+r = 0.5;
+x = r*cos(theta) + a;
+y = r*sin(theta);
+
+plot(x, y, LineWidth=LineWidth, Color='k', LineStyle='--'), hold on
+scatter(0.5, 0, 'filled')
+axis([-0.5, 1.5, -1, 1])
+xlabel('x', Interpreter=Interpreter);
+ylabel('y', Interpreter=Interpreter);
+title('Complex')
+set(gca, 'DataAspectRatio', [1 1 1])
+
+ax2 = subplot(1, 2, 2); ax2.Parent = fig;
+scatter(0, 0, 'filled');
+axis([0.5, 2, -1, 1])
+xlabel('u', Interpreter=Interpreter);
+ylabel('v', Interpreter=Interpreter);
+title('Mapping')
+set(gca, 'DataAspectRatio', [1.5 2 1])
+
+interval = pi/6;
+epsilon = 1e-13;
+numLines = (2*pi)/interval;
+zs = zeros(numLines, 1);
+ws = zeros(numLines, 1);
+idx = 1;
+for k = -pi : interval : pi - interval
+    xk = r*cos(k) + a;
+    yk = r*sin(k) +b;
+    if abs(xk - a) <= epsilon
+        n = linspace(yk, b, numPoints);
+        m = a*ones(1, numel(n));
+    elseif abs(xk - a) > epsilon
+        m = linspace(xk, a, numPoints);
+        n = (yk-b)/(xk-a) * (m-a) + b;
+    end
+    [fig, u, v] = MappingLink(fig, m, n, numPoints, gifFile, LineWidth);
+    z = complex(m(end-1), n(end-1));
+    w = complex(u(end-1), v(end-1));
+    zs(idx) = z;
+    ws(idx) = w;
+    idx = idx + 1;
+end
+deltazs = zs - complex(m(end), n(end));
+deltaws = ws - complex(u(end), n(end));
+derivates = deltaws./deltazs;
+
+function [fig, u, v] = MappingLink(fig, x, y, numPoints, gifFile, LineWidth)
+u = x.^2 - y.^2 + 1;
+v = 2*x.*y;
+
+Color = [rand(), rand(), rand()];
+h1 = animatedline(LineWidth=LineWidth, Color=Color); h1.Parent = fig.Children(2);
+h2 = animatedline(LineWidth=LineWidth, Color=Color); h2.Parent = fig.Children(1);
+
+for i = 1: numPoints
+    addpoints(h1, x(i), y(i))
+    addpoints(h2, u(i), v(i))
+    drawnow
+    exportgraphics(gcf, gifFile, 'Append', true);
+end
+end
+```
+
+
+
+
+
+
 ---
 **参考**
 

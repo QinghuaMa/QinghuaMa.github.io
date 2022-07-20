@@ -1,18 +1,26 @@
 clc, clear, close all
 
-LineWidth = 1.5;
 Interpreter = 'latex';
-numPoints = 300;
+gifFile = 'Mapping3.gif';
+% if exist(gifFile, 'file')
+%     delete(gifFile)
+% end
+LineWidth = 1.5;
+numPoints = 5000;
+rng(42)
 
 fig = figure('unit', 'centimeters', 'position', [15, 7, 29, 15]);
 sgtitle('Complex Mapping: $w=z^2+1$', Interpreter=Interpreter)
 
 ax1 = subplot(1, 2, 1); ax1.Parent = fig;
-x = 0:.01:1;
-y1 = sqrt(0.5^2-(x-0.5).^2);
-y2 = -y1;
-plot(x, y1, LineWidth=LineWidth, Color='k', LineStyle='--'), hold on
-plot(x, y2, LineWidth=LineWidth, Color='k', LineStyle='--'), hold on
+theta = linspace(-pi, pi, numPoints);
+a = 0.5;
+b = 0;
+r = 0.5;
+x = r*cos(theta) + a;
+y = r*sin(theta);
+
+plot(x, y, LineWidth=LineWidth, Color='k', LineStyle='--'), hold on
 scatter(0.5, 0, 'filled')
 axis([-0.5, 1.5, -1, 1])
 xlabel('x', Interpreter=Interpreter);
@@ -28,43 +36,45 @@ ylabel('v', Interpreter=Interpreter);
 title('Mapping')
 set(gca, 'DataAspectRatio', [1.5 2 1])
 
-x1_1 = linspace(0, 0.5 , numPoints); y1_1 = zeros(1, numel(x1_1)) ;
-fig = MappingPlot(numPoints, x1_1, y1_1, fig, LineWidth);
-
-x1_2 = linspace(0.5-0.5/sqrt(2), 0.5 , numPoints); y1_2 = -x1_2+0.5;
-fig = MappingPlot(numPoints, x1_2, y1_2, fig, LineWidth);
-
-y1_3 = linspace(0.5, 0, numPoints); x1_3 = 0.5*ones(1, numel(y1_3));
-fig = MappingPlot(numPoints, x1_3, y1_3, fig, LineWidth);
-
-x1_4 = linspace(0.5+0.5/sqrt(2), 0.5 , numPoints); y1_4 = x1_4 - 0.5;
-fig = MappingPlot(numPoints, x1_4, y1_4, fig, LineWidth);
-
-x1_5 = linspace(1, 0.5 , numPoints); y1_5 = zeros(1, numel(x1_5));
-fig = MappingPlot(numPoints, x1_5, y1_5, fig, LineWidth);
-
-x1_6 = x1_4; y1_6 = -x1_6 + 0.5;
-fig = MappingPlot(numPoints, x1_6, y1_6, fig, LineWidth);
-
-
-
-
-
-function fig = MappingPlot(numPoints, x, y, fig, LineWidth)
-if(~exist('c','var'))
-    c = 'r';  
+interval = pi/6;
+epsilon = 1e-13;
+numLines = (2*pi)/interval;
+zs = zeros(numLines, 1);
+ws = zeros(numLines, 1);
+idx = 1;
+for k = -pi : interval : pi - interval
+    xk = r*cos(k) + a;
+    yk = r*sin(k) +b;
+    if abs(xk - a) <= epsilon
+        n = linspace(yk, b, numPoints);
+        m = a*ones(1, numel(n));
+    elseif abs(xk - a) > epsilon
+        m = linspace(xk, a, numPoints);
+        n = (yk-b)/(xk-a) * (m-a) + b;
+    end
+    [fig, u, v] = MappingLink(fig, m, n, numPoints, gifFile, LineWidth);
+    z = complex(m(end-1), n(end-1));
+    w = complex(u(end-1), v(end-1));
+    zs(idx) = z;
+    ws(idx) = w;
+    idx = idx + 1;
 end
+deltazs = zs - complex(m(end), n(end));
+deltaws = ws - complex(u(end), n(end));
+derivates = deltaws./deltazs;
+
+function [fig, u, v] = MappingLink(fig, x, y, numPoints, gifFile, LineWidth)
 u = x.^2 - y.^2 + 1;
 v = 2*x.*y;
 
-h1 = animatedline(LineWidth=LineWidth); h1.Parent = fig.Children(2);
-h2 = animatedline(LineWidth=LineWidth, Color=[0.85, 0.33, 0.1]); h2.Parent = fig.Children(1);
+Color = [rand(), rand(), rand()];
+h1 = animatedline(LineWidth=LineWidth, Color=Color); h1.Parent = fig.Children(2);
+h2 = animatedline(LineWidth=LineWidth, Color=Color); h2.Parent = fig.Children(1); 
 
-for k = 1:numPoints
-    addpoints(h1, x(k), y(k))
-    addpoints(h2, u(k), v(k))
+for i = 1: numPoints
+    addpoints(h1, x(i), y(i))
+    addpoints(h2, u(i), v(i))
     drawnow
-%     exportgraphics(gcf,'Mapping3.gif','Append',true);
+%     exportgraphics(gcf, gifFile, 'Append', true);
 end
-
 end
