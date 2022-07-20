@@ -491,13 +491,17 @@ ylabel('y', Interpreter=Interpreter)
 实变函数的增量过程在几何上比较容易理解。但是复变函数的增量 $\mathrm{d}w$ 怎么理解呢？在复变函数领域，如果复变函数 $w=f(z)$ 是解析的，同样有 $\mathrm{d}w=f'(z)\mathrm{d}z$，**这个表达式在几何上如何体现？**
 
 假设函数 $w=f(z)$ 是一个解析的复变函数，则 $f'(z)$ 同样是一个复变函数，则 $f'(z)$ 在 $z=z_0$ 处的值 $f'(z_0)$ （当固定了 $z_0$ 后 $f'(z_0)$ 就是一个复数），总可以写作如下形式：
+
 $$
 f'(z_0)=a+\mathrm{i}b=B+Ae^{\mathrm{i}\theta}\notag
 $$
+
 其中 $B$ 和 $A$ 都是实数。因此有
+
 $$
 \mathrm{d}w\vert_{z=z_0}=(B+Ae^{\mathrm{i}\theta})\mathrm{d}z=B\mathrm{d}z+Ae^{\mathrm{i}\theta}\mathrm{d}z\notag
 $$
+
 其中：
 
 - $B\mathrm{d}z$ 表示将复数 $\mathrm{d}z$ 缩放 $B$ 倍；
