@@ -44,7 +44,7 @@ There are several equivalent formulations of the theorem:
    >
    > BTW，3Blue1Brown 频道在介绍群论的时候提到过该定理的一个证明方式。群论(Group theory)是一门研究对称性的一门学科，从群论的观点看，假设五次方程真的有求根公式，而这个求根公式只用到了四则运算和根号，那么5个元素的置换群$S_5$能够分解成一类特殊的单群，即素数阶循环群(cyclic groups of prime order)，但是如果讲 $S_5$  **真正地** 分解， 则用到了另一类单群，而带根号的求根公式中绝不会出现这种单群，根据这个矛盾推出了假设——五次方程有求根公式——是错误的。当然，其中略去的细节需要相当长的时间才能讲完😂
 
-有趣的是，虽然这个定理叫做代数学基本定理，但是没有一种纯代数的方式能够证明它，都需要数学分析([Mathematical Analysis](https://en.wikipedia.org/wiki/Mathematical_analysis))的概念；并且它也不是现代代数的基本定理：
+另外，虽然这个定理叫做代数学基本定理，但是没有一种纯代数的方式能够证明它，都需要数学分析([Mathematical Analysis](https://en.wikipedia.org/wiki/Mathematical_analysis))的概念；并且它也不是现代代数的基本定理：
 
 > Despite its name, there is no purely algebraic proof of the theorem, since any proof must use some form of the analytic **completeness of the real numbers**, which is not an algebraic concept. Additionally, it is not fundamental for <u>modern algebra</u>; its name was given at a time when algebra was synonymous with theory of equations.
 
