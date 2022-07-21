@@ -1,3 +1,4 @@
+# script1.py
 from manim import *
 
 class CreateCircle(Scene):
