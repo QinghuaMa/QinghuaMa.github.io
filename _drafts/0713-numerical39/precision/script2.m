@@ -1,12 +1,14 @@
 format long
-bb = [1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 1 0];
-dddd = zeros(1, numel(bb));
+significant = [1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 1 0];
+bin2dec_coefficient = zeros(1, numel(significant));
 
-for ii = 1:numel(bb)
-    dddd(1, ii) = (1/2)^ii;
+for k = 1:numel(significant)
+    bin2dec_coefficient(1, k) = (1/2)^k;
 end
-sum = 0;
-for i = 1:numel(bb)
-    sum = sum + dddd(numel(bb)-i+1)*bb(numel(bb)-i+1);
+result = 0;
+for i = 1:numel(significant)
+    result = result + bin2dec_coefficient(numel(significant)-i+1)*significant(numel(significant)-i+1);
 end
-sum = (sum+1)*2^(-4);
+result = (result+1)*2^(-4);
+num2hex(result) % 3fb999999999999a'
+
