@@ -46,6 +46,10 @@ ylabel('$f(x)$', Interpreter=Interpreter)
 title('Function curve')
 ```
 
+
+
+
+
 在区间 $[0,1]$ 内使用二分法寻找方程的根，可以得到算法的收敛过程图：
 
 
