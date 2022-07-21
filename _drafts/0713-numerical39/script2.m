@@ -36,7 +36,7 @@ while (b-a)/2 > theta
     range_list(num+1) = abs(a-b);
     num = num + 1;
 
-    if func(c) == 0
+    if abs(func(c)) <= eps
         root = c;
         return
     end
