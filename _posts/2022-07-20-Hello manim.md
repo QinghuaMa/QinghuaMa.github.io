@@ -327,3 +327,6 @@ Made with <3 by Manim Community developers.
 ---
 <br>
 
+# ManimConfig 类
+
+https://docs.manim.community/en/stable/guides/configuration.html#the-manimconfig-class
