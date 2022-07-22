@@ -6,7 +6,6 @@ categories:
  - Mathematics
 tags: 
  - Algebra
-toc: false
 ---
 
 # 内容
@@ -55,13 +54,16 @@ There are several equivalent formulations of the theorem:
 （4）该定理可用于判定**一类**二元 $n$ 次方程组解的情况：
 
 设有一个三次复变函数：$f(z) = \mathrm{i}z^3+z^{2}+z+1$，令 $z=x+\mathrm{i}y$，则有：
+
 $$
 \begin{align*}
 f(z)&=\mathrm{i}(x+\mathrm{i}y)^3+(x+\mathrm{i}y)^2+(x+\mathrm{i}y)+1\\
 &=(y^3-3x^2y+x^2-y^2+x+1)+\mathrm{i}(-3xy^2+x^3+2xy+y)
 \end{align*}
 $$
+
 令 $f(z)=0$，则有
+
 $$
 \left\{
 \begin{align*}
@@ -70,6 +72,7 @@ $$
 \end{align*}
 \right.
 $$
+
 因此，代数基本定理表明，上面这个二元三次方程组有且仅有3组解。
 
 
