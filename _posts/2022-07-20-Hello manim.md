@@ -7,7 +7,6 @@ categories:
 tags: 
  - manim
  - Python
-toc: false
 ---
 
 # Hello, manim!
