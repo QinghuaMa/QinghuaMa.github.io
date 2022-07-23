@@ -304,28 +304,37 @@ $$
 $$
 \vert fl(x_1)-fl(x_2)\vert=\varepsilon_{mach}\times2^p\notag
 $$
+
 而任何存在于 $x_1$ 和 $x_2$之间的数字 $a$ 在表示为浮点数时，都遵从舍入法则，舍入误差不超过 $x_1$ 和 $x_2$ 之间的距离的一半
+
 $$
 \vert fl(a)-a \vert\le \dfrac12\vert fl(x_1)-fl(x_2)\vert=\dfrac12\varepsilon_{mach}\times2^p\label{eq2}
 $$
 
 而数字 $a$ 的数量级满足
+
 $$
 2^p\le\vert a\vert\le 2^{p+1}\notag
 $$
+
 即
+
 $$
 \dfrac1{\vert a\vert}\le \dfrac1{2^p}\label{eq3}
 $$
+
 结合公式 $\eqref{eq2}$ 和 $\eqref{eq3}$ 可以得到：
+
 $$
 \dfrac{\vert fl(a)-a\vert}{\vert a \vert}\le\dfrac{\dfrac12\varepsilon_{mach}\times2^p}{2^p}=\dfrac12\varepsilon_{mach}\notag
 $$
+
 当浮点数不是双精度格式而是其他精度格式时（只要是 IEEE 754 标准所规定的精度格式），上述证明过程是类似的，只是机器精度 $\varepsilon_{mach}$ 的具体值不同。 
 
 QED
 
 实际上，在上述推导过程中，已经得到了任意一个浮点数 $fl(x)$ 的绝对舍入误差上界，即式 $\eqref{eq2}$ 
+
 $$
 \vert fl(x)-x \vert\le \dfrac12\varepsilon_{mach}\times2^p\notag
 $$
@@ -334,13 +343,17 @@ $$
 ## 机器表示
 
 根据上述的分析，符合IEEE 754标准的**标准化浮点数**都可以写成如下形式：
+
 $$
 \pm1.bbb\cdots b\times 2^p\notag
 $$
+
 在机器实现时，以符号s、指数p、尾数b的顺序保存在计算机的字中，以双精度格式为例：
+
 $$
 s\vert p_1p_2\cdots p_{11}\vert b_1b_2\cdots b_{52}\notag
 $$
+
 其中
 
 1. $s$ 保存了符号位，0表示正数，1表示负数，即$\mathrm{sign}=(-1)^s$；
